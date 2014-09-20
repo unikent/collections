@@ -26,7 +26,7 @@ class MySQLi extends \PDO
 	 * Get table name.
 	 */
 	private function get_table($name) {
-		return $this->prefix . $table;
+		return $this->prefix . $name;
 	}
 
 	/**

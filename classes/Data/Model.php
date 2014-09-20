@@ -74,7 +74,7 @@ abstract class Model
 	private function validate($type, $value) {
 		switch ($type) {
 			case Model::TYPE_INT:
-				return is_int($value);
+				return is_int($value) || preg_match('/^\d*$/', $value);
 
 			case Model::TYPE_STRING:
 				return is_string($value);
@@ -83,10 +83,10 @@ abstract class Model
 				return $value === true || $value === false;
 
 			case Model::TYPE_DECIMAL:
-				return is_numeric($value);
+				return is_numeric($value) || preg_match('/^(.\d)*$/', $value);
 
 			case Model::TYPE_TIMESTAMP:
-				return preg_match('/^\d\d\d\d-(\d)?\d-(\d)?\d \d\d:\d\d:\d\d$/g', $value);
+				return preg_match('/^\d\d\d\d-(\d)?\d-(\d)?\d \d\d:\d\d:\d\d$/', $value);
 
 			default:
 				throw new \Exception("Invalid data type '$type'!");
