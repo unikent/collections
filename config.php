@@ -10,9 +10,7 @@ global $CFG;
 $CFG = new \stdClass();
 $CFG->dirroot = dirname(__FILE__);
 
-/**
- * Register the autoloader now.
- */
+// Register the autoloader now.
 spl_autoload_register(function($class) {
 	global $CFG;
 
@@ -24,4 +22,8 @@ spl_autoload_register(function($class) {
 	}
 });
 
+// Register the composer autoloaders.
+require_once($CFG->dirroot . '/vendor/autoload.php');
+
+// DB connection.
 $DB = new \DML\MySQLi('mysql:host=localhost;port=3306;dbname=connect_development', 'root', '');
