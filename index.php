@@ -7,8 +7,9 @@
 
 require_once('config.php');
 
-$obj = new \Data\Query\BritishLibrary();
-//$obj->search_isbn('9780729408745');
-//$obj->search_issn('0955-6664');
-//$obj->search_author('Voltaire');
-$obj->search_title('Journal of nutritional ');
+$PAGE->set_title("CLA Home");
+
+echo $OUTPUT->header();
+echo $OUTPUT->heading("CLA Administration");
+
+echo $OUTPUT->footer();
