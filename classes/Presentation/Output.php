@@ -29,8 +29,6 @@ class Output
 			    <meta name="viewport" content="width=device-width, initial-scale=1">
 			    <title>{$PAGE->get_title()}</title>
 
-			    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-			    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet">
 			    $stylesheets
 
 			    <!--[if lt IE 9]>
@@ -44,7 +42,7 @@ HTML5;
 		$this->navigation();
 
 		echo <<<HTML5
-    		<div class="container theme-showcase" role="main">
+    		<div class="container page-content" role="main">
 HTML5;
 	}
 
@@ -58,7 +56,7 @@ HTML5;
 		$menu = $this->navigation_menu($elements);
 
 		echo <<<HTML5
-			<div class="navbar navbar-inverse" role="navigation">
+			<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 				<div class="container">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
