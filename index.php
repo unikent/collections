@@ -13,6 +13,10 @@ $PAGE->set_title("CLA Home");
 echo $OUTPUT->header();
 echo $OUTPUT->heading("CLA Administration");
 
-print(var_dump($DB->get_records_sql('SELECT * FROM {extract} WHERE id=:id', array('id' => 1))));
+$data = $DB->get_records('extract');
+
+$table = new \Presentation\Table();
+$table->set_data($data);
+echo $table;
 
 echo $OUTPUT->footer();
