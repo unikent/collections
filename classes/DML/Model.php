@@ -12,6 +12,17 @@ namespace DML;
  */
 abstract class Model extends \Data\Model
 {
+	private $table;
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct($tablename) {
+		parent::__construct();
+
+		$this->table = $tablename;
+	}
+
 	/**
 	 * Convert an array to a model instance.
 	 */

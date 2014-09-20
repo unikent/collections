@@ -16,6 +16,7 @@ abstract class Model
 	const TYPE_STRING = 2;
 	const TYPE_BOOL = 4;
 	const TYPE_DECIMAL = 8;
+	const TYPE_TIMESTAMP = 16;
 
 	private $fields;
 	private $data;
@@ -59,6 +60,9 @@ abstract class Model
 			case Model::TYPE_DECIMAL:
 				return 0.0;
 
+			case Model::TYPE_TIMESTAMP:
+				return '1970-01-01 00:00:00';
+
 			default:
 				throw new \Exception("Invalid data type '$type'!");
 		}
@@ -80,6 +84,9 @@ abstract class Model
 
 			case Model::TYPE_DECIMAL:
 				return is_numeric($value);
+
+			case Model::TYPE_TIMESTAMP:
+				return preg_match('/^\d\d\d\d-(\d)?\d-(\d)?\d \d\d:\d\d:\d\d$/g', $value);
 
 			default:
 				throw new \Exception("Invalid data type '$type'!");
