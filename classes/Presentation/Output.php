@@ -136,9 +136,14 @@ HTML5;
 	 * Prints a footer.
 	 */
 	public function footer() {
+		global $PAGE;
+
+		$scripts = $PAGE->get_javascript();
+
 		echo <<<HTML5
 				</div>
 			    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+			    $scripts
 			  </body>
 			</html>
 HTML5;

@@ -35,8 +35,13 @@ class URL
 		list($base, $parameters) = static::extract_parameters($base);
 		$this->parameters = $parameters;
 
-		$base = trim($base, '/');
-		$this->url = $CFG->wwwroot . '/' . $base;
+		if (strpos($base, 'http') !== 0 && strpos($base, '//') !== 0) {
+			$base = ltrim($base, '/');
+			$base = $CFG->wwwroot . '/' . $base;
+		}
+	
+		$base = rtrim($base, '/');
+		$this->url = $base;
 	}
 
 	/**
@@ -88,9 +93,9 @@ class URL
 	}
 
 	/**
-	 * Magic to string
+	 * Returns the URL as a string.
 	 */
-	public function __toString() {
+	public function out() {
 		$url = $this->url;
 		if (!empty($this->parameters)) {
 			$parameters = array();
@@ -102,5 +107,12 @@ class URL
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Magic to string
+	 */
+	public function __toString() {
+		return $this->out();
 	}
 }

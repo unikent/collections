@@ -14,6 +14,7 @@ class Page
 {
 	private $navigation;
 	private $stylesheets;
+	private $scripts;
 	private $title;
 	private $url;
 
@@ -25,14 +26,15 @@ class Page
 
 		$this->title = '';
 		$this->url = '/';
+		$this->scripts = array();
 
 		// Build a list of stylesheets.
 		$this->stylesheets = array();
 		$cssdir = substr($CFG->cssroot, strlen($CFG->dirroot) + 1);
 		$list = scandir($CFG->cssroot);
-		foreach($list as $filename) {
+		foreach ($list as $filename) {
 			if (strpos($filename, '.css') !== false) {
-				$this->stylesheets[] = $cssdir . '/' . $filename;
+				$this->require_css($cssdir . '/' . $filename);
 			}
 		}
 
@@ -62,12 +64,42 @@ class Page
 	public function get_stylesheets() {
 		global $CFG;
 
+		$sheets = array_unique($this->stylesheets);
 		$str = '';
-		foreach ($this->stylesheets as $sheet) {
-			$sheet = $CFG->wwwroot . '/' . $sheet;
+		foreach ($sheets as $sheet) {
 			$str .= "<link href=\"$sheet\" rel=\"stylesheet\">\n";
 		}
 		return $str;
+	}
+
+	/**
+	 * Returns all javascript.
+	 */
+	public function get_javascript() {
+		global $CFG;
+
+		$scripts = array_unique($this->scripts);
+		$str = '';
+		foreach ($scripts as $script) {
+			$str .= "<script src=\"$script\"></script>\n";
+		}
+		return $str;
+	}
+
+	/**
+	 * Adds a Javascript to the page.
+	 */
+	public function require_js($path) {
+		$url = new \URL($path);
+		$this->scripts[] = $url->out();
+	}
+
+	/**
+	 * Adds a Stylesheet to the page.
+	 */
+	public function require_css($path) {
+		$url = new \URL($path);
+		$this->stylesheets[] = $url->out();
 	}
 
 	/**
