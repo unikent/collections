@@ -15,11 +15,8 @@ echo $OUTPUT->heading("CLA Administration");
 
 $model = new \Models\Extract();
 $model->id = 2;
-$model->find();
+$model->extrapolate();
 
-print(var_dump($DB->get_model('Extract', array(
-	'id' => 2,
-	'start' => 1
-))));
+print(var_dump($model));
 
 echo $OUTPUT->footer();

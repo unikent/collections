@@ -37,10 +37,6 @@ abstract class Model
 			'type' => $type,
 			'length' => $length
 		);
-
-		if (!isset($this->data[$name])) {
-			$this->data[$name] = $this->get_default($type);
-		}
 	}
 
 	/**
@@ -112,21 +108,28 @@ abstract class Model
 	 * Magic get.
 	 */
 	public function __get($name) {
-		return $this->data[$name];
+		if (isset($this->data[$name])) {
+			return $this->data[$name];
+		}
+
+		$field = $this->fields[$name];
+		return $this->get_default($field['type']);
 	}
 
 	/**
 	 * Magic isset.
 	 */
 	public function __isset($name) {
-		return isset($this->data[$name]);
+		return isset($this->fields[$name]);
 	}
 
 	/**
 	 * Magic unset.
 	 */
 	public function __unset($name) {
-		unset($this->data[$name]);
+		if (isset($this->data[$name])) {
+			unset($this->data[$name]);
+		}
 	}
 
 	/**
