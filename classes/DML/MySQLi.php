@@ -30,34 +30,60 @@ class MySQLi extends \PDO
 	}
 
 	/**
-	 * Get records from DB.
+	 * Replace curley brace table names with real table names.
 	 */
-	public function get_records($table, $params = array()) {
-		$exec = array();
-
-		$sql = 'SELECT * FROM ' . $this->get_table($table);
-		if (!empty($params)) {
-			$sql .= ' WHERE';
-
-			$where = array();
-			foreach ($params as $k => $v) {
-				$where[] = '`' . $k . '` = ?';
-				$exec[] = $v;
+	private function substitute_tables($sql) {
+		if (preg_match_all('/\{(.*?)\}/', $sql, $matches) > 0) {
+			foreach ($matches[1] as $match) {
+				$table = $this->get_table($match);
+				$sql = str_replace("{{$match}}", $table, $sql);
 			}
-
-			$sql .= ' ' . implode(' AND ', $where);
 		}
 
+		return $sql;
+	}
+
+	/**
+	 * Get records from DB.
+	 */
+	public function get_records_sql($sql, $params = array()) {
+		$sql = $this->substitute_tables($sql);
 		$stmt = $this->prepare($sql);
-		$stmt->execute($exec);
+
+		foreach ($params as $k => $v) {
+			$stmt->bindParam(":$k", $v);
+		}
+
+		$stmt->execute();
 
 		$results = array();
 		while (($obj = $stmt->fetchObject()) !== false) {
 			$results[$obj->id] = $obj;
 		}
+
 		$stmt->closeCursor();
 
 		return $results;
+	}
+
+	/**
+	 * Get records from DB.
+	 */
+	public function get_records($table, $params = array()) {
+		$sql = "SELECT * FROM {{$table}}";
+
+		if (!empty($params)) {
+			$sql .= ' WHERE';
+
+			$joins = array();
+			foreach ($params as $k => $v) {
+				$joins[] = "`{$k}`= :{$k}";
+			}
+
+			$sql .= ' ' . implode(' AND ', $joins);
+		}
+
+		return $this->get_records_sql($sql, $params);
 	}
 
 	/**
