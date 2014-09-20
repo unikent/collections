@@ -9,7 +9,8 @@ global $CFG;
 
 $CFG = new \stdClass();
 $CFG->dirroot = dirname(__FILE__);
-$CFG->cssroot = $CFG->dirroot . '/styles';
+$CFG->cssroot = $CFG->dirroot . '/media/css';
+$CFG->jsroot = $CFG->dirroot . '/media/js';
 $CFG->wwwroot = 'http://kent.moodle:8080/cla';
 
 // Register the autoloader now.
