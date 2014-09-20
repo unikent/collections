@@ -41,8 +41,7 @@ class MySQLi extends \PDO
 
 			$where = array();
 			foreach ($params as $k => $v) {
-				$where[] = '? = ?';
-				$exec[] = $k;
+				$where[] = '`' . $k . '` = ?';
 				$exec[] = $v;
 			}
 
@@ -51,6 +50,11 @@ class MySQLi extends \PDO
 
 		$stmt = $this->prepare($sql);
 		$stmt->execute($exec);
+
+		if ($stmt->rowCount() > 1) {
+			throw new \Exception('get_record() yielded multiple results!');
+		}
+
 		return $stmt->fetchObject();
 	}
 
@@ -60,10 +64,14 @@ class MySQLi extends \PDO
 	public function get_model($model, $params = array()) {
 		$model = '\\Models\\' . $model;
 		$obj = new $model();
+
 		$table = $obj->get_table();
 		$data = $this->get_record($table, $params);
-		$obj->bulk_set_data($data);
+		if ($data) {
+			$obj->bulk_set_data($data);
+			return $obj;
+		}
 
-		return $obj;
+		return null;
 	}
 }

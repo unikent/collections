@@ -42,4 +42,21 @@ abstract class Model extends \Data\Model
 			$this->$key = $value;
 		}
 	}
+
+	/**
+	 * Searches a database for all currently known fields
+	 * and if we get a single hit, we fill out our other
+	 * fields and return true.
+	 */
+	public function extrapolate() {
+		global $DB;
+
+		try {
+			$obj = $DB->get_record($this->table, (array)$this->get_data());
+			$this->bulk_set_data($obj);
+			return true;
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
 }
