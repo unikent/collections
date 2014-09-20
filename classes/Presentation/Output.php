@@ -81,11 +81,13 @@ HTML5;
 	 * Prints a nav menu.
 	 */
 	private function navigation_menu($menu) {
-		global $PAGE;
+		global $CFG, $PAGE;
 
 		$result = '';
 
 		foreach ($menu as $name => $url) {
+			$name = htmlentities($name);
+
 			if (is_array($url)) {
 				$submenu = $this->navigation_menu($url);
 				$result .= <<<HTML5
@@ -97,13 +99,15 @@ HTML5;
 				continue;
 			}
 
+			$url = htmlentities($url);
+
 			if ($name == 'divider') {
 				$result .= '<li class="divider"></li>';
 				continue;
 			}
 
 			if ($name == 'header') {
-				$result .= "<li class=\"dropdown-header\">$url</li>";
+				$result .= '<li class="dropdown-header">' . $url . '</li>';
 				continue;
 			}
 
@@ -112,7 +116,7 @@ HTML5;
 				$li .= ' class="active"';
 			}
 
-			$result .= $li . '><a href="' . $url . '">' . $name . '</a></li>';
+			$result .= $li . '><a href="' . $CFG->wwwroot . $url . '">' . $name . '</a></li>';
 		}
 
 		return $result;
