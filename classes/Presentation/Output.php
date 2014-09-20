@@ -116,7 +116,8 @@ HTML5;
 				$li .= ' class="active"';
 			}
 
-			$result .= $li . '><a href="' . $CFG->wwwroot . $url . '">' . $name . '</a></li>';
+			$obj = new \URL($url);
+			$result .= $li . '><a href="' . $obj . '">' . $name . '</a></li>';
 		}
 
 		return $result;
