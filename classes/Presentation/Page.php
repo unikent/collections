@@ -12,6 +12,7 @@ namespace Presentation;
  */
 class Page
 {
+	private $navigation;
 	private $stylesheets;
 	private $title;
 
@@ -30,6 +31,25 @@ class Page
 				$this->stylesheets[] = $cssdir . '/' . $filename;
 			}
 		}
+
+		// Build basic nav structure.
+		$this->navigation = array(
+			'Home' => '/'
+		);
+	}
+
+	/**
+	 * Returns true if the given url is the current page.
+	 */
+	public function is_active($url) {
+		return true;
+	}
+
+	/**
+	 * Returns pages in the nav bar.
+	 */
+	public function get_navbar() {
+		return $this->navigation;
 	}
 
 	/**
