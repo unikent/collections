@@ -30,9 +30,9 @@ class MySQLi extends \PDO
 	}
 
 	/**
-	 * Get a record from DB.
+	 * Get records from DB.
 	 */
-	public function get_record($table, $params = array()) {
+	public function get_records($table, $params = array()) {
 		$exec = array();
 
 		$sql = 'SELECT * FROM ' . $this->get_table($table);
@@ -51,27 +51,68 @@ class MySQLi extends \PDO
 		$stmt = $this->prepare($sql);
 		$stmt->execute($exec);
 
-		if ($stmt->rowCount() > 1) {
+		$results = array();
+		while (($obj = $stmt->fetchObject()) !== false) {
+			$results[$obj->id] = $obj;
+		}
+		$stmt->closeCursor();
+
+		return $results;
+	}
+
+	/**
+	 * Get a record from DB.
+	 */
+	public function get_record($table, $params = array()) {
+		$results = $this->get_records($table, $params);
+		$count = count($results);
+
+		if ($count > 1) {
 			throw new \Exception('get_record() yielded multiple results!');
 		}
 
-		return $stmt->fetchObject();
+		if ($count === 0) {
+			return false;
+		}
+
+		return array_pop($results);
+	}
+
+	/**
+	 * Get records from DB and convert them to models.
+	 */
+	public function get_models($model, $params = array()) {
+		$model = '\\Models\\' . $model;
+		$obj = new $model();
+		$table = $obj->get_table();
+
+		$data = $this->get_records($table, $params);
+
+		$results = array();
+		foreach ($data as $datum) {
+			$obj = new $model();
+			$obj->bulk_set_data($datum);
+			$results[] = $obj;
+		}
+
+		return $results;
 	}
 
 	/**
 	 * Get a record from DB and convert it to a model.
 	 */
 	public function get_model($model, $params = array()) {
-		$model = '\\Models\\' . $model;
-		$obj = new $model();
+		$results = $this->get_models($model, $params);
+		$count = count($results);
 
-		$table = $obj->get_table();
-		$data = $this->get_record($table, $params);
-		if ($data) {
-			$obj->bulk_set_data($data);
-			return $obj;
+		if ($count > 1) {
+			throw new \Exception('get_model() yielded multiple results!');
 		}
 
-		return null;
+		if ($count === 0) {
+			return false;
+		}
+
+		return array_pop($results);
 	}
 }
