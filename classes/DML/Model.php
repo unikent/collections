@@ -24,21 +24,22 @@ abstract class Model extends \Data\Model
 	}
 
 	/**
-	 * Convert an array to a model instance.
+	 * Get table name
 	 */
-	public static function from_array($array) {
-		$obj = new static();
-		foreach ($array as $key => $value) {
-			$obj->$key = $value;
-		}
-
-		return $obj;
+	public function get_table() {
+		return $this->table;
 	}
 
 	/**
-	 * Convert an object to a model instance.
+	 * Convert an array to a model instance.
 	 */
-	public static function from_object($object) {
-		return static::from_array((array)$object);
+	public function bulk_set_data($array) {
+		if (!is_array($array)) {
+			$array = (array)$array;
+		}
+
+		foreach ($array as $key => $value) {
+			$this->$key = $value;
+		}
 	}
 }

@@ -28,7 +28,7 @@ spl_autoload_register(function($class) {
 require_once($CFG->dirroot . '/vendor/autoload.php');
 
 // DB connection.
-$DB = new \DML\MySQLi('mysql:host=localhost;port=3306;dbname=connect_development', 'root', '');
+$DB = new \DML\MySQLi('localhost', '3306', 'connect_development', 'root', '', 'cla_');
 
 // Output library.
 $OUTPUT = new \Presentation\Output();
