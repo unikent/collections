@@ -15,12 +15,16 @@ class Page
 	private $navigation;
 	private $stylesheets;
 	private $title;
+	private $url;
 
 	/**
 	 * Constructor.
 	 */
 	public function __construct() {
 		global $CFG;
+
+		$this->title = '';
+		$this->url = '/';
 
 		// Build a list of stylesheets.
 		$this->stylesheets = array();
@@ -42,7 +46,7 @@ class Page
 	 * Returns true if the given url is the current page.
 	 */
 	public function is_active($url) {
-		return true;
+		return $url == $this->url;
 	}
 
 	/**
@@ -78,5 +82,19 @@ class Page
 	 */
 	public function get_title() {
 		return $this->title;
+	}
+
+	/**
+	 * Set the page url.
+	 */
+	public function set_url($url) {
+		$this->url = $url;
+	}
+
+	/**
+	 * Get the page url relative to wwwroot.
+	 */
+	public function get_url() {
+		return $this->url;
 	}
 }

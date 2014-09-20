@@ -7,6 +7,7 @@
 
 require_once('config.php');
 
+$PAGE->set_url('/');
 $PAGE->set_title("CLA Home");
 
 echo $OUTPUT->header();
