@@ -70,14 +70,14 @@ class Page
 	/**
 	 * Add a page to the navbar.
 	 */
-	public function menu_add($name, $href) {
+	public function add_menu_item($name, $href) {
 		$this->navigation[$name] = $href;
 	}
 
 	/**
 	 * Remove a page from the navbar.
 	 */
-	public function menu_remove($name) {
+	public function remove_menu_item($name) {
 		unset($this->navigation[$name]);
 	}
 
@@ -158,5 +158,17 @@ class Page
 	 */
 	public function get_url() {
 		return $this->url;
+	}
+
+	/**
+	 * Redirect somewhere.
+	 */
+	public function redirect($url) {
+		if (!is_object($url)) {
+			$url = new \URL($url);
+		}
+
+		header('Location: ' . $url);
+		die("Redirecting you to '$url'...");
 	}
 }
