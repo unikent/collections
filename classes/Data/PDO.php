@@ -5,9 +5,9 @@
  * @author Skylar Kelty <skylarkelty@gmail.com>
  */
 
-namespace DML;
+namespace Data;
 
-class MySQLi extends \PDO
+class PDO extends \PDO
 {
 	/**
 	 * Table prefix.
@@ -17,8 +17,8 @@ class MySQLi extends \PDO
 	/**
 	 * Constructor
 	 */
-	public function __construct($hostname, $port, $dbname, $username, $password, $prefix) {
-		parent::__construct("mysql:host=$hostname;port=$port;dbname=$dbname", $username, $password);
+	public function __construct($engine, $hostname, $port, $dbname, $username, $password, $prefix) {
+		parent::__construct("$engine:host=$hostname;port=$port;dbname=$dbname", $username, $password);
 		$this->prefix = $prefix;
 	}
 

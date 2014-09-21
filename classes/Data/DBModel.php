@@ -5,12 +5,12 @@
  * @author Skylar Kelty <skylarkelty@gmail.com>
  */
 
-namespace DML;
+namespace Data;
 
 /**
- * Basic model class within DML layer.
+ * Basic model class within Database layer.
  */
-abstract class Model extends \Data\Model
+abstract class DBModel extends Model
 {
 	private $table;
 

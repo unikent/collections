@@ -30,7 +30,7 @@ spl_autoload_register(function($class) {
 require_once($CFG->dirroot . '/vendor/autoload.php');
 
 // DB connection.
-$DB = new \DML\MySQLi('localhost', '3306', 'dbname', 'dbusername', 'dbpassword', 'table_prefix_');
+$DB = new \Data\PDO('mysql', 'localhost', '3306', 'dbname', 'dbusername', 'dbpassword', 'table_prefix_');
 
 // Output library.
 $OUTPUT = new \Presentation\Output();
@@ -49,3 +49,16 @@ $PAGE->menu(array(
 		'Forms' => '/demo/form.php'
 	)
 ));
+
+// Start a session.
+$SESSION = new \Auth\Session();
+
+// Setup a guest user by default.
+$USER = new \Auth\User();
+
+// Menu link for login or logout.
+if (!$USER->loggedin()) {
+	$PAGE->add_menu_item('Login', '/demo/login.php');
+} else {
+	$PAGE->add_menu_item('Logout', '/demo/logout.php');
+}

@@ -7,7 +7,7 @@
 
 namespace Models;
 
-class Example extends \DML\Model
+class Example extends \Data\DBModel
 {
 	/**
 	 * Constructor.
