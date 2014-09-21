@@ -32,10 +32,12 @@ abstract class Model
 	/**
 	 * Define a valid field.
 	 */
-	protected function add_field($name, $type, $length = 0) {
+	protected function add_field($name, $type, $length = 0, $hidden = false, $locked = false) {
 		$this->fields[$name] = array(
 			'type' => $type,
-			'length' => $length
+			'length' => $length,
+			'hidden' => $hidden,
+			'locked' => $locked
 		);
 	}
 
@@ -97,8 +99,14 @@ abstract class Model
 			throw new \Exception("Invalid field name '$name'!");
 		}
 
-		if (!$this->validate($this->fields[$name]['type'], $value)) {
+		$field = $this->fields[$name];
+
+		if (!$this->validate($field['type'], $value)) {
 			throw new \Exception("Invalid value for field '$name'!");
+		}
+		
+		if ($field['locked']) {
+			throw new \Exception("Attempted to modify locked field '$name'!");
 		}
 
 		$this->data[$name] = $value;
@@ -135,7 +143,37 @@ abstract class Model
 	/**
 	 * Returns the data contained in this model as a stdClass.
 	 */
-	public function get_data() {
-		return (object)$this->data;
+	public function get_data($includehidden = false) {
+		if ($includehidden) {
+			return (object)$this->data;
+		}
+
+		$result = array();
+		foreach ($this->fields as $k => $v) {
+			if ($v['hidden']) {
+				continue;
+			}
+
+			$result[$k] = $this->$k;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Convert an array to a model instance.
+	 */
+	public function bulk_set_data($array, $force = false) {
+		if (!is_array($array)) {
+			$array = (array)$array;
+		}
+
+		foreach ($array as $key => $value) {
+			if ($force) {
+				$this->data[$key] = $value;
+			} else {
+				$this->$key = $value;
+			}
+		}
 	}
 }

@@ -117,7 +117,7 @@ class MySQLi extends \PDO
 		$results = array();
 		foreach ($data as $datum) {
 			$obj = new $model();
-			$obj->bulk_set_data($datum);
+			$obj->bulk_set_data($datum, true);
 			$results[] = $obj;
 		}
 

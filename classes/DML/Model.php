@@ -31,19 +31,6 @@ abstract class Model extends \Data\Model
 	}
 
 	/**
-	 * Convert an array to a model instance.
-	 */
-	public function bulk_set_data($array) {
-		if (!is_array($array)) {
-			$array = (array)$array;
-		}
-
-		foreach ($array as $key => $value) {
-			$this->$key = $value;
-		}
-	}
-
-	/**
 	 * Searches a database for all currently known fields
 	 * and if we get a single hit, we fill out our other
 	 * fields and return true.
@@ -52,8 +39,8 @@ abstract class Model extends \Data\Model
 		global $DB;
 
 		try {
-			$obj = $DB->get_record($this->table, (array)$this->get_data());
-			$this->bulk_set_data($obj);
+			$obj = $DB->get_record($this->table, (array)$this->get_data(true));
+			$this->bulk_set_data($obj, true);
 			return true;
 		} catch (\Exception $e) {
 			return false;
