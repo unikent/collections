@@ -32,6 +32,17 @@ require_once($CFG->dirroot . '/vendor/autoload.php');
 // DB connection.
 $DB = new \Data\PDO('mysql', 'localhost', '3306', 'dbname', 'dbusername', 'dbpassword', 'table_prefix_');
 
+// Cache connection.
+$CACHE = new \Data\Memcached(array(
+	array('localhost', '11211')
+), 'prefix_');
+
+// Start a session.
+$SESSION = new \Auth\Session();
+
+// Setup a guest user by default.
+$USER = new \Auth\User();
+
 // Output library.
 $OUTPUT = new \Presentation\Output();
 
@@ -46,15 +57,10 @@ $PAGE->menu(array(
 	'Home' => '/',
 	'Demo' => array(
 		'Tables' => '/demo/table.php',
-		'Forms' => '/demo/form.php'
+		'Forms' => '/demo/form.php',
+		'Cache' => '/demo/cache.php'
 	)
 ));
-
-// Start a session.
-$SESSION = new \Auth\Session();
-
-// Setup a guest user by default.
-$USER = new \Auth\User();
 
 // Menu link for login or logout.
 if (!$USER->loggedin()) {
