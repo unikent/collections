@@ -1,6 +1,6 @@
 <?php
 /**
- * CLA system mock-up
+ * Rapid Prototyping Framework in PHP.
  * 
  * @author Skylar Kelty <skylarkelty@gmail.com>
  */
@@ -50,10 +50,11 @@ HTML5;
 	 * Prints up the navigation structure.
 	 */
 	private function navigation() {
-		global $PAGE;
+		global $CFG, $PAGE;
 
 		$elements = $PAGE->get_navbar();
 		$menu = $this->navigation_menu($elements);
+		$title = $CFG->brand;
 
 		echo <<<HTML5
 			<div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -65,7 +66,7 @@ HTML5;
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#">CLA</a>
+						<a class="navbar-brand" href="#">$title</a>
 					</div>
 					<div class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">

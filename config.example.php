@@ -1,6 +1,6 @@
 <?php
 /**
- * CLA system mock-up
+ * Rapid Prototyping Framework in PHP.
  * 
  * @author Skylar Kelty <skylarkelty@gmail.com>
  */
@@ -8,10 +8,11 @@
 global $CFG;
 
 $CFG = new \stdClass();
+$CFG->brand = 'Rapid';
 $CFG->dirroot = dirname(__FILE__);
 $CFG->cssroot = $CFG->dirroot . '/media/css';
 $CFG->jsroot = $CFG->dirroot . '/media/js';
-$CFG->wwwroot = 'http://kent.moodle:8080/cla';
+$CFG->wwwroot = 'http://localhost/';
 
 // Register the autoloader now.
 spl_autoload_register(function($class) {
@@ -29,7 +30,7 @@ spl_autoload_register(function($class) {
 require_once($CFG->dirroot . '/vendor/autoload.php');
 
 // DB connection.
-$DB = new \DML\MySQLi('localhost', '3306', 'connect_development', 'root', '', 'cla_');
+$DB = new \DML\MySQLi('localhost', '3306', 'dbname', 'dbusername', 'dbpassword', 'table_prefix_');
 
 // Output library.
 $OUTPUT = new \Presentation\Output();
@@ -38,4 +39,4 @@ $OUTPUT = new \Presentation\Output();
 $PAGE = new \Presentation\Page();
 
 // Set a default page title.
-$PAGE->set_title('CLA');
+$PAGE->set_title('Rapid Protoyping Framework');

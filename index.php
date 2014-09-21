@@ -1,6 +1,6 @@
 <?php
 /**
- * CLA system mock-up
+ * Rapid Prototyping Framework in PHP.
  * 
  * @author Skylar Kelty <skylarkelty@gmail.com>
  */
@@ -8,10 +8,10 @@
 require_once('config.php');
 
 $PAGE->set_url('/');
-$PAGE->set_title("CLA Home");
+$PAGE->set_title("Rapid Protoyping Framework Home");
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading("CLA Administration");
+echo $OUTPUT->heading("Rapid Protoyping Framework Demo");
 
 $data = $DB->get_record('extract', array(
 	'id' => 1

@@ -1,6 +1,6 @@
 <?php
 /**
- * CLA system mock-up
+ * Rapid Prototyping Framework in PHP.
  * 
  * @author Skylar Kelty <skylarkelty@gmail.com>
  */
