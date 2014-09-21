@@ -13,24 +13,24 @@ $PAGE->set_title("Rapid Protoyping Framework Demo - Forms");
 echo $OUTPUT->header();
 echo $OUTPUT->heading("Forms");
 
-$data = $DB->get_record('extract', array(
+$data = $DB->get_record('example', array(
 	'id' => 1
 ));
 
 $form = new \Presentation\Form('/demo/form.php');
-$form->import_model('Extract');
+$form->import_model('Example');
 $form->set_data($data);
 echo $form;
 ?>
 
 <h3>Code</h3>
 <pre>
-$data = $DB->get_record('extract', array(
+$data = $DB->get_record('example', array(
 	'id' => 1
 ));
 
 $form = new \Presentation\Form('/demo/form.php');
-$form->import_model('Extract');
+$form->import_model('Example');
 $form->set_data($data);
 echo $form;
 </pre>

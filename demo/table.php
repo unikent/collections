@@ -13,7 +13,7 @@ $PAGE->set_title("Rapid Protoyping Framework Demo - Tables");
 echo $OUTPUT->header();
 echo $OUTPUT->heading("Tables");
 
-$data = $DB->get_records('extract');
+$data = $DB->get_records('example');
 $table = new \Presentation\Table();
 $table->set_data($data);
 echo $table;
@@ -21,7 +21,7 @@ echo $table;
 
 <h3>Code</h3>
 <pre>
-$data = $DB->get_records('extract');
+$data = $DB->get_records('example');
 $table = new \Presentation\Table();
 $table->set_data($data);
 echo $table;
