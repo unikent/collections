@@ -40,3 +40,12 @@ $PAGE = new \Presentation\Page();
 
 // Set a default page title.
 $PAGE->set_title('Rapid Protoyping Framework');
+
+// Setup navigation.
+$PAGE->menu(array(
+	'Home' => '/',
+	'Demo' => array(
+		'Tables' => '/demo/table.php',
+		'Forms' => '/demo/form.php'
+	)
+));

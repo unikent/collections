@@ -26,7 +26,6 @@ class Page
 
 		$this->title = '';
 		$this->url = '/';
-		$this->scripts = array();
 
 		// Build a list of stylesheets.
 		$this->stylesheets = array();
@@ -35,6 +34,16 @@ class Page
 		foreach ($list as $filename) {
 			if (strpos($filename, '.css') !== false) {
 				$this->require_css($cssdir . '/' . $filename);
+			}
+		}
+
+		// Build a list of scripts.
+		$this->scripts = array();
+		$jsdir = substr($CFG->jsroot, strlen($CFG->dirroot) + 1);
+		$list = scandir($CFG->jsroot);
+		foreach ($list as $filename) {
+			if (strpos($filename, '.js') !== false) {
+				$this->require_js($jsdir . '/' . $filename);
 			}
 		}
 
@@ -56,6 +65,27 @@ class Page
 	 */
 	public function get_navbar() {
 		return $this->navigation;
+	}
+
+	/**
+	 * Add a page to the navbar.
+	 */
+	public function menu_add($name, $href) {
+		$this->navigation[$name] = $href;
+	}
+
+	/**
+	 * Remove a page from the navbar.
+	 */
+	public function menu_remove($name) {
+		unset($this->navigation[$name]);
+	}
+
+	/**
+	 * Setup navigation bar.
+	 */
+	public function menu($array) {
+		$this->navigation = $array;
 	}
 
 	/**
