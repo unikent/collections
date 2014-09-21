@@ -141,6 +141,13 @@ abstract class Model
 	}
 
 	/**
+	 * Returns data on the fields.
+	 */
+	public function get_fields() {
+		return (object)$this->fields;
+	}
+
+	/**
 	 * Returns the data contained in this model as a stdClass.
 	 */
 	public function get_data($includehidden = false) {

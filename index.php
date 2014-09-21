@@ -13,10 +13,13 @@ $PAGE->set_title("CLA Home");
 echo $OUTPUT->header();
 echo $OUTPUT->heading("CLA Administration");
 
-$data = $DB->get_records('extract');
+$data = $DB->get_record('extract', array(
+	'id' => 1
+));
 
-$table = new \Presentation\Table();
-$table->set_data($data);
-echo $table;
+$form = new \Presentation\Form('/');
+$form->import_model('Extract');
+$form->set_data($data);
+echo $form;
 
 echo $OUTPUT->footer();
