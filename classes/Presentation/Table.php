@@ -40,7 +40,7 @@ class Table
 	 */
 	public function __toString() {
 		$table = <<<HTML
-			<table class="table">
+			<table class="table table-striped">
 				<thead>
 HTML;
 

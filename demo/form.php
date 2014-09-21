@@ -21,5 +21,19 @@ $form = new \Presentation\Form('/demo/form.php');
 $form->import_model('Extract');
 $form->set_data($data);
 echo $form;
+?>
 
+<h3>Code</h3>
+<pre>
+$data = $DB->get_record('extract', array(
+	'id' => 1
+));
+
+$form = new \Presentation\Form('/demo/form.php');
+$form->import_model('Extract');
+$form->set_data($data);
+echo $form;
+</pre>
+
+<?php
 echo $OUTPUT->footer();

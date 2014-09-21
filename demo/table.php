@@ -17,5 +17,15 @@ $data = $DB->get_records('extract');
 $table = new \Presentation\Table();
 $table->set_data($data);
 echo $table;
+?>
 
+<h3>Code</h3>
+<pre>
+$data = $DB->get_records('extract');
+$table = new \Presentation\Table();
+$table->set_data($data);
+echo $table;
+</pre>
+
+<?php
 echo $OUTPUT->footer();
