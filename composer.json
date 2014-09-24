@@ -1,3 +1,5 @@
 {
-
+	"require": {
+		"skylarkelty/rapid": "dev-master"
+	}
 }
