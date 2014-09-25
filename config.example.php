@@ -18,6 +18,8 @@ $CFG->wwwroot = 'http://localhost/';
 $CFG->tilesize = 256;
 $CFG->cachedir = '/var/www/vhosts/kent.moodle/writable/';
 
+require_once($CFG->dirroot . '/lib/corelib.php');
+
 // Register the autoloader now.
 spl_autoload_register(function($class) {
 	global $CFG;
@@ -59,5 +61,6 @@ $PAGE->set_title('Rapid Protoyping Framework');
 // Setup navigation.
 $PAGE->menu(array(
 	'Home' => '/',
-	'Zoomify' => '/demo/'
+    'Zoomify' => '/demo/zoomify.php',
+    'CALM' => '/demo/calm.php'
 ));
