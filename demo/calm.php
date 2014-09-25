@@ -17,7 +17,7 @@ $PAGE->set_title("CALM import Demo");
 //echo $OUTPUT->header();
 //echo $OUTPUT->heading("CALM import Demo");
 
-$obj = new \CALM\Subjects();
+$obj = new \CALM\People();
 $obj->import();
 
 //echo $OUTPUT->footer();

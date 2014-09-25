@@ -66,4 +66,19 @@ class People extends Importer
             'nationality' => $nationality
         );
     }
+
+    /**
+     * Imports everything.
+     */
+    public function import() {
+        global $DB;
+
+        $gen = $this->get_all();
+        foreach ($gen as $hit) {
+            $person = $DB->get_record('people', $hit);
+            if (!$person) {
+                $DB->insert_record('people', $hit);
+            }
+        }
+    }
 }
