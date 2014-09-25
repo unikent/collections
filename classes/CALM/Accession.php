@@ -64,4 +64,37 @@ class Accession extends Importer
 
         return $result;
     }
+
+    /**
+     * Imports everything.
+     */
+    public function import() {
+        global $DB;
+
+        $gen = $this->get_all();
+        foreach ($gen as $hit) {
+            $accno = $hit['accno'];
+
+            foreach ($hit['values'] as $k => $v) {
+                $accession = $DB->get_record('accession', array(
+                    'accno' => $accno,
+                    'key' => $k
+                ));
+
+                if (!$accession) {
+                    $DB->insert_record('accession', array(
+                        'accno' => $accno,
+                        'key' => $k,
+                        'value' => $v
+                    ));
+
+                    continue;
+                }
+
+                if (!$accession->value != $v) {
+                    // TODO - update
+                }
+            }
+        }
+    }
 }
