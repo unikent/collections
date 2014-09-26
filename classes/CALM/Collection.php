@@ -40,17 +40,70 @@ class Collection extends Importer
      * Processes a hit, returns an array of data for the object.
      */
     protected function hit($xml) {
-        $fields = \Models\Collection::get_field_list();
-
         $result = array();
 
+        $map = array(
+            'RefNo' => 'code',
+            'Title' => 'title',
+            'Date' => 'date',
+            'Description' => 'description',
+            'Level' => 'level_t',
+            'Extent' => 'extent_t'
+        );
+
         foreach ($xml->Summary->children() as $k => $v) {
+            $k = trim((string)$k);
             $v = trim((string)$v);
-            if (!empty($v)) {
-                $result[$k] = $v;
+
+            if (!empty($v) && isset($map[$k])) {
+                $result[$map[$k]] = $v;
             }
         }
 
         return $result;
+    }
+
+    /**
+     * Imports everything.
+     */
+    public function import() {
+        global $DB;
+
+        $keys = array();
+
+        $gen = $this->get_all();
+        foreach ($gen as $hit) {
+            $keys[] = $hit['code'];
+
+            $collection = $DB->get_record('collections', $hit);
+
+            // New ones.
+            if (!$collection) {
+                $DB->insert_record('collections', $hit);
+            }
+
+            // Updates.
+            if (
+                $collection->code != $hit['code'] ||
+                $collection->title != $hit['title'] ||
+                $collection->date != $hit['date'] ||
+                $collection->description != $hit['description'] ||
+                $collection->level_t != $hit['level_t'] ||
+                $collection->extent_t != $hit['extent_t']
+            ) {
+                $hit['id'] = $current->id;
+                $DB->update_record('collections', $hit);
+            }
+        }
+
+        // Deletes.
+        $livekeys = $DB->get_fieldset('collections', 'code');
+        foreach ($livekeys as $key) {
+            if (!in_array($key, $keys)) {
+                $DB->delete_record('collections', array(
+                    'code' => $key
+                ));
+            }
+        }
     }
 }

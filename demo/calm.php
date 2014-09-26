@@ -17,7 +17,7 @@ $PAGE->set_title("CALM import Demo");
 //echo $OUTPUT->header();
 //echo $OUTPUT->heading("CALM import Demo");
 
-$obj = new \CALM\Accession();
-$obj->import();
-
+//$obj = new \CALM\Collection();
+//$obj->import();
+$keys = $DB->get_fieldset('collections', 'code');
 //echo $OUTPUT->footer();

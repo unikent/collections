@@ -58,7 +58,20 @@ abstract class Importer
     /**
      * Processes a hit, returns an array of data for the object.
      */
-    protected abstract function hit($xml);
+    protected function hit($xml) {
+        $result = array();
+
+        foreach ($xml->Summary->children() as $k => $v) {
+            $k = trim((string)$k);
+            $v = trim((string)$v);
+
+            if (!empty($v)) {
+                $result[$k] = $v;
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * Imports everything.
