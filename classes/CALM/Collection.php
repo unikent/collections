@@ -40,8 +40,6 @@ class Collection extends Importer
      * Processes a hit, returns an array of data for the object.
      */
     protected function hit($xml) {
-        $result = array();
-
         $map = array(
             'RefNo' => 'code',
             'Title' => 'title',
@@ -50,6 +48,11 @@ class Collection extends Importer
             'Level' => 'level_t',
             'Extent' => 'extent_t'
         );
+
+        $result = array();
+        foreach ($map as $k => $v) {
+            $result[$v] = '';
+        }
 
         foreach ($xml->Summary->children() as $k => $v) {
             $k = trim((string)$k);
