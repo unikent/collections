@@ -76,23 +76,40 @@ class Accession extends Importer
             $accno = $hit['accno'];
 
             foreach ($hit['values'] as $k => $v) {
-                $accession = $DB->get_record('accession', array(
+                $current = $DB->get_record('accession', array(
                     'accno' => $accno,
-                    'key' => $k
+                    'name' => $k
                 ));
 
-                if (!$accession) {
+                // New ones.
+                if (!$current) {
                     $DB->insert_record('accession', array(
                         'accno' => $accno,
-                        'key' => $k,
+                        'name' => $k,
                         'value' => $v
                     ));
-
                     continue;
                 }
 
-                if (!$accession->value != $v) {
-                    // TODO - update
+                // Updates.
+                if (!$current->value != $v) {
+                    $DB->update_record('accession', array(
+                        'id' => $current->id,
+                        'value' => $v
+                    ));
+                }
+            }
+
+            // Grab accession model for current accno.
+            $accession = \Models\Accession::get($accno);
+
+            // Deletes.
+            foreach ($accession->values() as $v) {
+                if (!isset($hit['values'][$v->name])) {
+                    $DB->delete_record('accession', array(
+                        'accno' => $accno,
+                        'name' => $v->name
+                    ));
                 }
             }
         }
