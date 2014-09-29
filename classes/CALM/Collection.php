@@ -83,6 +83,8 @@ class Collection extends Importer
             // New ones.
             if (!$collection) {
                 $DB->insert_record('collections', $hit);
+
+                continue;
             }
 
             // Updates.
@@ -103,7 +105,7 @@ class Collection extends Importer
         $livekeys = $DB->get_fieldset('collections', 'code');
         foreach ($livekeys as $key) {
             if (!in_array($key, $keys)) {
-                $DB->delete_record('collections', array(
+                $DB->delete_records('collections', array(
                     'code' => $key
                 ));
             }

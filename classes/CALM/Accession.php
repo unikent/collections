@@ -88,6 +88,7 @@ class Accession extends Importer
                         'name' => $k,
                         'value' => $v
                     ));
+
                     continue;
                 }
 
@@ -106,7 +107,7 @@ class Accession extends Importer
             // Deletes.
             foreach ($accession->values() as $v) {
                 if (!isset($hit['values'][$v->name])) {
-                    $DB->delete_record('accession', array(
+                    $DB->delete_records('accession', array(
                         'accno' => $accno,
                         'name' => $v->name
                     ));

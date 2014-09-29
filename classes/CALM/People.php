@@ -76,8 +76,11 @@ class People extends Importer
         $gen = $this->get_all();
         foreach ($gen as $hit) {
             $person = $DB->get_record('people', $hit);
+
             if (!$person) {
                 $DB->insert_record('people', $hit);
+
+                continue;
             }
         }
     }

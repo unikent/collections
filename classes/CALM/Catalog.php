@@ -15,6 +15,17 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
 class Catalog extends Importer
 {
+    private $date_parser;
+
+    /**
+     * Constructor.
+     */
+    public function __construct() {
+        parent::__construct();
+
+        $this->date_parser = new \Util\DateParser();
+    }
+
     /**
      * Returns search types.
      */
@@ -80,6 +91,66 @@ class Catalog extends Importer
 
         // Date stuff.
         $date = (string)$xml->Date;
-        echo $date;
+        list($start_date, $end_date, $is_single_date) = $this->date_parser->parse($date);
+        if (!$start_date) {
+            if (!empty($date) && !$is_single_date) {
+                echo 'Couldnt recognize date from #' . $refno . ', (' . $date . ') will import anyway but wont be searchable on date ranges.';
+            }
+
+            $start_date = '';
+            $end_date = '';
+            $is_single_date = '';
+            $day_of_year = '';
+        } else {
+            if ($is_single_date) {
+                $end_date = $start_date;
+            }
+
+            $day_of_year = $start_date->get('MMdd');
+            $start_date = $start_date->get('yyyyMMdd');
+            $end_date = $end_date->get('yyyyMMdd');
+            $is_single_date = $is_single_date ? 1 : -1;
+        }
+
+        return array(
+            'code' => $code
+            'refno' => $refno
+            'webtab' => $webtab
+            'relatestocartoon' => $relatestocartoon
+            'webtab' => $webtab,
+            'date' => $date,
+            'startDate' => $start_date,
+            'endDate' => $end_date,
+            'isSingleDate' => $is_single_date,
+            'dayOfYear' => $day_of_year,
+            'subject' => $xml->Summary->Subject,
+            'relatedRecord' => $xml->Summary->RelatedRecord,
+            'title' => $xml->Summary->Title,
+            'artist' => $xml->Summary->Artist,
+            'publisher' => $xml->Summary->Publisher,
+            'level' => $xml->Summary->Level,
+            'size' => $xml->Summary->UserText6,
+            'technique' => $xml->Summary->Technique,
+            'alsoPublishedIn' => $xml->Summary->UserWrapped6,
+            'alsoPublishedOn' => $xml->Summary->PubDate,
+            'relatedPersonCode' => $xml->Summary->UserText3,
+            'format' => $xml->Summary->Format,
+            'description' => $xml->Summary->Description,
+            'impliedText' => $xml->Summary->UserWrapped3,
+            'embeddedText' => $xml->Summary->UserWrapped2,
+            'notes' => $xml->Summary->Notes,
+            'series' => $xml->Summary->Series,
+            'series_s' => $xml->Summary->Series,
+            'copyrightHolder' => $xml->Summary->Copyright,
+            'displayCopyright' => $xml->Summary->ChassisNo,
+            'copyrightContactDetails' => $xml->Summary->Suspension,
+            'medium' => $xml->Summary->UserWrapped1,
+            'genre' => $xml->Summary->UserText4,
+            'locationOfArtwork' => $xml->Summary->Originals,
+            'location' => $xml->Summary->Location,
+            'personCode' => $xml->Summary->PersonCode,
+            'displayRecord' => $xml->Summary->UserText5,
+            'restrictImageDisplay' => $xml->Summary->Ignition
+        );
     }
 }

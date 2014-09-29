@@ -1,5 +1,7 @@
 {
-	"require": {
-		"skylarkelty/rapid": "dev-master"
-	}
+    "require": {
+        "skylarkelty/rapid": "dev-master",
+        "solarium/solarium": "3.2.0",
+        "zf1/zend-date": "1.12.8"
+    }
 }

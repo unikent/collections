@@ -18,6 +18,12 @@ abstract class Importer
     const WSDL = 'http://vera.kent.ac.uk/XMLWrapper/ContentService.asmx?wsdl';
 
     /**
+     * Constructor.
+     */
+    public function __construct() {
+    }
+
+    /**
      * Returns all records of this type.
      */
     public function get_all() {
