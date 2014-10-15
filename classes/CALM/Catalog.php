@@ -51,8 +51,9 @@ class Catalog extends Importer
      * Processes a hit, returns an array of data for the object.
      */
     protected function hit($xml) {
-        // Not sure what this is.
-        if (strtolower((string)$xml->Summary->UserText5) != 'yes') {
+        // Should we even display this?
+        $displayRecord = trim(strtolower((string)$xml->Summary->UserText5));
+        if ($displayRecord != 'yes') {
             return false;
         }
 
@@ -69,13 +70,13 @@ class Catalog extends Importer
         }
 
         // Find the webtab.
-        $webtab = strtolower(trim((string)$xml->UserWrapped9));
+        $webtab = strtolower(trim((string)$xml->Summary->UserWrapped9));
         if (empty($webtab)) {
             $webtab = 'cartoon';
         }
 
         // Work out a relationship.
-        $relatestocartoon = trim((string)$xml->UserText1);
+        $relatestocartoon = trim((string)$xml->Summary->UserText1);
         if ($webtab == 'cartoon' && empty($relatestocartoon)) {
             return false;
         }
@@ -90,7 +91,7 @@ class Catalog extends Importer
         }
 
         // Date stuff.
-        $date = (string)$xml->Date;
+        $date = (string)$xml->Summary->Date;
         list($start_date, $end_date, $is_single_date) = $this->date_parser->parse($date);
         if (!$start_date) {
             if (!empty($date) && !$is_single_date) {
@@ -113,10 +114,10 @@ class Catalog extends Importer
         }
 
         return array(
-            'code' => $code
-            'refno' => $refno
-            'webtab' => $webtab
-            'relatestocartoon' => $relatestocartoon
+            'code' => $code,
+            'refno' => $refno,
+            'webtab' => $webtab,
+            'relatestocartoon' => $relatestocartoon,
             'webtab' => $webtab,
             'date' => $date,
             'startDate' => $start_date,
@@ -149,8 +150,23 @@ class Catalog extends Importer
             'locationOfArtwork' => $xml->Summary->Originals,
             'location' => $xml->Summary->Location,
             'personCode' => $xml->Summary->PersonCode,
-            'displayRecord' => $xml->Summary->UserText5,
+            'displayRecord' => $displayRecord,
             'restrictImageDisplay' => $xml->Summary->Ignition
         );
+    }
+
+    /**
+     * Imports everything.
+     */
+    public function import() {
+        global $DB;
+
+        $gen = $this->get_all();
+        foreach ($gen as $hit) {
+            foreach ($hit as $k => $v) {
+                echo var_dump($v);
+            }
+            die;
+        }
     }
 }
