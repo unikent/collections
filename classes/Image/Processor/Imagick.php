@@ -50,7 +50,12 @@ class Imagick extends Processor
     /**
      * Print to a browser.
      */
-    public function output($image) {
+    public function output($image, $quality = 100) {
+        if ($quality < 100) {
+            $image->setCompression(\Imagick::COMPRESSION_JPEG); 
+            $image->setCompressionQuality(100);
+        }
+
         echo $image;
     }
 

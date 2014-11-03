@@ -30,15 +30,32 @@ switch ($request) {
         ));
         $preprocessor->run();
         break;
+
     default:
+        $image = new \Image\Processor($id . '.jpg');
+
         list($func, $filename) = explode('/', $request, 2);
         switch ($func) {
             case 'TileGroup0':
                 $tile = substr($filename, 0, strpos($filename, '.'));
-
-                $image = new \Image\Processor($id . '.jpg');
                 $image->output_tile($id, $tile);
             break;
+
+            case "print":
+                $image->output_as(3400, 0, 0, 3400, 60);
+                break;
+
+            case "full":
+                $image->output_as(3400, 0, 0, 3400, 40);
+                break;
+
+            case "standard":
+                $image->output_as(482, 0, 0, 482, 60);
+                break;
+
+            case "thumb":
+                $image->output_as(170, 0, 0, 170, 50);
+                break;
         }
         break;
 }
