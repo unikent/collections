@@ -16,6 +16,7 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 class Processor
 {
     private $processor;
+    private $basefilename;
     private $filename;
     private $scaleorig;
     private $scaleinfo;
@@ -23,6 +24,7 @@ class Processor
     public function __construct($baseimage) {
         global $CFG;
 
+        $this->basefilename = $baseimage;
         $this->filename = $CFG->dirroot . '/media/images/' . $baseimage;
         $this->processor = new \Image\Processor\Imagick($this->filename);
         $this->set_scale_info();
@@ -178,6 +180,13 @@ class Processor
 
         header("Content-type: image/jpeg");
 
+        // Does this file already exist in cache?
+        $cache = $CFG->cachedir . "/{$this->basefilename}-{$landscape_width}-{$landscape_height}-{$portrait_width}-{$portrait_height}-{$quality}.jpg";
+        if (file_exists($cache)) {
+            header ('X-Sendfile: ' . $cache);
+            die;
+        }
+
         $width = $landscape_width;
         $height = $landscape_height;
 
@@ -188,6 +197,7 @@ class Processor
 
         $image = $this->processor->constrained_resize($width, $height);
 
+        $this->processor->save($image, $cache, $quality);
         $this->processor->output($image, $quality);
     }
 

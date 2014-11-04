@@ -36,7 +36,7 @@ abstract class Processor
     /**
      * Save the current image.
      */
-    public abstract function save($image, $filename);
+    public abstract function save($image, $filename, $quality = 100);
 
     /**
      * Print to a browser.

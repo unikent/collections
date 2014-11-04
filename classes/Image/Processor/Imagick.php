@@ -38,9 +38,20 @@ class Imagick extends Processor
     }
 
     /**
+     * Set quality of image.
+     */
+    private function set_quality($image, $quality) {
+        if ($quality < 100) {
+            $image->setCompression(\Imagick::COMPRESSION_JPEG); 
+            $image->setCompressionQuality(100);
+        }
+    }
+
+    /**
      * Save a given image.
      */
-    public function save($image, $filename) {
+    public function save($image, $filename, $quality = 100) {
+        $this->set_quality($image, $quality);
         $image->writeImage($filename);
     }
 
@@ -48,11 +59,7 @@ class Imagick extends Processor
      * Print to a browser.
      */
     public function output($image, $quality = 100) {
-        if ($quality < 100) {
-            $image->setCompression(\Imagick::COMPRESSION_JPEG); 
-            $image->setCompressionQuality(100);
-        }
-
+        $this->set_quality($image, $quality);
         echo $image;
     }
 

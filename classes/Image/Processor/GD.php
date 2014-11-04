@@ -44,8 +44,8 @@ class GD extends Processor
     /**
      * Save a given image.
      */
-    public function save($image, $filename) {
-        imagejpeg($image, $filename, 100);
+    public function save($image, $filename, $quality = 100) {
+        imagejpeg($image, $filename, $quality);
     }
 
     /**
