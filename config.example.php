@@ -40,7 +40,7 @@ $CFG->menu = array(
     'Home' => '/',
     'Zoomify' => '/demo/zoomify.php',
     'Formats' => '/demo/formats.php',
-    'CALM' => '/demo/calm.php'
+    'Calm' => '/demo/calm.php'
 );
 
 require_once($CFG->dirroot . '/lib/setup.php');

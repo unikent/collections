@@ -12,12 +12,12 @@
 require_once(dirname(__FILE__) . '/../config.php');
 
 $PAGE->set_url('/demo/calm.php');
-$PAGE->set_title("CALM import Demo");
+$PAGE->set_title("Calm import Demo");
 
 //echo $OUTPUT->header();
-//echo $OUTPUT->heading("CALM import Demo");
+//echo $OUTPUT->heading("Calm import Demo");
 
-$obj = new \CALM\Catalog();
+$obj = new \Calm\Catalog();
 $obj->import();
 
 //echo $OUTPUT->footer();
