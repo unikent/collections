@@ -382,7 +382,6 @@ function get_config($name) {
     return $CFG->$name;
 }
 
-
 /**
  * Returns the full path to an image based on an ID.
  */
@@ -398,4 +397,12 @@ function get_image_path($id) {
     }
 
     return $CFG->imageindir . '/' . $path;
+}
+
+/**
+ * Get the extension of a file.
+ */
+function get_file_extension($filename) {
+    $ext = substr($filename, strrpos($filename, '.') + 1);
+    return strtolower($ext);
 }

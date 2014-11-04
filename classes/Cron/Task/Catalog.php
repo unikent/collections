@@ -53,8 +53,15 @@ class Catalog extends \Cron\Task
             $files = array_merge($files, $this->find_files($entry));
         }
 
+        $extensions = array('jpg', 'jpeg', 'tiff', 'gif', 'png');
+
         $entries = glob($dir . "/*.*");
         foreach ($entries as $entry) {
+            $ext = get_file_extension($entry);
+            if (!in_array($ext, $extensions)) {
+                continue;
+            }
+
             $files[] = substr($entry, strlen($CFG->imageindir) + 1);
         }
 
