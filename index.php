@@ -20,19 +20,19 @@ list($id, $request) = explode('/', $request, 2);
 switch ($request) {
     case "ImageProperties.xml":
         header("Content-type: text/xml; charset=utf-8");
-        $image = new \Image\Processor($id . '.jpg');
+        $image = new \Image\Processor($id);
         echo $image->get_xml();
 
         // Spawn a service to pre-process the other images.
         $preprocessor = new \Service\PreProcessor(array(
             "id" => $id,
-            "filename" => $id . '.jpg'
+            "filename" => $id
         ));
         $preprocessor->run();
-        break;
+    break;
 
     default:
-        $image = new \Image\Processor($id . '.jpg');
+        $image = new \Image\Processor($id);
 
         $parts = explode('/', $request);
         switch ($parts[0]) {
@@ -43,19 +43,19 @@ switch ($request) {
 
             case "print":
                 $image->output_as(3400, 0, 0, 3400, 60);
-                break;
+            break;
 
             case "full":
                 $image->output_as(3400, 0, 0, 3400, 40);
-                break;
+            break;
 
             case "standard":
                 $image->output_as(482, 0, 0, 482, 60);
-                break;
+            break;
 
             case "thumb":
                 $image->output_as(170, 0, 0, 170, 50);
-                break;
+            break;
         }
-        break;
+    break;
 }

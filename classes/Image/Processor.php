@@ -24,7 +24,7 @@ class Processor
     public function __construct($baseimage) {
         global $CFG;
 
-        $this->basefilename = $baseimage;
+        $this->basefilename = substr($baseimage, 0, strrpos($baseimage, '.'));
         $this->filename = $CFG->dirroot . '/media/images/' . $baseimage;
         $this->processor = new \Image\Processor\Imagick($this->filename);
         $this->set_scale_info();
@@ -154,7 +154,7 @@ class Processor
         // Does this file already exist in cache?
         $cache = $CFG->cachedir . "/{$id}-{$tile}.jpg";
         if (file_exists($cache)) {
-            header ('X-Sendfile: ' . $cache);
+            header('X-Sendfile: ' . $cache);
             die;
         }
 
@@ -169,7 +169,7 @@ class Processor
         }
 
         $this->processor->save($image, $cache);
-        $this->processor->output($image);
+        header('X-Sendfile: ' . $cache);
     }
 
     /**
@@ -183,7 +183,7 @@ class Processor
         // Does this file already exist in cache?
         $cache = $CFG->cachedir . "/{$this->basefilename}-{$landscape_width}-{$landscape_height}-{$portrait_width}-{$portrait_height}-{$quality}.jpg";
         if (file_exists($cache)) {
-            header ('X-Sendfile: ' . $cache);
+            header('X-Sendfile: ' . $cache);
             die;
         }
 
@@ -198,7 +198,7 @@ class Processor
         $image = $this->processor->constrained_resize($width, $height);
 
         $this->processor->save($image, $cache, $quality);
-        $this->processor->output($image, $quality);
+        header('X-Sendfile: ' . $cache);
     }
 
     /**
