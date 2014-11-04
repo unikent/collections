@@ -349,3 +349,26 @@ function validate_email($address) {
                   '[-!\#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$#',
                   $address));
 }
+
+/**
+ * Set config.
+ */
+function set_config($name, $value) {
+    global $DB;
+
+    return $DB->update_or_insert('config', array('name' => $name), array(
+        'name' => $name,
+        'value' => $value
+    ));
+}
+
+/**
+ * Get config.
+ */
+function get_config($name) {
+    global $DB;
+
+    return $DB->get_field('config', 'value', array(
+        'name' => $name
+    ));
+}
