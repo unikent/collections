@@ -75,10 +75,10 @@ class People extends Importer
 
         $gen = $this->get_all();
         foreach ($gen as $hit) {
-            $person = $DB->get_record('people', $hit);
+            $person = $DB->get_record('calm_people', $hit);
 
             if (!$person) {
-                $DB->insert_record('people', $hit);
+                $DB->insert_record('calm_people', $hit);
 
                 continue;
             }

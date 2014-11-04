@@ -99,9 +99,9 @@ class Subjects extends Importer
     private function import_record($term) {
         global $DB;
 
-        $rec = $DB->get_record('subjects', array('name' => $term));
+        $rec = $DB->get_record('calm_subjects', array('name' => $term));
         if (!$rec) {
-            return $DB->insert_record('subjects', array('name' => $term));
+            return $DB->insert_record('calm_subjects', array('name' => $term));
         }
 
         return $rec->id;
@@ -118,9 +118,9 @@ class Subjects extends Importer
             'related' => $id2
         );
 
-        $rec = $DB->get_record('subjects_related', $params);
+        $rec = $DB->get_record('calm_subjects_related', $params);
         if (!$rec) {
-            $DB->insert_record('subjects_related', $params);
+            $DB->insert_record('calm_subjects_related', $params);
         }
     }
 }

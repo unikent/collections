@@ -14,4 +14,35 @@ define('INSTALLING', true);
 
 require_once(dirname(__FILE__) . '/../config.php');
 
+// Always run this.
 \Cron\Task\Catalog::run();
+
+// Import CALM accessions every 24 hours.
+if (!isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 86400) {
+    set_config('calm_accessions_run', time());
+    \Cron\Task\Calm\Accession::run();
+}
+
+// Import CALM catalogs every 24 hours.
+if (!isset($CFG->calm_catalogs_run) || (time() - $CFG->calm_catalogs_run) > 86400) {
+    set_config('calm_catalogs_run', time());
+    \Cron\Task\Calm\Catalogs::run();
+}
+
+// Import CALM collections every 24 hours.
+if (!isset($CFG->calm_collections_run) || (time() - $CFG->calm_collections_run) > 86400) {
+    set_config('calm_collections_run', time());
+    \Cron\Task\Calm\Collections::run();
+}
+
+// Import CALM people every 24 hours.
+if (!isset($CFG->calm_people_run) || (time() - $CFG->calm_people_run) > 86400) {
+    set_config('calm_people_run', time());
+    \Cron\Task\Calm\People::run();
+}
+
+// Import CALM subjects every 24 hours.
+if (!isset($CFG->calm_subjects_run) || (time() - $CFG->calm_subjects_run) > 86400) {
+    set_config('calm_subjects_run', time());
+    \Cron\Task\Calm\Subjects::run();
+}

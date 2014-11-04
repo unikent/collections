@@ -13,7 +13,7 @@ namespace Calm;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class Accession extends Importer
+class Accessions extends Importer
 {
     /**
      * Returns search types.
@@ -76,14 +76,14 @@ class Accession extends Importer
             $accno = $hit['accno'];
 
             foreach ($hit['values'] as $k => $v) {
-                $current = $DB->get_record('accession', array(
+                $current = $DB->get_record('calm_accession', array(
                     'accno' => $accno,
                     'name' => $k
                 ));
 
                 // New ones.
                 if (!$current) {
-                    $DB->insert_record('accession', array(
+                    $DB->insert_record('calm_accession', array(
                         'accno' => $accno,
                         'name' => $k,
                         'value' => $v
@@ -94,7 +94,7 @@ class Accession extends Importer
 
                 // Updates.
                 if (!$current->value != $v) {
-                    $DB->update_record('accession', array(
+                    $DB->update_record('calm_accession', array(
                         'id' => $current->id,
                         'value' => $v
                     ));
@@ -107,7 +107,7 @@ class Accession extends Importer
             // Deletes.
             foreach ($accession->values() as $v) {
                 if (!isset($hit['values'][$v->name])) {
-                    $DB->delete_records('accession', array(
+                    $DB->delete_records('calm_accession', array(
                         'accno' => $accno,
                         'name' => $v->name
                     ));

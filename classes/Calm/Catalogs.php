@@ -13,7 +13,7 @@ namespace Calm;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class Catalog extends Importer
+class Catalogs extends Importer
 {
     private $date_parser;
 

@@ -13,7 +13,7 @@ namespace Calm;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class Collection extends Importer
+class Collections extends Importer
 {
     /**
      * Returns search types.
@@ -78,11 +78,11 @@ class Collection extends Importer
         foreach ($gen as $hit) {
             $keys[] = $hit['code'];
 
-            $collection = $DB->get_record('collections', $hit);
+            $collection = $DB->get_record('calm_collections', $hit);
 
             // New ones.
             if (!$collection) {
-                $DB->insert_record('collections', $hit);
+                $DB->insert_record('calm_collections', $hit);
 
                 continue;
             }
@@ -97,15 +97,15 @@ class Collection extends Importer
                 $collection->extent_t != $hit['extent_t']
             ) {
                 $hit['id'] = $current->id;
-                $DB->update_record('collections', $hit);
+                $DB->update_record('calm_collections', $hit);
             }
         }
 
         // Deletes.
-        $livekeys = $DB->get_fieldset('collections', 'code');
+        $livekeys = $DB->get_fieldset('calm_collections', 'code');
         foreach ($livekeys as $key) {
             if (!in_array($key, $keys)) {
-                $DB->delete_records('collections', array(
+                $DB->delete_records('calm_collections', array(
                     'code' => $key
                 ));
             }

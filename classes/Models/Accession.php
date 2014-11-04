@@ -30,7 +30,7 @@ class Accession
     public static function get($accno) {
         global $DB;
 
-        $values = (array)$DB->get_records('accession', array(
+        $values = (array)$DB->get_records('calm_accession', array(
             'accno' => $accno
         ));
 
