@@ -73,7 +73,16 @@ abstract class Processor
     public function constrained_resize($targetWidth, $targetHeight) {
         $width = $this->get_width();
         $height = $this->get_height();
-        $ratio = $width / $height;
+
+        // Calculate ratio.
+        $ratio = $height / $width;
+        if ($this->is_portrait()) {
+            $ratio = $width / $height;
+        }
+
+        // Constrain.
+        $targetWidth = min($targetWidth, $width);
+        $targetHeight = min($targetHeight, $height);
 
         if ($targetWidth == 0) {
             $targetWidth = $targetHeight * $ratio;
@@ -82,9 +91,6 @@ abstract class Processor
         if ($targetHeight == 0) {
             $targetHeight = $targetWidth * $ratio;
         }
-
-        $targetWidth = min($targetWidth, $width);
-        $targetHeight = min($targetHeight, $height);
 
         if ($targetWidth == $width && $targetHeight == $height) {
             return $this->_image;

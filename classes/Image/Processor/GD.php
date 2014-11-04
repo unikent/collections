@@ -25,15 +25,6 @@ class GD extends Processor
     public function resize($targetWidth, $targetHeight) {
         $width = $this->get_width();
         $height = $this->get_height();
-        $ratio = $width / $height;
-
-        if ($targetWidth == 0) {
-            $targetWidth = $targetHeight * $ratio;
-        }
-
-        if ($targetHeight == 0) {
-            $targetHeight = $targetWidth * $ratio;
-        }
 
         $image = imagecreatetruecolor($targetWidth, $targetHeight);
         imagecopyresampled($image, $this->_image, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
