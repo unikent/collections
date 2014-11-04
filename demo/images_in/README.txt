@@ -1,0 +1,1 @@
+Drop images in here, run cron, watch them appear in the FE.

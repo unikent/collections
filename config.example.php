@@ -17,6 +17,7 @@ $CFG->jsroot = $CFG->dirroot . '/media/js';
 $CFG->wwwroot = 'http://verdi-dev.kent.ac.uk:8080';
 $CFG->tilesize = 256;
 $CFG->cachedir = '/var/www/vhosts/verdi-dev.kent.ac.uk/writable/';
+$CFG->imageindir = '/var/www/vhosts/verdi-dev.kent.ac.uk/public/demo/images_in';
 
 $CFG->database = array(
     'adapter' => 'mysql',
