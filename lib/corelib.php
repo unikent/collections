@@ -354,7 +354,12 @@ function validate_email($address) {
  * Set config.
  */
 function set_config($name, $value) {
-    global $DB;
+    global $CACHE, $CFG, $DB;
+
+    // Invalidate cache.
+    $CACHE->delete('dbconfig');
+
+    $CFG->$name = $value;
 
     return $DB->update_or_insert('config', array('name' => $name), array(
         'name' => $name,
@@ -366,9 +371,13 @@ function set_config($name, $value) {
  * Get config.
  */
 function get_config($name) {
-    global $DB;
+    global $CFG, $DB;
 
-    return $DB->get_field('config', 'value', array(
-        'name' => $name
-    ));
+    if (!isset($CFG->$name)) {
+        $CFG->$name = $DB->get_field('config', 'value', array(
+            'name' => $name
+        ));
+    }
+
+    return $CFG->$name;
 }

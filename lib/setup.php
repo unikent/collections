@@ -52,18 +52,22 @@ if (!$dbconfig) {
     try {
         $dbconfig = $DB->get_records('config');
 
-        foreach ($dbconfig as $record) {
-            $name = $record->name;
-            if (isset($CFG->$name)) {
-                continue;
-            }
-
-            $CFG->$name = $record->value;
-        }
+        $CACHE->set('dbconfig', $dbconfig);
     } catch (Exception $e) {
         if (!defined('INSTALLING') || !INSTALLING) {
             die("Database tables are not present. Please run migrate.php");
         }
+    }
+}
+
+if ($dbconfig) {
+    foreach ($dbconfig as $record) {
+        $name = $record->name;
+        if (isset($CFG->$name)) {
+            continue;
+        }
+
+        $CFG->$name = $record->value;
     }
 }
 
