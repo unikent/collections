@@ -13,10 +13,31 @@ namespace Image\Processor;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
+/**
+ * Note: GD doesnt support all of the required formats for VERDI (tiff).
+ */
 class GD extends Processor
 {
     public function __construct($filename) {
-        $this->_image = imagecreatefromjpeg($filename);
+        $ext = get_file_extension($filename);
+        switch ($ext) {
+            case 'jpg':
+            case 'jpeg':
+                $this->_image = imagecreatefromjpeg($filename);
+            break;
+
+            case 'png':
+                $this->_image = imagecreatefrompng($filename);
+            break;
+
+            case 'bmp':
+                $this->_image = imagecreatefrombmp($filename);
+            break;
+
+            case 'gif':
+                $this->_image = imagecreatefromgif($filename);
+            break;
+        }
     }
 
     /**
