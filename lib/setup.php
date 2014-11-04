@@ -47,12 +47,21 @@ $DB = new \Rapid\Data\PDO(
 $CACHE = new \Rapid\Data\Memcached($CFG->cache['servers'], $CFG->cache['prefix']);
 
 // Load config.
-if (!defined('INSTALLING') || !INSTALLING) {
-    $dbconfig = $CACHE->get('dbconfig');
-    if (!$dbconfig) {
-        try {
-            $dbconfig = $DB->get_records('config');
-        } catch (Exception $e) {
+$dbconfig = $CACHE->get('dbconfig');
+if (!$dbconfig) {
+    try {
+        $dbconfig = $DB->get_records('config');
+
+        foreach ($dbconfig as $record) {
+            $name = $record->name;
+            if (isset($CFG->$name)) {
+                continue;
+            }
+
+            $CFG->$name = $record->value;
+        }
+    } catch (Exception $e) {
+        if (!defined('INSTALLING') || !INSTALLING) {
             die("Database tables are not present. Please run migrate.php");
         }
     }
