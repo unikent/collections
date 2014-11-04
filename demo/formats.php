@@ -12,10 +12,10 @@
 require_once('../config.php');
 
 $PAGE->set_url('/demo/formats.php');
-$PAGE->set_title("Formats Demo");
+$PAGE->set_title("VERDI - Formats Demo");
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading('Dynamic Resize Demo');
+echo $OUTPUT->heading('VERDI - Dynamic Resize Demo');
 
 if (isset($_GET['id'])) {
     $id = (int)$_GET['id'];

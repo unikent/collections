@@ -12,10 +12,10 @@
 require_once('../config.php');
 
 $PAGE->set_url('/demo/zoomify.php');
-$PAGE->set_title("Zoomify Demo");
+$PAGE->set_title("VERDI - Zoomify Demo");
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading('Dynamic Zoomify Demo');
+echo $OUTPUT->heading('VERDI - Dynamic Zoomify Demo');
 
 if (isset($_GET['id'])) {
     $id = (int)$_GET['id'];
