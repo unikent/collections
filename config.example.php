@@ -37,7 +37,7 @@ $CFG->cache = array(
 );
 
 $CFG->menu = array(
-    'Home' => '/',
+    'Home' => '/demo/index.php',
     'Zoomify' => '/demo/zoomify.php',
     'Formats' => '/demo/formats.php',
     'Calm' => '/demo/calm.php'
