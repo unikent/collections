@@ -15,7 +15,7 @@ $PAGE->set_url('/demo/zoomify.php');
 $PAGE->set_title("Zoomify Demo");
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading('Zoomify Demo');
+echo $OUTPUT->heading('Dynamic Zoomify Demo');
 
 if (isset($_GET['id'])) {
     $id = (int)$_GET['id'];

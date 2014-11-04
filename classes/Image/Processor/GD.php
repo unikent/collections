@@ -15,9 +15,6 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
 class GD extends Processor
 {
-    /** Base Image reference */
-    private $_image;
-
     public function __construct($filename) {
         $this->_image = imagecreatefromjpeg($filename);
     }

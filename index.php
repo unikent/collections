@@ -34,10 +34,10 @@ switch ($request) {
     default:
         $image = new \Image\Processor($id . '.jpg');
 
-        list($func, $filename) = explode('/', $request, 2);
-        switch ($func) {
+        $parts = explode('/', $request);
+        switch ($parts[0]) {
             case 'TileGroup0':
-                $tile = substr($filename, 0, strpos($filename, '.'));
+                $tile = substr($parts[1], 0, strpos($parts[1], '.'));
                 $image->output_tile($id, $tile);
             break;
 

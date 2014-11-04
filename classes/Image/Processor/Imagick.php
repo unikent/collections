@@ -15,9 +15,6 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
 class Imagick extends Processor
 {
-    /** Base Image reference */
-    private $_image;
-
     public function __construct($filename) {
         $this->_image = new \Imagick($filename);
     }
@@ -27,7 +24,7 @@ class Imagick extends Processor
      */
     public function resize($targetWidth, $targetHeight) {
         $image = $this->_image->clone();
-        $image->resizeImage($targetWidth, $targetHeight, imagick::FILTER_POINT, 1, true);
+        $image->resizeImage($targetWidth, $targetHeight, \Imagick::FILTER_POINT, 1, true);
         return $image;
     }
 

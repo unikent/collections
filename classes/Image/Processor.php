@@ -24,7 +24,7 @@ class Processor
         global $CFG;
 
         $this->filename = $CFG->dirroot . '/media/images/' . $baseimage;
-        $this->processor = new \Image\Processor\GD($this->filename);
+        $this->processor = new \Image\Processor\Imagick($this->filename);
         $this->set_scale_info();
     }
 
@@ -168,6 +168,27 @@ class Processor
 
         $this->processor->save($image, $cache);
         $this->processor->output($image);
+    }
+
+    /**
+     * Print to a browser.
+     */
+    public function output_as($landscape_width, $landscape_height, $portrait_width, $portrait_height, $quality = 100) {
+        global $CFG;
+
+        header("Content-type: image/jpeg");
+
+        $width = $landscape_width;
+        $height = $landscape_height;
+
+        if ($this->processor->is_portrait()) {
+            $width = $portrait_width;
+            $height = $portrait_height;
+        }
+
+        $image = $this->processor->constrained_resize($width, $height);
+
+        $this->processor->output($image, $quality);
     }
 
     /**

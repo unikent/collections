@@ -18,6 +18,9 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
  */
 abstract class Processor
 {
+    /** Base Image reference */
+    protected $_image;
+
     public abstract function __construct($filename);
 
     /**
@@ -65,19 +68,28 @@ abstract class Processor
     }
 
     /**
-     * Print to a browser.
+     * Constrained resize.
      */
-    public function output_as($landscape_width, $landscape_height, $portrait_width, $portrait_height, $quality = 100) {
-        $width = $landscape_width;
-        $height = $landscape_height;
+    public function constrained_resize($targetWidth, $targetHeight) {
+        $width = $this->get_width();
+        $height = $this->get_height();
+        $ratio = $width / $height;
 
-        if ($this->is_portrait()) {
-            $width = $portrait_width;
-            $height = $portrait_height;
+        if ($targetWidth == 0) {
+            $targetWidth = $targetHeight * $ratio;
         }
 
-        $image = $this->resize($width, $height);
+        if ($targetHeight == 0) {
+            $targetHeight = $targetWidth * $ratio;
+        }
 
-        $this->output($image, $quality);
+        $targetWidth = min($targetWidth, $width);
+        $targetHeight = min($targetHeight, $height);
+
+        if ($targetWidth == $width && $targetHeight == $height) {
+            return $this->_image;
+        }
+
+        return $this->resize($targetWidth, $targetHeight);
     }
 }
