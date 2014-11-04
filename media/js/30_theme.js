@@ -1,1 +1,0 @@
-$('.navbar').addClass('navbar-inverse');
