@@ -14,9 +14,9 @@ $CFG->brand = 'Rapid';
 $CFG->dirroot = dirname(__FILE__);
 $CFG->cssroot = $CFG->dirroot . '/media/css';
 $CFG->jsroot = $CFG->dirroot . '/media/js';
-$CFG->wwwroot = 'http://localhost/';
+$CFG->wwwroot = 'http://verdi-dev.kent.ac.uk:8080';
 $CFG->tilesize = 256;
-$CFG->cachedir = '/var/www/vhosts/kent.moodle/writable/';
+$CFG->cachedir = '/var/www/vhosts/verdi-dev.kent.ac.uk/writable/';
 
 require_once($CFG->dirroot . '/lib/corelib.php');
 
@@ -60,7 +60,8 @@ $PAGE->set_title('Rapid Protoyping Framework');
 
 // Setup navigation.
 $PAGE->menu(array(
-	'Home' => '/',
+    'Home' => '/',
     'Zoomify' => '/demo/zoomify.php',
+    'Formats' => '/demo/formats.php',
     'CALM' => '/demo/calm.php'
 ));
