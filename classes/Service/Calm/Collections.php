@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Calm;
+namespace Service\Calm;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
@@ -39,7 +39,7 @@ class Collections extends Importer
     /**
      * Processes a hit, returns an array of data for the object.
      */
-    protected function hit($xml) {
+    protected function get_record($xml) {
         $map = array(
             'RefNo' => 'code',
             'Title' => 'title',

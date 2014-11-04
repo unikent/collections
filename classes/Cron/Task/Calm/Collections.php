@@ -16,7 +16,7 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 class Collections extends \Cron\Task
 {
     public function do_run() {
-        $obj = new \Calm\Collections();
+        $obj = new \Service\Calm\Collections();
         $obj->import();
     }
 }

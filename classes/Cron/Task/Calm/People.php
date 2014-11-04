@@ -16,7 +16,7 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 class People extends \Cron\Task
 {
     public function do_run() {
-        $obj = new \Calm\People();
+        $obj = new \Service\Calm\People();
         $obj->import();
     }
 }

@@ -19,6 +19,9 @@ $CFG->tilesize = 256;
 $CFG->cachedir = '/var/www/vhosts/verdi-dev.kent.ac.uk/writable/';
 $CFG->imageindir = '/var/www/vhosts/verdi-dev.kent.ac.uk/public/demo/images_in';
 
+$CFG->calm_wsdl = 'http://vera.kent.ac.uk/XMLWrapper/ContentService.asmx?wsdl';
+$CFG->calm_threads = 20;
+
 $CFG->database = array(
     'adapter' => 'mysql',
     'host' => 'localhost',

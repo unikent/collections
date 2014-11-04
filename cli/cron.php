@@ -13,7 +13,7 @@ define('CLI_SCRIPT', true);
 define('INSTALLING', true);
 
 require_once(dirname(__FILE__) . '/../config.php');
-
+\Cron\Task\Calm\Subjects::run();die;
 // Always run this.
 \Cron\Task\Catalog::run();
 

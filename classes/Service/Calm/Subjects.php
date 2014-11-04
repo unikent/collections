@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Calm;
+namespace Service\Calm;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
@@ -39,7 +39,7 @@ class Subjects extends Importer
     /**
      * Processes a hit, returns an array of data for the object.
      */
-    protected function hit($xml) {
+    protected function get_record($xml) {
         $term = (string)$xml->Summary->Term;
         if (empty($term)) {
             return false;
@@ -67,29 +67,26 @@ class Subjects extends Importer
     /**
      * Imports everything.
      */
-    public function import() {
+    protected function process($record) {
         static $relatedids = array();
 
-        $gen = $this->get_all();
-        foreach ($gen as $hit) {
-            $related = array();
+        $related = array();
 
-            foreach ($hit['related'] as $item) {
-                if (!isset($relatedids[$item])) {
-                    $relatedids[$item] = $this->import_record($item);
-                }
-
-                $related[] = $relatedids[$item];
+        foreach ($record['related'] as $item) {
+            if (!isset($relatedids[$item])) {
+                $relatedids[$item] = $this->import_record($item);
             }
 
-            $id = $this->import_record($hit['term']);
-            $relatedids[$hit['term']] = $id;
-            $related = array_unique($related);
+            $related[] = $relatedids[$item];
+        }
 
-            foreach ($related as $id2) {
-                // Map the related.
-                $this->import_related($id, $id2);
-            }
+        $id = $this->import_record($record['term']);
+        $relatedids[$record['term']] = $id;
+        $related = array_unique($related);
+
+        foreach ($related as $id2) {
+            // Map the related.
+            $this->import_related($id, $id2);
         }
     }
 
