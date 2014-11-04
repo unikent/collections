@@ -11,8 +11,8 @@
 
 require_once('../config.php');
 
-$PAGE->set_url('/demo/zoomify.php');
-$PAGE->set_title("Zoomify Demo");
+$PAGE->set_url('/demo/formats.php');
+$PAGE->set_title("Formats Demo");
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Dynamic Resize Demo');
