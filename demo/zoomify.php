@@ -19,6 +19,7 @@ echo $OUTPUT->heading('VERDI - Dynamic Zoomify Demo');
 
 if (isset($_GET['id'])) {
     $id = (int)$_GET['id'];
+    echo "<ol class=\"breadcrumb\"><li><a href=\"/demo/zoomify.php\">Zoomify</a></li><li>$id</li></ol>";
 
     echo <<<HTML5
     <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="800" height="500" id="ZoomifyRotationViewer">
@@ -29,7 +30,7 @@ if (isset($_GET['id'])) {
     </object>
 HTML5;
 } else {
-    echo '<ul>';
+    echo '<ul class="nav nav-pills nav-stacked" role="tablist">';
     $list = $DB->get_records('file_map');
     foreach ($list as $image) {
         echo '<li><a href="?id=' . $image->id . '">' . $image->fullpath . '</a></li>';

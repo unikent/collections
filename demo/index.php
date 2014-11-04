@@ -17,4 +17,9 @@ $PAGE->set_title("VERDI Demo");
 echo $OUTPUT->header();
 echo $OUTPUT->heading("VERDI Demo");
 
+echo <<<HTML
+    <p>This is a demonstration of the new VERDI technology.</p>
+    <p>Click one of the demo tabs above to view the different parts of VERDI.</p>
+HTML;
+
 echo $OUTPUT->footer();
