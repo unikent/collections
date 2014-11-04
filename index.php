@@ -24,11 +24,11 @@ switch ($request) {
         echo $image->get_xml();
 
         // Spawn a service to pre-process the other images.
-        $preprocessor = new \Service\PreProcessor(array(
+        $preprocessor = new \Service\PreProcessor();
+        $preprocessor->run(array(
             "id" => $id,
-            "filename" => $id
+            'test' => 'test'
         ));
-        $preprocessor->run();
     break;
 
     default:
@@ -38,7 +38,7 @@ switch ($request) {
         switch ($parts[0]) {
             case 'TileGroup0':
                 $tile = substr($parts[1], 0, strpos($parts[1], '.'));
-                $image->output_tile($id, $tile);
+                $image->output_tile($tile);
             break;
 
             case "print":

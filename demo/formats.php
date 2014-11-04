@@ -25,13 +25,12 @@ if (isset($_GET['id'])) {
     echo "<h3>Print</h3><img src=\"/index.php?request={$id}/print\" alt=\"Print Size\"><br /><br />";
     echo "<h3>Full</h3><img src=\"/index.php?request={$id}/full\" alt=\"Full Size\"><br /><br />";
 } else {
-    $list = glob('../media/images/*.jpg');
+    echo '<ul>';
+    $list = $DB->get_records('file_map');
     foreach ($list as $image) {
-        $pos = strrpos($image, '/') + 1;
-        $pos2 = strrpos($image, '.');
-        $id = substr($image, $pos, $pos2 - $pos);
-        echo '<a href="?id=' . $id . '">Image ' . $id . '</a>';
+        echo '<li><a href="?id=' . $image->id . '">' . $image->fullpath . '</a></li>';
     }
+    echo '</ul>';
 }
 
 echo $OUTPUT->footer();

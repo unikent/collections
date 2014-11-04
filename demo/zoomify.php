@@ -29,13 +29,12 @@ if (isset($_GET['id'])) {
     </object>
 HTML5;
 } else {
-    $list = glob('../media/images/*.jpg');
+    echo '<ul>';
+    $list = $DB->get_records('file_map');
     foreach ($list as $image) {
-        $pos = strrpos($image, '/') + 1;
-        $pos2 = strrpos($image, '.');
-        $id = substr($image, $pos, $pos2 - $pos);
-        echo '<a href="?id=' . $id . '">Image ' . $id . '</a>';
+        echo '<li><a href="?id=' . $image->id . '">' . $image->fullpath . '</a></li>';
     }
+    echo '</ul>';
 }
 
 echo $OUTPUT->footer();

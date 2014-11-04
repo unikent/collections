@@ -16,7 +16,7 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 class PreProcessor extends Service
 {
     public function perform($data) {
-        $image = new \Image\Processor($data['filename']);
-        $image->preprocess($data['id']);
+        $image = new \Image\Processor($data['id']);
+        $image->preprocess();
     }
 }

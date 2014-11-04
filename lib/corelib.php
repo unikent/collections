@@ -381,3 +381,21 @@ function get_config($name) {
 
     return $CFG->$name;
 }
+
+
+/**
+ * Returns the full path to an image based on an ID.
+ */
+function get_image_path($id) {
+    global $CFG, $DB;
+
+    $path = $DB->get_field('file_map', 'fullpath', array(
+        'id' => $id
+    ));
+
+    if (!$path) {
+        return null;
+    }
+
+    return $CFG->imageindir . '/' . $path;
+}

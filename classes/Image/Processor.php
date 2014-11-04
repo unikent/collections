@@ -16,16 +16,14 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 class Processor
 {
     private $processor;
-    private $basefilename;
+    private $imageid;
     private $filename;
     private $scaleorig;
     private $scaleinfo;
 
-    public function __construct($baseimage) {
-        global $CFG;
-
-        $this->basefilename = substr($baseimage, 0, strrpos($baseimage, '.'));
-        $this->filename = $CFG->dirroot . '/media/images/' . $baseimage;
+    public function __construct($id) {
+        $this->imageid = $id;
+        $this->filename = get_image_path($id);
         $this->processor = new \Image\Processor\Imagick($this->filename);
         $this->set_scale_info();
     }
@@ -126,14 +124,14 @@ class Processor
     /**
      * Pre-processes a load of tiles.
      */
-    public function preprocess($id) {
+    public function preprocess() {
         global $CFG;
 
         foreach ($this->scaleinfo as $zoom => $size) {
             list($x, $y) = $this->get_num_tiles($zoom);
             for ($i = 0; $i < $x; $i++) {
                 for ($j = 0; $j < $y; $j++) {
-                    $filename = $CFG->cachedir . "/{$id}-{$zoom}-{$i}-{$j}.jpg";
+                    $filename = $CFG->cachedir . "/{$this->imageid}-{$zoom}-{$i}-{$j}.jpg";
                     if (!file_exists($filename)) {
                         $image = $this->crop_tile($zoom, $i, $j);
                         $this->processor->save($image, $filename);
@@ -146,13 +144,13 @@ class Processor
     /**
      * Set the tile we want.
      */
-    public function output_tile($id, $tile) {
+    public function output_tile($tile) {
         global $CFG;
 
         header("Content-type: image/jpeg");
 
         // Does this file already exist in cache?
-        $cache = $CFG->cachedir . "/{$id}-{$tile}.jpg";
+        $cache = $CFG->cachedir . "/{$this->imageid}-{$tile}.jpg";
         if (file_exists($cache)) {
             header('X-Sendfile: ' . $cache);
             die;
@@ -181,7 +179,7 @@ class Processor
         header("Content-type: image/jpeg");
 
         // Does this file already exist in cache?
-        $cache = $CFG->cachedir . "/{$this->basefilename}-{$landscape_width}-{$landscape_height}-{$portrait_width}-{$portrait_height}-{$quality}.jpg";
+        $cache = $CFG->cachedir . "/{$this->imageid}-{$landscape_width}-{$landscape_height}-{$portrait_width}-{$portrait_height}-{$quality}.jpg";
         if (file_exists($cache)) {
             header('X-Sendfile: ' . $cache);
             die;
