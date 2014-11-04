@@ -11,6 +11,10 @@
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
+if (!defined('CLI_SCRIPT')) {
+    define('CLI_SCRIPT', false);
+}
+
 require_once($CFG->dirroot . '/lib/corelib.php');
 
 // Register the autoloader now.
@@ -41,6 +45,18 @@ $DB = new \Rapid\Data\PDO(
 
 // Cache connection.
 $CACHE = new \Rapid\Data\Memcached($CFG->cache['servers'], $CFG->cache['prefix']);
+
+// Load config.
+if (!defined('INSTALLING') || !INSTALLING) {
+    $dbconfig = $CACHE->get('dbconfig');
+    if (!$dbconfig) {
+        try {
+            $dbconfig = $DB->get_records('config');
+        } catch (Exception $e) {
+            die("Database tables are not present. Please run migrate.php");
+        }
+    }
+}
 
 if (!defined('CLI_SCRIPT') || !CLI_SCRIPT) {
     // Start a session.
