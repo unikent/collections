@@ -9,11 +9,11 @@
  * @copyright University of Kent
  */
 
-namespace CALM;
+namespace Service\Calm;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class Accession extends Importer
+class Accessions extends Importer
 {
     /**
      * Returns search types.
@@ -39,7 +39,7 @@ class Accession extends Importer
     /**
      * Processes a hit, returns an array of data for the object.
      */
-    protected function hit($xml) {
+    protected function get_record($xml) {
         // Check the code exists.
         $code = (string)$xml->Summary->AccNo;
         if (empty($code)) {
@@ -68,50 +68,47 @@ class Accession extends Importer
     /**
      * Imports everything.
      */
-    public function import() {
+    protected function process($record) {
         global $DB;
 
-        $gen = $this->get_all();
-        foreach ($gen as $hit) {
-            $accno = $hit['accno'];
+        $accno = $record['accno'];
 
-            foreach ($hit['values'] as $k => $v) {
-                $current = $DB->get_record('accession', array(
+        foreach ($record['values'] as $k => $v) {
+            $current = $DB->get_record('calm_accession', array(
+                'accno' => $accno,
+                'name' => $k
+            ));
+
+            // New ones.
+            if (!$current) {
+                $DB->insert_record('calm_accession', array(
                     'accno' => $accno,
-                    'name' => $k
+                    'name' => $k,
+                    'value' => $v
                 ));
 
-                // New ones.
-                if (!$current) {
-                    $DB->insert_record('accession', array(
-                        'accno' => $accno,
-                        'name' => $k,
-                        'value' => $v
-                    ));
-
-                    continue;
-                }
-
+                continue;
+            } else {
                 // Updates.
                 if (!$current->value != $v) {
-                    $DB->update_record('accession', array(
+                    $DB->update_record('calm_accession', array(
                         'id' => $current->id,
                         'value' => $v
                     ));
                 }
             }
+        }
 
-            // Grab accession model for current accno.
-            $accession = \Models\Accession::get($accno);
+        // Grab accession model for current accno.
+        $accession = \Models\Accession::get($accno);
 
-            // Deletes.
-            foreach ($accession->values() as $v) {
-                if (!isset($hit['values'][$v->name])) {
-                    $DB->delete_records('accession', array(
-                        'accno' => $accno,
-                        'name' => $v->name
-                    ));
-                }
+        // Deletes.
+        foreach ($accession->values() as $v) {
+            if (!isset($record['values'][$v->name])) {
+                $DB->delete_records('calm_accession', array(
+                    'accno' => $accno,
+                    'name' => $v->name
+                ));
             }
         }
     }

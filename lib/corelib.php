@@ -349,3 +349,60 @@ function validate_email($address) {
                   '[-!\#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$#',
                   $address));
 }
+
+/**
+ * Set config.
+ */
+function set_config($name, $value) {
+    global $CACHE, $CFG, $DB;
+
+    // Invalidate cache.
+    $CACHE->delete('dbconfig');
+
+    $CFG->$name = $value;
+
+    return $DB->update_or_insert('config', array('name' => $name), array(
+        'name' => $name,
+        'value' => $value
+    ));
+}
+
+/**
+ * Get config.
+ */
+function get_config($name) {
+    global $CFG, $DB;
+
+    if (!isset($CFG->$name)) {
+        $CFG->$name = $DB->get_field('config', 'value', array(
+            'name' => $name
+        ));
+    }
+
+    return $CFG->$name;
+}
+
+/**
+ * Returns the full path to an image based on an ID.
+ */
+function get_image_path($id) {
+    global $CFG, $DB;
+
+    $path = $DB->get_field('file_map', 'fullpath', array(
+        'id' => $id
+    ));
+
+    if (!$path) {
+        return null;
+    }
+
+    return $CFG->imageindir . '/' . $path;
+}
+
+/**
+ * Get the extension of a file.
+ */
+function get_file_extension($filename) {
+    $ext = substr($filename, strrpos($filename, '.') + 1);
+    return strtolower($ext);
+}

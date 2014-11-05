@@ -20,25 +20,42 @@ list($id, $request) = explode('/', $request, 2);
 switch ($request) {
     case "ImageProperties.xml":
         header("Content-type: text/xml; charset=utf-8");
-        $image = new \Image\Processor($id . '.jpg');
+        $image = new \Image\Processor($id);
         echo $image->get_xml();
 
         // Spawn a service to pre-process the other images.
-        $preprocessor = new \Service\PreProcessor(array(
+        $preprocessor = new \Service\PreProcessor();
+        $preprocessor->run(array(
             "id" => $id,
-            "filename" => $id . '.jpg'
+            'test' => 'test'
         ));
-        $preprocessor->run();
-        break;
-    default:
-        list($func, $filename) = explode('/', $request, 2);
-        switch ($func) {
-            case 'TileGroup0':
-                $tile = substr($filename, 0, strpos($filename, '.'));
+    break;
 
-                $image = new \Image\Processor($id . '.jpg');
-                $image->output_tile($id, $tile);
+    default:
+        $image = new \Image\Processor($id);
+
+        $parts = explode('/', $request);
+        switch ($parts[0]) {
+            case 'TileGroup0':
+                $tile = substr($parts[1], 0, strpos($parts[1], '.'));
+                $image->output_tile($tile);
+            break;
+
+            case "print":
+                $image->output_as(3400, 0, 0, 3400, 60);
+            break;
+
+            case "full":
+                $image->output_as(3400, 0, 0, 3400, 40);
+            break;
+
+            case "standard":
+                $image->output_as(482, 0, 0, 482, 60);
+            break;
+
+            case "thumb":
+                $image->output_as(170, 0, 0, 170, 50);
             break;
         }
-        break;
+    break;
 }

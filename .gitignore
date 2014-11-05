@@ -1,3 +1,4 @@
 vendor/
 composer.lock
 config.php
+demo/images_in/*

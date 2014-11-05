@@ -1,6 +1,6 @@
 <?php
 /**
- * Core Library.
+ * Image Processing Library.
  *
  * @package VERDI
  * @subpackage lib
@@ -9,14 +9,14 @@
  * @copyright University of Kent
  */
 
-namespace Service;
+namespace Cron\Task\Calm;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class PreProcessor extends Service
+class Catalogs extends \Cron\Task
 {
-    protected function perform($data) {
-        $image = new \Image\Processor($data['id']);
-        $image->preprocess();
+    public function do_run() {
+        $obj = new \Service\Calm\Catalogs();
+        $obj->import();
     }
 }

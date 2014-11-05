@@ -15,11 +15,12 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
 class Imagick extends Processor
 {
-    /** Base Image reference */
-    private $_image;
-
     public function __construct($filename) {
         $this->_image = new \Imagick($filename);
+
+        if (get_file_extension($filename) == 'gif') {
+            $this->_image = $this->_image->coalesceImages();
+        }
     }
 
     /**
@@ -27,7 +28,7 @@ class Imagick extends Processor
      */
     public function resize($targetWidth, $targetHeight) {
         $image = $this->_image->clone();
-        $image->resizeImage($targetWidth, $targetHeight, imagick::FILTER_POINT, 1, true);
+        $image->resizeImage($targetWidth, $targetHeight, \Imagick::FILTER_POINT, 1, true);
         return $image;
     }
 
@@ -41,16 +42,28 @@ class Imagick extends Processor
     }
 
     /**
+     * Set quality of image.
+     */
+    private function set_quality($image, $quality) {
+        if ($quality < 100) {
+            $image->setCompression(\Imagick::COMPRESSION_JPEG); 
+            $image->setCompressionQuality(100);
+        }
+    }
+
+    /**
      * Save a given image.
      */
-    public function save($image, $filename) {
+    public function save($image, $filename, $quality = 100) {
+        $this->set_quality($image, $quality);
         $image->writeImage($filename);
     }
 
     /**
      * Print to a browser.
      */
-    public function output($image) {
+    public function output($image, $quality = 100) {
+        $this->set_quality($image, $quality);
         echo $image;
     }
 

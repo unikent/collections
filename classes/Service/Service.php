@@ -15,17 +15,10 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
 abstract class Service
 {
-    /** Protected data */
-    private $_data;
-
-    public function __construct($data) {
-        $this->_data = $data;
-    }
-
     /**
      * Do the UNIX double-fork dance.
      */
-    public function run() {
+    public function run($data) {
         // Fork once.
         if (pcntl_fork()) {
             // Return the parent.
@@ -33,7 +26,9 @@ abstract class Service
         }
 
         // Clear up.
-        ob_end_clean();
+        if (ob_get_length() !== false) {
+            ob_end_clean();
+        }
         fclose(STDIN);
         fclose(STDOUT);
         fclose(STDERR);
@@ -55,11 +50,11 @@ abstract class Service
             return;
         }
 
-        $this->perform($this->_data);
+        global $DB;
+        $DB->reset();
+
+        $this->perform($data);
     }
 
-    /**
-     * Do what this service is meant to do.
-     */
-    public abstract function perform($data);
+    protected abstract function perform($data);
 }

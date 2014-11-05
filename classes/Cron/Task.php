@@ -1,6 +1,6 @@
 <?php
 /**
- * Core Library.
+ * Image Processing Library.
  *
  * @package VERDI
  * @subpackage lib
@@ -9,14 +9,16 @@
  * @copyright University of Kent
  */
 
-namespace Service;
+namespace Cron;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class PreProcessor extends Service
+abstract class Task
 {
-    protected function perform($data) {
-        $image = new \Image\Processor($data['id']);
-        $image->preprocess();
+    public static function run() {
+        $obj = new static();
+        $obj->do_run();
     }
+
+    public abstract function do_run();
 }
