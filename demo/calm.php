@@ -20,12 +20,19 @@ echo $OUTPUT->heading("Calm Data Explorer");
 $tab = optional_param('tab', '', PARAM_ALPHA);
 $infield = optional_param('field', 'id', PARAM_ALPHAEXT);
 $invalue = optional_param('value', '', PARAM_RAW);
-$recordid = optional_param('recordid', '', PARAM_INT);
+$recordid = optional_param('recordid', '', PARAM_RAW);
 
 $menu = array(
     '' => 'Home',
     'catalog' => 'Catalog',
-    'collections' => 'Collections'
+    'collections' => 'Collections',
+    'people' => 'People'
+);
+
+$tabtables = array(
+    'catalog' => 'calm_catalog',
+    'collections' => 'calm_collections',
+    'people' => 'calm_people'
 );
 
 echo '<div class="row"><ul class="nav nav-pills" role="tablist">';
@@ -43,9 +50,11 @@ $validfields = \Models\Catalog::get_field_list();
 if ($tab == 'collections') {
     $validfields = \Models\Collection::get_field_list();
 }
+if ($tab == 'people') {
+    $validfields = \Models\People::get_field_list();
+}
 
-if ($tab == 'catalog' || $tab == 'collections') {
-
+if (!empty($tab)) {
     $options = '';
     foreach ($validfields as $field) {
         $upperfield = $field == 'id' ? 'ID' : ucwords($field);
@@ -94,18 +103,6 @@ if ($tab == 'catalog') {
             echo '<br /><p>No results!</p>';
         }
     }
-
-    if (!empty($recordid)) {
-        $record = $DB->get_record('calm_catalog', array(
-            'id' => $recordid
-        ));
-
-        echo '<table class="table">';
-        foreach ((array)$record as $k => $v) {
-            echo "<tr><th>$k</th><td>$v</td></tr>";
-        }
-        echo '</table><br />';
-    }
 }
 
 if ($tab == 'collections') {
@@ -127,18 +124,39 @@ if ($tab == 'collections') {
             echo '<br /><p>No results!</p>';
         }
     }
+}
 
-    if (!empty($recordid)) {
-        $record = $DB->get_record('calm_collections', array(
-            'id' => $recordid
+if ($tab == 'people') {
+    if (isset($infield) && in_array($infield, $validfields) && !empty($invalue)) {
+        $people = $DB->get_records_sql("SELECT * FROM {calm_people} WHERE $infield LIKE :val", array(
+            'val' => "%{$invalue}%"
         ));
 
-        echo '<table class="table">';
-        foreach ((array)$record as $k => $v) {
-            echo "<tr><th>$k</th><td>$v</td></tr>";
+        $count = count($people);
+        echo "<div class=\"row\"><div class=\"col-lg-12\"><i>$count matching results!</i></div></div>";
+
+        if (!empty($people)) {
+            echo '<table class="table"><tr><th>Code</th><th>Name</th></tr>';
+            foreach ($people as $person) {
+                echo "<tr><td><a href=\"?tab=$tab&recordid={$person->code}\">{$person->code}</a></td><td>{$person->fullname}</td></tr>";
+            }
+            echo '</table><br />';
+        } else {
+            echo '<br /><p>No results!</p>';
         }
-        echo '</table><br />';
     }
+}
+
+if (!empty($recordid) && isset($tabtables[$tab])) {
+    $record = $DB->get_record($tabtables[$tab], array(
+        'code' => $recordid
+    ));
+
+    echo '<table class="table">';
+    foreach ((array)$record as $k => $v) {
+        echo "<tr><th>$k</th><td>$v</td></tr>";
+    }
+    echo '</table><br />';
 }
 
 echo $OUTPUT->footer();
