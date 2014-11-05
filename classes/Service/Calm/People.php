@@ -70,18 +70,12 @@ class People extends Importer
     /**
      * Imports everything.
      */
-    public function import() {
+    protected function process($record) {
         global $DB;
 
-        $gen = $this->get_all();
-        foreach ($gen as $hit) {
-            $person = $DB->get_record('calm_people', $hit);
-
-            if (!$person) {
-                $DB->insert_record('calm_people', $hit);
-
-                continue;
-            }
+        $person = $DB->get_record('calm_people', $record);
+        if (!$person) {
+            $DB->insert_record('calm_people', $record);
         }
     }
 }

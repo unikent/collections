@@ -158,15 +158,9 @@ class Catalogs extends Importer
     /**
      * Imports everything.
      */
-    public function import() {
+    protected function process($record) {
         global $DB;
 
-        $gen = $this->get_all();
-        foreach ($gen as $hit) {
-            foreach ($hit as $k => $v) {
-                echo var_dump($v);
-            }
-            die;
-        }
+        // TODO
     }
 }

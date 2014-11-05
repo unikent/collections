@@ -69,46 +69,35 @@ class Collections extends Importer
     /**
      * Imports everything.
      */
-    public function import() {
+    protected function process($record) {
         global $DB;
 
-        $keys = array();
+        // TODO - redo deletes.
 
-        $gen = $this->get_all();
-        foreach ($gen as $hit) {
-            $keys[] = $hit['code'];
+        //static $keys = array();
 
-            $collection = $DB->get_record('calm_collections', $hit);
+        //$keys[] = $record['code'];
 
-            // New ones.
-            if (!$collection) {
-                $DB->insert_record('calm_collections', $hit);
+        $collection = $DB->get_record('calm_collections', $record);
 
-                continue;
-            }
-
-            // Updates.
-            if (
-                $collection->code != $hit['code'] ||
-                $collection->title != $hit['title'] ||
-                $collection->date != $hit['date'] ||
-                $collection->description != $hit['description'] ||
-                $collection->level_t != $hit['level_t'] ||
-                $collection->extent_t != $hit['extent_t']
-            ) {
-                $hit['id'] = $current->id;
-                $DB->update_record('calm_collections', $hit);
-            }
+        // New ones.
+        if (!$collection) {
+            $DB->insert_record('calm_collections', $record);
+            return;
         }
 
+        // Updates.
+        $record['id'] = $current->id;
+        $DB->update_record('calm_collections', $record);
+
         // Deletes.
-        $livekeys = $DB->get_fieldset('calm_collections', 'code');
+        /*$livekeys = $DB->get_fieldset('calm_collections', 'code');
         foreach ($livekeys as $key) {
             if (!in_array($key, $keys)) {
                 $DB->delete_records('calm_collections', array(
                     'code' => $key
                 ));
             }
-        }
+        }*/
     }
 }

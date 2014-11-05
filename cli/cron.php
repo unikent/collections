@@ -13,14 +13,14 @@ define('CLI_SCRIPT', true);
 define('INSTALLING', true);
 
 require_once(dirname(__FILE__) . '/../config.php');
-\Cron\Task\Calm\Subjects::run();die;
+
 // Always run this.
 \Cron\Task\Catalog::run();
 
 // Import CALM accessions every 24 hours.
 if (!isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 86400) {
     set_config('calm_accessions_run', time());
-    \Cron\Task\Calm\Accession::run();
+    \Cron\Task\Calm\Accessions::run();
 }
 
 // Import CALM catalogs every 24 hours.

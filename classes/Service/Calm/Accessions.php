@@ -68,50 +68,47 @@ class Accessions extends Importer
     /**
      * Imports everything.
      */
-    public function import() {
+    protected function process($record) {
         global $DB;
 
-        $gen = $this->get_all();
-        foreach ($gen as $hit) {
-            $accno = $hit['accno'];
+        $accno = $record['accno'];
 
-            foreach ($hit['values'] as $k => $v) {
-                $current = $DB->get_record('calm_accession', array(
+        foreach ($record['values'] as $k => $v) {
+            $current = $DB->get_record('calm_accession', array(
+                'accno' => $accno,
+                'name' => $k
+            ));
+
+            // New ones.
+            if (!$current) {
+                $DB->insert_record('calm_accession', array(
                     'accno' => $accno,
-                    'name' => $k
+                    'name' => $k,
+                    'value' => $v
                 ));
 
-                // New ones.
-                if (!$current) {
-                    $DB->insert_record('calm_accession', array(
-                        'accno' => $accno,
-                        'name' => $k,
-                        'value' => $v
-                    ));
-
-                    continue;
-                }
-
-                // Updates.
-                if (!$current->value != $v) {
-                    $DB->update_record('calm_accession', array(
-                        'id' => $current->id,
-                        'value' => $v
-                    ));
-                }
+                continue;
             }
 
-            // Grab accession model for current accno.
-            $accession = \Models\Accession::get($accno);
+            // Updates.
+            if (!$current->value != $v) {
+                $DB->update_record('calm_accession', array(
+                    'id' => $current->id,
+                    'value' => $v
+                ));
+            }
+        }
 
-            // Deletes.
-            foreach ($accession->values() as $v) {
-                if (!isset($hit['values'][$v->name])) {
-                    $DB->delete_records('calm_accession', array(
-                        'accno' => $accno,
-                        'name' => $v->name
-                    ));
-                }
+        // Grab accession model for current accno.
+        $accession = \Models\Accession::get($accno);
+
+        // Deletes.
+        foreach ($accession->values() as $v) {
+            if (!isset($record['values'][$v->name])) {
+                $DB->delete_records('calm_accession', array(
+                    'accno' => $accno,
+                    'name' => $v->name
+                ));
             }
         }
     }
