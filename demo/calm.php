@@ -20,6 +20,7 @@ echo $OUTPUT->heading("Calm Data Explorer");
 $tab = optional_param('tab', '', PARAM_ALPHA);
 $infield = optional_param('field', 'title', PARAM_ALPHAEXT);
 $invalue = optional_param('value', '', PARAM_RAW);
+$recordid = optional_param('recordid', '', PARAM_INT);
 
 $menu = array(
     '' => 'Home',
@@ -74,17 +75,30 @@ HTML;
             'val' => "%{$invalue}%"
         ));
 
+        $count = count($catalogs);
+        echo "<div class=\"row\"><div class=\"col-lg-12\"><i>$count matching results!</i></div></div>";
+
         if (!empty($catalogs)) {
+            echo '<table class="table"><tr><th>ID</th><th>RefNo</th><th>Author</th><th>Title</th></tr>';
             foreach ($catalogs as $catalog) {
-                echo '<table class="table">';
-                foreach ((array)$catalog as $k => $v) {
-                    echo "<tr><th>$k</th><td>$v</td></tr>";
-                }
-                echo '</table><br />';
+                echo "<tr><td><a href=\"?tab=$tab&recordid={$catalog->id}\">{$catalog->id}</a></td><td>{$catalog->refno}</td><td>{$catalog->artist}</td><td>{$catalog->title}</td></tr>";
             }
+            echo '</table><br />';
         } else {
             echo '<br /><p>No results!</p>';
         }
+    }
+
+    if (!empty($recordid)) {
+        $record = $DB->get_record('calm_catalog', array(
+            'id' => $recordid
+        ));
+
+        echo '<table class="table">';
+        foreach ((array)$record as $k => $v) {
+            echo "<tr><th>$k</th><td>$v</td></tr>";
+        }
+        echo '</table><br />';
     }
 }
 
