@@ -120,7 +120,7 @@ if ($tab == 'collections') {
         if (!empty($collections)) {
             echo '<table class="table"><tr><th>ID</th><th>Code</th><th>Title</th></tr>';
             foreach ($collections as $collection) {
-                echo "<tr><td><a href=\"?tab=$tab&recordid={$collection->id}\">{$collection->id}</a></td><td>{$collection->code}</td><td>{$collection->title}</td></tr>";
+                echo "<tr><td><a href=\"?tab=$tab&recordid={$collection->id}\">{$collection->id}</a></td><td>{$collection->RefNo}</td><td>{$collection->Title}</td></tr>";
             }
             echo '</table><br />';
         } else {
