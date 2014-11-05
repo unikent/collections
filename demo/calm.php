@@ -18,7 +18,7 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading("Calm Data Explorer");
 
 $tab = optional_param('tab', '', PARAM_ALPHA);
-$infield = optional_param('field', 'title', PARAM_ALPHAEXT);
+$infield = optional_param('field', 'id', PARAM_ALPHAEXT);
 $invalue = optional_param('value', '', PARAM_RAW);
 $recordid = optional_param('recordid', '', PARAM_INT);
 
@@ -39,12 +39,16 @@ if (empty($tab)) {
     echo '<p>Here, you can browse the CALM data.</p>';
 }
 
-if ($tab == 'catalog') {
+$validfields = \Models\Catalog::get_field_list();
+if ($tab == 'collections') {
+    $validfields = \Models\Collection::get_field_list();
+}
 
-    $fields = \Models\Catalog::get_field_list();
+if ($tab == 'catalog' || $tab == 'collections') {
+
     $options = '';
-    foreach ($fields as $field) {
-        $upperfield = ucwords($field);
+    foreach ($validfields as $field) {
+        $upperfield = $field == 'id' ? 'ID' : ucwords($field);
         $selected = $field == $infield ? ' selected="selected"' : '';
         $options .= "<option value=\"$field\"$selected>$upperfield</option>";
     }
@@ -69,8 +73,10 @@ if ($tab == 'catalog') {
             </div>
         </form>
 HTML;
+}
 
-    if (isset($infield) && in_array($infield, $fields) && !empty($invalue)) {
+if ($tab == 'catalog') {
+    if (isset($infield) && in_array($infield, $validfields) && !empty($invalue)) {
         $catalogs = $DB->get_records_sql("SELECT * FROM {calm_catalog} WHERE $infield LIKE :val", array(
             'val' => "%{$invalue}%"
         ));
@@ -103,7 +109,36 @@ HTML;
 }
 
 if ($tab == 'collections') {
+    if (isset($infield) && in_array($infield, $validfields) && !empty($invalue)) {
+        $collections = $DB->get_records_sql("SELECT * FROM {calm_collections} WHERE $infield LIKE :val", array(
+            'val' => "%{$invalue}%"
+        ));
 
+        $count = count($collections);
+        echo "<div class=\"row\"><div class=\"col-lg-12\"><i>$count matching results!</i></div></div>";
+
+        if (!empty($collections)) {
+            echo '<table class="table"><tr><th>ID</th><th>Code</th><th>Title</th></tr>';
+            foreach ($collections as $collection) {
+                echo "<tr><td><a href=\"?tab=$tab&recordid={$collection->id}\">{$collection->id}</a></td><td>{$collection->code}</td><td>{$collection->title}</td></tr>";
+            }
+            echo '</table><br />';
+        } else {
+            echo '<br /><p>No results!</p>';
+        }
+    }
+
+    if (!empty($recordid)) {
+        $record = $DB->get_record('calm_collections', array(
+            'id' => $recordid
+        ));
+
+        echo '<table class="table">';
+        foreach ((array)$record as $k => $v) {
+            echo "<tr><th>$k</th><td>$v</td></tr>";
+        }
+        echo '</table><br />';
+    }
 }
 
 echo $OUTPUT->footer();

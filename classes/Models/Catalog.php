@@ -20,6 +20,7 @@ class Catalog
      */
     public static function get_field_list() {
         return array(
+            'id',
             'alsoPublishedIn',
             'alsoPublishedOn',
             'artist',

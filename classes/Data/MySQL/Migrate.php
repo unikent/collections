@@ -47,8 +47,8 @@ class Migrate
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {config} (
               `id` int(11) NOT NULL,
-              `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-              `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+              `name` varchar(255) COLLATE utf8_unicode_ci NULL,
+              `value` varchar(255) COLLATE utf8_unicode_ci NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
         ");
 
@@ -69,7 +69,7 @@ class Migrate
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {file_map} (
               `id` int(11) NOT NULL,
-              `fullpath` varchar(1024) COLLATE utf8_unicode_ci NOT NULL
+              `fullpath` varchar(1024) COLLATE utf8_unicode_ci NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
         ");
 
@@ -89,28 +89,28 @@ class Migrate
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {calm_accession} (
                 `id` int(11) NOT NULL,
-                `AccessionCategory` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `AccessStatus` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `AcqTerms` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `AdminHistory` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Copies` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Copyright` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Created` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `CustodialHistory` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Date` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `DepositorId` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Extent` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Location` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Modified` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `PublnNote` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `RecordID` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `RecordType` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Repository` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `DataSet` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `Title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+                `AccessionCategory` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `AccessStatus` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `AcqTerms` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `AdminHistory` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Copies` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Copyright` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Created` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `CustodialHistory` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Date` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `DepositorId` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Extent` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Location` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Modified` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `PublnNote` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `RecordID` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `RecordType` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Repository` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `DataSet` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `Title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
         ");
 
@@ -129,14 +129,77 @@ class Migrate
         // Create collections table.
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {calm_collections} (
-              `id` int(11) NOT NULL,
-              `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-              `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-              `date` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-              `description` text COLLATE utf8_unicode_ci NOT NULL,
-              `level_t` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-              `extent_t` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+                `id`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `RecordType`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `IDENTITY`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Level`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Repository`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `RefNo`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `AltRefNo`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `AccNo`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Extent`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Artist`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Title`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Date`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserText7`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserWrapped7`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserWrapped8`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Publisher`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserWrapped6`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `PubDate`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `CONTENT`  text COLLATE utf8_unicode_ci NULL,
+                `Description`  text COLLATE utf8_unicode_ci NULL,
+                `UserText4`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Format`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Technique`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserText6`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserText1`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserWrapped2`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserWrapped3`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Series`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Thumbnail`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Notes`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserWrapped5`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Appraisal`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Arrangement`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Ignition`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserText5`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserWrapped9`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserText3`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserText8`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserText9`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `ACCESS`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Location`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `ClosedUntil`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `AccessConditions`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Copyright`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Suspension`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `ChassisNo`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `AccessStatus`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `PhysicalDescription`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `CONSERVATIONREQUIRED`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `ConservationPriority`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `ALLIED_MATERIALS`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Originals`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Copies`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `RelatedMaterial`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `RelatedRecord`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `URL`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `CATALOGUE_STATUS`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `CatalogueStatus`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `CountryCode`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `RepositoryCode`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `EHFDPublisher`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `EHPDLanguage`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `ADMIN_DETAILS`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `RecordID`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Creator`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Created`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Modifier`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `Modified`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `UserWrapped4`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `RCN`  varchar(255) COLLATE utf8_unicode_ci NULL,
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
         ");
 
         // Indexes.
@@ -155,10 +218,10 @@ class Migrate
         // Create people table.
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {calm_people} (
-              `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-              `personname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-              `fullname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-              `nationality` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+              `code` varchar(255) COLLATE utf8_unicode_ci NULL,
+              `personname` varchar(255) COLLATE utf8_unicode_ci NULL,
+              `fullname` varchar(255) COLLATE utf8_unicode_ci NULL,
+              `nationality` varchar(255) COLLATE utf8_unicode_ci NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
         ");
 
@@ -178,7 +241,7 @@ class Migrate
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {calm_subjects} (
               `id` int(11) NOT NULL,
-              `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+              `name` varchar(255) COLLATE utf8_unicode_ci NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
         ");
 
@@ -232,41 +295,41 @@ class Migrate
                 `id` int(11) NOT NULL,
                 `refno` varchar(50) NULL,
                 `altrefno` varchar(50) NULL,
-                `alsoPublishedIn` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `alsoPublishedOn` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `artist` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `copyrightContactDetails` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `copyrightHolder` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `date` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `dayOfYear` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `displayCopyright` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `displayRecord` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `embeddedText` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `endDate` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `format` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `genre` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `impliedText` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `isSingleDate` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `level` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `location` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `locationOfArtwork` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `medium` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `notes` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `personCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `publisher` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `relatedPersonCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `relatedRecord` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `relatestocartoon` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `restrictImageDisplay` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `series` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `series_s` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `size` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `startDate` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `subject` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `technique` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                `webtab` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+                `alsoPublishedIn` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `alsoPublishedOn` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `artist` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `copyrightContactDetails` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `copyrightHolder` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `date` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `dayOfYear` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `displayCopyright` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `displayRecord` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `embeddedText` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `endDate` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `format` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `genre` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `impliedText` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `isSingleDate` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `level` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `location` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `locationOfArtwork` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `medium` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `notes` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `personCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `publisher` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `relatedPersonCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `relatedRecord` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `relatestocartoon` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `restrictImageDisplay` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `series` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `series_s` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `size` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `startDate` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `subject` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `technique` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+                `webtab` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
         ");
 
