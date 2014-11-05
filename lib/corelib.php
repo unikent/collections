@@ -71,6 +71,42 @@ function required_param($parname, $type) {
     return clean_param($param, $type);
 }
 
+/**
+ * Returns a particular value for the named variable, taken from
+ * POST or GET, otherwise returning a given default.
+ *
+ * This function should be used to initialise all optional values
+ * in a script that are based on parameters.  Usually it will be
+ * used like this:
+ *    $name = optional_param('name', 'Fred', PARAM_TEXT);
+ *
+ * Please note the $type parameter is now required and the value can not be array.
+ *
+ * @param string $parname the name of the page parameter we want
+ * @param mixed  $default the default value to return if nothing is found
+ * @param string $type expected type of parameter
+ * @return mixed
+ * @throws coding_exception
+ */
+function optional_param($parname, $default, $type) {
+    if (func_num_args() != 3 or empty($parname) or empty($type)) {
+        throw new Exception('optional_param requires $parname, $default + $type to be specified (parameter: '.$parname.')');
+    }
+    if (!isset($default)) {
+        $default = null;
+    }
+
+    // POST has precedence.
+    if (isset($_POST[$parname])) {
+        $param = $_POST[$parname];
+    } else if (isset($_GET[$parname])) {
+        $param = $_GET[$parname];
+    } else {
+        return $default;
+    }
+
+    return clean_param($param, $type);
+}
 
 /**
  * Used by {@link optional_param()} and {@link required_param()} to
