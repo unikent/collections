@@ -29,12 +29,16 @@ class Migrate
             $this->migration_2014110400();
         }
 
+        if ($CFG->version < 2014110500) {
+            echo "Migrating to version: 2014110500.\n";
+            $this->migration_2014110500();
+        }
+
         echo "Migrated to version: {$CFG->version}.\n";
     }
 
     /**
-     * Add config table.
-     * Add id->filename mapping table.
+     * Initial table layout.
      */
     public function migration_2014110400() {
         global $DB;
@@ -198,5 +202,40 @@ class Migrate
         ");
 
         set_config('version', 2014110400);
+    }
+
+    /**
+     * Add catalog table.
+     */
+    public function migration_2014110500() {
+        global $DB;
+
+        // Create catalog table.
+        $DB->execute("
+            CREATE TABLE IF NOT EXISTS {calm_catalog} (
+              `id` int(11) NOT NULL,
+              `refno` varchar(50) NULL,
+              `altrefno` varchar(50) NULL,
+              `name` varchar(75) COLLATE utf8_unicode_ci NOT NULL,
+              `value` text COLLATE utf8_unicode_ci NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+        ");
+
+        // Indexes.
+        $DB->execute("
+            ALTER TABLE {calm_catalog}
+                ADD PRIMARY KEY (`id`),
+                ADD UNIQUE KEY `u_refnos_name` (`refno`,`altrefno`,`name`),
+                ADD KEY `u_refnos` (`refno`,`altrefno`),
+                ADD KEY `key` (`name`);
+        ");
+
+        // Auto increment.
+        $DB->execute("
+            ALTER TABLE {calm_catalog}
+                MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+        ");
+
+        set_config('version', 2014110500);
     }
 }

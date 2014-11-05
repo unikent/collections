@@ -88,14 +88,14 @@ class Accessions extends Importer
                 ));
 
                 continue;
-            }
-
-            // Updates.
-            if (!$current->value != $v) {
-                $DB->update_record('calm_accession', array(
-                    'id' => $current->id,
-                    'value' => $v
-                ));
+            } else {
+                // Updates.
+                if (!$current->value != $v) {
+                    $DB->update_record('calm_accession', array(
+                        'id' => $current->id,
+                        'value' => $v
+                    ));
+                }
             }
         }
 
