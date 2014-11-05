@@ -229,11 +229,44 @@ class Migrate
         // Create catalog table.
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {calm_catalog} (
-              `id` int(11) NOT NULL,
-              `refno` varchar(50) NULL,
-              `altrefno` varchar(50) NULL,
-              `name` varchar(75) COLLATE utf8_unicode_ci NOT NULL,
-              `value` text COLLATE utf8_unicode_ci NOT NULL
+                `id` int(11) NOT NULL,
+                `refno` varchar(50) NULL,
+                `altrefno` varchar(50) NULL,
+                `alsoPublishedIn` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `alsoPublishedOn` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `artist` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `copyrightContactDetails` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `copyrightHolder` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `date` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `dayOfYear` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `displayCopyright` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `displayRecord` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `embeddedText` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `endDate` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `format` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `genre` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `impliedText` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `isSingleDate` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `level` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `location` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `locationOfArtwork` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `medium` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `notes` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `personCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `publisher` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `relatedPersonCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `relatedRecord` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `relatestocartoon` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `restrictImageDisplay` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `series` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `series_s` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `size` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `startDate` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `subject` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `technique` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `webtab` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
         ");
 
@@ -241,9 +274,7 @@ class Migrate
         $DB->execute("
             ALTER TABLE {calm_catalog}
                 ADD PRIMARY KEY (`id`),
-                ADD UNIQUE KEY `u_refnos_name` (`refno`,`altrefno`,`name`),
-                ADD KEY `u_refnos` (`refno`,`altrefno`),
-                ADD KEY `key` (`name`);
+                ADD UNIQUE KEY `u_refnos` (`refno`,`altrefno`);
         ");
 
         // Auto increment.

@@ -115,45 +115,43 @@ class Catalogs extends Importer
 
         return array(
             'refno' => $refno,
-            'code' => $code,
-            'values' => array(
-                'webtab' => $webtab,
-                'relatestocartoon' => $relatestocartoon,
-                'webtab' => $webtab,
-                'date' => $date,
-                'startDate' => $start_date,
-                'endDate' => $end_date,
-                'isSingleDate' => $is_single_date,
-                'dayOfYear' => $day_of_year,
-                'subject' => $xml->Summary->Subject,
-                'relatedRecord' => $xml->Summary->RelatedRecord,
-                'title' => $xml->Summary->Title,
-                'artist' => $xml->Summary->Artist,
-                'publisher' => $xml->Summary->Publisher,
-                'level' => $xml->Summary->Level,
-                'size' => $xml->Summary->UserText6,
-                'technique' => $xml->Summary->Technique,
-                'alsoPublishedIn' => $xml->Summary->UserWrapped6,
-                'alsoPublishedOn' => $xml->Summary->PubDate,
-                'relatedPersonCode' => $xml->Summary->UserText3,
-                'format' => $xml->Summary->Format,
-                'description' => $xml->Summary->Description,
-                'impliedText' => $xml->Summary->UserWrapped3,
-                'embeddedText' => $xml->Summary->UserWrapped2,
-                'notes' => $xml->Summary->Notes,
-                'series' => $xml->Summary->Series,
-                'series_s' => $xml->Summary->Series,
-                'copyrightHolder' => $xml->Summary->Copyright,
-                'displayCopyright' => $xml->Summary->ChassisNo,
-                'copyrightContactDetails' => $xml->Summary->Suspension,
-                'medium' => $xml->Summary->UserWrapped1,
-                'genre' => $xml->Summary->UserText4,
-                'locationOfArtwork' => $xml->Summary->Originals,
-                'location' => $xml->Summary->Location,
-                'personCode' => $xml->Summary->PersonCode,
-                'displayRecord' => $displayRecord,
-                'restrictImageDisplay' => $xml->Summary->Ignition
-            )
+            'altrefno' => $code,
+            'webtab' => $webtab,
+            'relatestocartoon' => $relatestocartoon,
+            'webtab' => $webtab,
+            'date' => $date,
+            'startDate' => $start_date,
+            'endDate' => $end_date,
+            'isSingleDate' => $is_single_date,
+            'dayOfYear' => $day_of_year,
+            'subject' => $xml->Summary->Subject,
+            'relatedRecord' => $xml->Summary->RelatedRecord,
+            'title' => $xml->Summary->Title,
+            'artist' => $xml->Summary->Artist,
+            'publisher' => $xml->Summary->Publisher,
+            'level' => $xml->Summary->Level,
+            'size' => $xml->Summary->UserText6,
+            'technique' => $xml->Summary->Technique,
+            'alsoPublishedIn' => $xml->Summary->UserWrapped6,
+            'alsoPublishedOn' => $xml->Summary->PubDate,
+            'relatedPersonCode' => $xml->Summary->UserText3,
+            'format' => $xml->Summary->Format,
+            'description' => $xml->Summary->Description,
+            'impliedText' => $xml->Summary->UserWrapped3,
+            'embeddedText' => $xml->Summary->UserWrapped2,
+            'notes' => $xml->Summary->Notes,
+            'series' => $xml->Summary->Series,
+            'series_s' => $xml->Summary->Series,
+            'copyrightHolder' => $xml->Summary->Copyright,
+            'displayCopyright' => $xml->Summary->ChassisNo,
+            'copyrightContactDetails' => $xml->Summary->Suspension,
+            'medium' => $xml->Summary->UserWrapped1,
+            'genre' => $xml->Summary->UserText4,
+            'locationOfArtwork' => $xml->Summary->Originals,
+            'location' => $xml->Summary->Location,
+            'personCode' => $xml->Summary->PersonCode,
+            'displayRecord' => $displayRecord,
+            'restrictImageDisplay' => $xml->Summary->Ignition
         );
     }
 
@@ -163,49 +161,11 @@ class Catalogs extends Importer
     protected function process($record) {
         global $DB;
 
-        $refno = $record['refno'];
-        $altrefno = $record['code'];
+        $compare = array(
+            'refno' => $record['refno'],
+            'altrefno' => $record['altrefno']
+        );
 
-        foreach ($record['values'] as $k => $v) {
-            $current = $DB->get_record('calm_catalog', array(
-                'refno' => $refno,
-                'altrefno' => $altrefno,
-                'name' => $k
-            ));
-
-            // New ones.
-            if (!$current) {
-                $DB->insert_record('calm_catalog', array(
-                    'refno' => $refno,
-                    'altrefno' => $altrefno,
-                    'name' => $k,
-                    'value' => $v
-                ));
-
-                continue;
-            } else {
-                // Updates.
-                if (!$current->value != $v) {
-                    $DB->update_record('calm_catalog', array(
-                        'id' => $current->id,
-                        'value' => $v
-                    ));
-                }
-            }
-        }
-
-        // Grab catalog model for current refno/altrefno.
-        $catalog = \Models\Catalog::get($refno, $altrefno);
-
-        // Deletes.
-        foreach ($catalog->values() as $v) {
-            if (!isset($record['values'][$v->name])) {
-                $DB->delete_records('calm_catalog', array(
-                    'refno' => $refno,
-                    'altrefno' => $altrefno,
-                    'name' => $v->name
-                ));
-            }
-        }
+        $DB->update_or_insert('calm_catalog', $compare, $record);
     }
 }
