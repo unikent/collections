@@ -25,13 +25,44 @@ class Accession
     }
 
     /**
+     * List of valid fields
+     */
+    public static function get_field_list() {
+        return array(
+            'id',
+            'AccessionCategory',
+            'AccessStatus',
+            'AcqTerms',
+            'AdminHistory',
+            'Copies',
+            'Copyright',
+            'Created',
+            'Creator',
+            'CustodialHistory',
+            'Date',
+            'DepositorId',
+            'Description',
+            'Extent',
+            'Location',
+            'Modified',
+            'Modifier',
+            'PublnNote',
+            'RecordID',
+            'RecordType',
+            'Repository',
+            'DataSet',
+            'Title'
+        );
+    }
+
+    /**
      * Find accession by number
      */
-    public static function get($accno) {
+    public static function get($id) {
         global $DB;
 
         $values = (array)$DB->get_records('calm_accession', array(
-            'accno' => $accno
+            'id' => $id
         ));
 
         if (empty($values)) {
@@ -39,7 +70,9 @@ class Accession
         }
 
         $obj = new static();
-        foreach ($values as $k => $v) {
+        foreach ($values as $record) {
+            $k = $record->name;
+            $v = $record->value;
             $obj->$k = $v;
         }
 

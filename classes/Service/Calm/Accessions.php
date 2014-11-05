@@ -46,9 +46,10 @@ class Accessions extends Importer
             return false;
         }
 
+        $validfields = \Models\Accession::get_field_list();
+
         $result = array(
-            'accno' => $code,
-            'values' => array()
+            'id' => $code
         );
 
         foreach ($xml->Summary->children() as $k => $v) {
@@ -56,9 +57,18 @@ class Accessions extends Importer
                 continue;
             }
 
+            // Set = DataSet
+            if ($k == 'Set') {
+                $k = 'DataSet';
+            }
+
+            if (!in_array($k, $validfields)) {
+                continue;
+            }
+
             $v = trim((string)$v);
             if (!empty($v)) {
-                $result['values'][$k] = $v;
+                $result[$k] = $v;
             }
         }
 
@@ -71,45 +81,6 @@ class Accessions extends Importer
     protected function process($record) {
         global $DB;
 
-        $accno = $record['accno'];
-
-        foreach ($record['values'] as $k => $v) {
-            $current = $DB->get_record('calm_accession', array(
-                'accno' => $accno,
-                'name' => $k
-            ));
-
-            // New ones.
-            if (!$current) {
-                $DB->insert_record('calm_accession', array(
-                    'accno' => $accno,
-                    'name' => $k,
-                    'value' => $v
-                ));
-
-                continue;
-            } else {
-                // Updates.
-                if (!$current->value != $v) {
-                    $DB->update_record('calm_accession', array(
-                        'id' => $current->id,
-                        'value' => $v
-                    ));
-                }
-            }
-        }
-
-        // Grab accession model for current accno.
-        $accession = \Models\Accession::get($accno);
-
-        // Deletes.
-        foreach ($accession->values() as $v) {
-            if (!isset($record['values'][$v->name])) {
-                $DB->delete_records('calm_accession', array(
-                    'accno' => $accno,
-                    'name' => $v->name
-                ));
-            }
-        }
+        $DB->update_or_insert('calm_accession', array('id' => $record['id']), $record);
     }
 }

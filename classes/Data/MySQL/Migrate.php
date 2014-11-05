@@ -88,20 +88,36 @@ class Migrate
         // Create accession table.
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {calm_accession} (
-              `id` int(11) NOT NULL,
-              `accno` int(11) NOT NULL,
-              `name` varchar(75) COLLATE utf8_unicode_ci NOT NULL,
-              `value` text COLLATE utf8_unicode_ci NOT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+                `id` int(11) NOT NULL,
+                `AccessionCategory` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `AccessStatus` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `AcqTerms` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `AdminHistory` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Copies` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Copyright` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Created` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `CustodialHistory` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Date` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `DepositorId` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Extent` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Location` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Modified` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Modifier` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `PublnNote` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `RecordID` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `RecordType` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Repository` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `DataSet` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                `Title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
         ");
 
         // Indexes.
         $DB->execute("
             ALTER TABLE {calm_accession}
-                ADD PRIMARY KEY (`id`),
-                ADD UNIQUE KEY `u_accno_name` (`accno`,`name`),
-                ADD KEY `accno` (`accno`),
-                ADD KEY `key` (`name`);
+                ADD PRIMARY KEY (`id`);
         ");
 
         // Auto increment.
