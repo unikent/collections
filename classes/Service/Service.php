@@ -26,7 +26,9 @@ abstract class Service
         }
 
         // Clear up.
-        ob_end_clean();
+        if (ob_get_length() !== false) {
+            ob_end_clean();
+        }
         fclose(STDIN);
         fclose(STDOUT);
         fclose(STDERR);
@@ -53,4 +55,6 @@ abstract class Service
 
         $this->perform($data);
     }
+
+    protected abstract function perform($data);
 }

@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Calm;
+namespace Service\Calm;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
@@ -50,7 +50,7 @@ class Catalogs extends Importer
     /**
      * Processes a hit, returns an array of data for the object.
      */
-    protected function hit($xml) {
+    protected function get_record($xml) {
         // Should we even display this?
         $displayRecord = trim(strtolower((string)$xml->Summary->UserText5));
         if ($displayRecord != 'yes') {
@@ -158,15 +158,9 @@ class Catalogs extends Importer
     /**
      * Imports everything.
      */
-    public function import() {
+    protected function process($record) {
         global $DB;
 
-        $gen = $this->get_all();
-        foreach ($gen as $hit) {
-            foreach ($hit as $k => $v) {
-                echo var_dump($v);
-            }
-            die;
-        }
+        // TODO
     }
 }

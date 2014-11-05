@@ -16,7 +16,7 @@ defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 class Accessions extends \Cron\Task
 {
     public function do_run() {
-        $obj = new \Calm\Accessions();
+        $obj = new \Service\Calm\Accessions();
         $obj->import();
     }
 }
