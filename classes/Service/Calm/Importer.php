@@ -86,13 +86,33 @@ abstract class Importer extends \Service\Service
      * Returns all records of this type.
      */
     protected function perform($data) {
+        global $CFG;
+
+        $cachedir = $CFG->cachedir . "/" . get_class($this);
+        if (!file_exists($cachedir)) {
+            mkdir($cachedir);
+        }
+
         list($start, $end) = $data;
 
         for ($i = $start; $i <= $end; $i++) {
-            $search = $this->get_search_on_hit($i);
-            $result = $this->_soap->SummaryHeader($search);
+            $filename = "{$cachedir}/{$i}.xml";
 
-            $xml = simplexml_load_string($result->SummaryHeaderResult);
+            $xml = '';
+            if (!file_exists($filename) || !$CFG->developer_mode) {
+                $search = $this->get_search_on_hit($i);
+                $result = $this->_soap->SummaryHeader($search);
+
+                // Store the xml file in a backup folder.
+                file_put_contents($filename, $result->SummaryHeaderResult);
+
+                // Load the XML.
+                $xml = simplexml_load_string($result->SummaryHeaderResult);
+            } else {
+                // Load the XML from cache.
+                $xml = simplexml_load_string(file_get_contents($filename));
+            }
+
 
             $record = $this->get_record($xml);
             if ($record) {

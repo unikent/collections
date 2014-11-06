@@ -23,6 +23,7 @@ if (!isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 
 
     echo "Running Accessions Cron...\n";
     \Cron\Task\Calm\Accessions::run();
+    die;
 }
 
 // Import CALM catalogs every 24 hours.
@@ -31,6 +32,7 @@ if (!isset($CFG->calm_catalogs_run) || (time() - $CFG->calm_catalogs_run) > 8640
 
     echo "Running Catalogs Cron...\n";
     \Cron\Task\Calm\Catalogs::run();
+    die;
 }
 
 // Import CALM collections every 24 hours.
@@ -39,6 +41,7 @@ if (!isset($CFG->calm_collections_run) || (time() - $CFG->calm_collections_run) 
 
     echo "Running Collections Cron...\n";
     \Cron\Task\Calm\Collections::run();
+    die;
 }
 
 // Import CALM people every 24 hours.
@@ -47,6 +50,7 @@ if (!isset($CFG->calm_people_run) || (time() - $CFG->calm_people_run) > 86400) {
 
     echo "Running People Cron...\n";
     \Cron\Task\Calm\People::run();
+    die;
 }
 
 // Import CALM subjects every 24 hours.
@@ -55,4 +59,5 @@ if (!isset($CFG->calm_subjects_run) || (time() - $CFG->calm_subjects_run) > 8640
 
     echo "Running Subjects Cron...\n";
     \Cron\Task\Calm\Subjects::run();
+    die;
 }
