@@ -28,7 +28,7 @@ class Imagick extends Processor
      */
     public function resize($targetWidth, $targetHeight) {
         $image = $this->_image->clone();
-        $image->resizeImage($targetWidth, $targetHeight, \Imagick::FILTER_POINT, 1, true);
+        $image->resizeImage($targetWidth, $targetHeight, \Imagick::FILTER_POINT, 1, true); // FILTER_LANCZOS
         return $image;
     }
 
