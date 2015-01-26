@@ -35,7 +35,9 @@ define('PARAM_TEXT',  'text');
  * default exception handler displays the error message in most cases.
  */
 function print_error($message) {
-    die($message);
+    global $OUTPUT;
+    $OUTPUT->error_page($message);
+    die;
 }
 
 /**
