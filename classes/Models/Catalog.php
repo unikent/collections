@@ -9,11 +9,11 @@
  * @copyright University of Kent
  */
 
-namespace Models;
+namespace Verdi\Models;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class Catalog
+class Catalog extends \Rapid\Data\DBModel
 {
     /**
      * List of valid fields

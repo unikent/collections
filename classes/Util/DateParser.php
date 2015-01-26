@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Util;
+namespace Verdi\Util;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 

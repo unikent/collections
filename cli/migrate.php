@@ -14,5 +14,5 @@ define('INSTALLING', true);
 
 require_once(dirname(__FILE__) . '/../config.php');
 
-$migrate = new \Data\MySQL\Migrate();
+$migrate = new \Verdi\Data\MySQL\Migrate();
 $migrate->run();

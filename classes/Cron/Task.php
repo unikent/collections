@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Cron;
+namespace Verdi\Cron;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 

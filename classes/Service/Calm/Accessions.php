@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Service\Calm;
+namespace Verdi\Service\Calm;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
@@ -46,7 +46,7 @@ class Accessions extends Importer
             return false;
         }
 
-        $validfields = \Models\Accession::get_field_list();
+        $validfields = \Verdi\Models\Accession::get_field_list();
 
         $result = array(
             'id' => $code

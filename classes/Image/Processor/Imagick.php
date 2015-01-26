@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Image\Processor;
+namespace Verdi\Image\Processor;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 

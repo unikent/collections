@@ -46,12 +46,12 @@ if (empty($tab)) {
     echo '<p>Here, you can browse the CALM data.</p>';
 }
 
-$validfields = \Models\Catalog::get_field_list();
+$validfields = \Verdi\Models\Catalog::get_field_list();
 if ($tab == 'collections') {
-    $validfields = \Models\Collection::get_field_list();
+    $validfields = \Verdi\Models\Collection::get_field_list();
 }
 if ($tab == 'people') {
-    $validfields = \Models\People::get_field_list();
+    $validfields = \Verdi\Models\People::get_field_list();
 }
 
 if (!empty($tab)) {

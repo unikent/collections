@@ -15,14 +15,14 @@ define('INSTALLING', true);
 require_once(dirname(__FILE__) . '/../config.php');
 
 // Always run this.
-\Cron\Task\Catalog::run();
+\Verdi\Cron\Task\Catalog::run();
 
 // Import CALM accessions every 24 hours.
 if (!isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 86400) {
     set_config('calm_accessions_run', time());
 
     echo "Running Accessions Cron...\n";
-    \Cron\Task\Calm\Accessions::run();
+    \Verdi\Cron\Task\Calm\Accessions::run();
     die;
 }
 
@@ -31,7 +31,7 @@ if (!isset($CFG->calm_catalogs_run) || (time() - $CFG->calm_catalogs_run) > 8640
     set_config('calm_catalogs_run', time());
 
     echo "Running Catalogs Cron...\n";
-    \Cron\Task\Calm\Catalogs::run();
+    \Verdi\Cron\Task\Calm\Catalogs::run();
     die;
 }
 
@@ -40,7 +40,7 @@ if (!isset($CFG->calm_collections_run) || (time() - $CFG->calm_collections_run) 
     set_config('calm_collections_run', time());
 
     echo "Running Collections Cron...\n";
-    \Cron\Task\Calm\Collections::run();
+    \Verdi\Cron\Task\Calm\Collections::run();
     die;
 }
 
@@ -49,7 +49,7 @@ if (!isset($CFG->calm_people_run) || (time() - $CFG->calm_people_run) > 86400) {
     set_config('calm_people_run', time());
 
     echo "Running People Cron...\n";
-    \Cron\Task\Calm\People::run();
+    \Verdi\Cron\Task\Calm\People::run();
     die;
 }
 
@@ -58,6 +58,6 @@ if (!isset($CFG->calm_subjects_run) || (time() - $CFG->calm_subjects_run) > 8640
     set_config('calm_subjects_run', time());
 
     echo "Running Subjects Cron...\n";
-    \Cron\Task\Calm\Subjects::run();
+    \Verdi\Cron\Task\Calm\Subjects::run();
     die;
 }

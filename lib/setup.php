@@ -34,6 +34,10 @@ spl_autoload_register(function($class) {
     global $CFG;
 
     $parts = explode('\\', $class);
+    $first = array_shift($parts);
+    if ($first !== "Verdi") {
+        return;
+    }
 
     $filename = $CFG->dirroot . '/classes/' . implode('/', $parts) . '.php';
     if (file_exists($filename)) {
