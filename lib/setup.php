@@ -21,6 +21,12 @@ if (CLI_SCRIPT) {
     }
 }
 
+if (isset($CFG->_init_called)) {
+    die("Setup script has already been called.");
+}
+
+$CFG->_init_called = microtime(true);
+
 require_once($CFG->dirroot . '/lib/corelib.php');
 
 // Register the autoloader now.
@@ -37,6 +43,19 @@ spl_autoload_register(function($class) {
 
 // Register the composer autoloaders.
 require_once($CFG->dirroot . '/vendor/autoload.php');
+
+
+if (CLI_SCRIPT) {
+    // Output library.
+    $OUTPUT = new \Rapid\Presentation\CLI();
+}
+
+// Developer mode?
+if (isset($CFG->developer_mode) && $CFG->developer_mode) {
+    @error_reporting(E_ALL);
+    set_error_handler(array('Rapid\\Core', 'error_handler'), E_ALL);
+    set_exception_handler(array('Rapid\\Core', 'handle_exception'));
+}
 
 // DB connection.
 $DB = new \Rapid\Data\PDO(
@@ -89,6 +108,9 @@ if (!defined('CLI_SCRIPT') || !CLI_SCRIPT) {
 
     // Page library.
     $PAGE = new \Rapid\Presentation\Page();
+    $PAGE->require_css("//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css");
+    $PAGE->require_js("//code.jquery.com/jquery-1.11.2.min.js");
+    $PAGE->require_js("//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js");
 
     // Set a default page title.
     $PAGE->set_title('VERDI');
