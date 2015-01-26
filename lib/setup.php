@@ -39,10 +39,7 @@ spl_autoload_register(function($class) {
         return;
     }
 
-    $filename = $CFG->dirroot . '/classes/' . implode('/', $parts) . '.php';
-    if (file_exists($filename)) {
-        require_once($filename);
-    }
+    require_once($CFG->dirroot . '/classes/' . implode('/', $parts) . '.php');
 });
 
 // Register the composer autoloaders.
