@@ -15,6 +15,12 @@ if (!defined('CLI_SCRIPT')) {
     define('CLI_SCRIPT', false);
 }
 
+if (CLI_SCRIPT) {
+    if (isset($_SERVER['REMOTE_ADDR']) || php_sapi_name() != 'cli') {
+        die("Must be run from CLI.");
+    }
+}
+
 require_once($CFG->dirroot . '/lib/corelib.php');
 
 // Register the autoloader now.
@@ -88,9 +94,10 @@ if (!defined('CLI_SCRIPT') || !CLI_SCRIPT) {
     $PAGE->set_title('VERDI');
 
     // Setup navigation.
-    $PAGE->menu($CFG->menu);
-} else {
-    if (isset($_SERVER['REMOTE_ADDR']) || php_sapi_name() != 'cli') {
-        die("Must be run from CLI.");
-    }
+    $PAGE->menu(array(
+        'Home' => '/demo/index.php',
+        'Zoomify' => '/demo/zoomify.php',
+        'Formats' => '/demo/formats.php',
+        'Calm' => '/demo/calm.php'
+    ));
 }

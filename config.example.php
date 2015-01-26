@@ -41,11 +41,4 @@ $CFG->cache = array(
     'prefix' => 'verdi_'
 );
 
-$CFG->menu = array(
-    'Home' => '/demo/index.php',
-    'Zoomify' => '/demo/zoomify.php',
-    'Formats' => '/demo/formats.php',
-    'Calm' => '/demo/calm.php'
-);
-
 require_once($CFG->dirroot . '/lib/setup.php');
