@@ -13,7 +13,7 @@ namespace Verdi\Service\Calm;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
-abstract class Importer extends \Service\Service
+abstract class Importer extends \Verdi\Service\Service
 {
     /** SOAP Ref */
     private $_soap;

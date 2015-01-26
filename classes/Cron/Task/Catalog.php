@@ -13,7 +13,7 @@ namespace Verdi\Cron\Task;
 
 defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class Catalog extends \Cron\Task
+class Catalog extends \Verdi\Cron\Task
 {
     public function do_run() {
         global $CFG, $DB;
