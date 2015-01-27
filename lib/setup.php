@@ -50,13 +50,6 @@ if (CLI_SCRIPT) {
     $OUTPUT = new \Rapid\Presentation\CLI();
 }
 
-// Developer mode?
-if (isset($CFG->developer_mode) && $CFG->developer_mode) {
-    @error_reporting(E_ALL);
-    set_error_handler(array('Rapid\\Core', 'error_handler'), E_ALL);
-    set_exception_handler(array('Rapid\\Core', 'handle_exception'));
-}
-
 // DB connection.
 $DB = new \Rapid\Data\PDO(
     $CFG->database['adapter'],
@@ -122,4 +115,11 @@ if (!defined('CLI_SCRIPT') || !CLI_SCRIPT) {
         'Formats' => '/demo/formats.php',
         'Calm' => '/demo/calm.php'
     ));
+
+    // Developer mode?
+    if (isset($CFG->developer_mode) && $CFG->developer_mode) {
+        @error_reporting(E_ALL);
+        set_error_handler(array('Rapid\\Core', 'error_handler'), E_ALL);
+        set_exception_handler(array('Rapid\\Core', 'handle_exception'));
+    }
 }
