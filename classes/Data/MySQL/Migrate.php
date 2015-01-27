@@ -70,26 +70,6 @@ class Migrate
                 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
         ");
 
-        // Create file map table.
-        $DB->execute("
-            CREATE TABLE IF NOT EXISTS {file_map} (
-              `id` int(11) NOT NULL,
-              `fullpath` varchar(1024) COLLATE utf8_unicode_ci NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-        ");
-
-        // Indexes.
-        $DB->execute("
-            ALTER TABLE {file_map}
-                ADD PRIMARY KEY (`id`);
-        ");
-
-        // Auto increment.
-        $DB->execute("
-            ALTER TABLE {file_map}
-                MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-        ");
-
         // Create accession table.
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {calm_accession} (
@@ -360,7 +340,7 @@ class Migrate
     public function migration_2015012700() {
         global $DB;
 
-        $DB->execute("DROP TABLE {file_map};");
+        $DB->execute("DROP TABLE IF EXISTS {file_map};");
 
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {bcad_files} (

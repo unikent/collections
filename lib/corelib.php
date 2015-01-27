@@ -426,7 +426,7 @@ function get_config($name) {
 function get_image_path($id) {
     global $CFG, $DB;
 
-    $path = $DB->get_field('file_map', 'fullpath', array(
+    $path = $DB->get_field('bcad_files', 'filename', array(
         'id' => $id
     ));
 

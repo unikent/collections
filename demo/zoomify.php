@@ -31,9 +31,9 @@ if (isset($_GET['id'])) {
 HTML5;
 } else {
     echo '<ul class="nav nav-pills nav-stacked" role="tablist">';
-    $list = $DB->get_records('file_map');
+    $list = $DB->get_records('bcad_files');
     foreach ($list as $image) {
-        echo '<li><a href="?id=' . $image->id . '">' . $image->fullpath . '</a></li>';
+        echo '<li><a href="?id=' . $image->id . '">' . $image->filename . '</a></li>';
     }
     echo '</ul>';
 }

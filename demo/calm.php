@@ -164,6 +164,19 @@ if (!empty($recordid) && isset($tabtables[$tab])) {
     foreach ((array)$record as $k => $v) {
         echo "<tr><th>$k</th><td>$v</td></tr>";
     }
+    if ($tab == 'catalog') {
+        $images = $DB->get_records('bcad_files', array(
+            'recordid' => $record->id
+        ));
+        foreach ($images as $image) {
+            echo "<tr>
+                <th>Image</th>
+                <td>
+                    <a href=\"/index.php?request={$image->id}/full\"><img src=\"/index.php?request={$image->id}/thumb\" class=\"img-thumbnail\" /></a>
+                </td>
+            </tr>";
+        }
+    }
     echo '</table><br />';
 }
 
