@@ -11,9 +11,9 @@
 
 require_once(dirname(__FILE__) . '/../../config.php');
 
-$limit = optional_param('limit', 0, PARAM_INT);
-$offset = optional_param('offset', 0, PARAM_INT);
-$fields = optional_param('fields', '*', PARAM_RAW);
+$limit = optional_param('_limit', 0, PARAM_INT);
+$offset = optional_param('_offset', 0, PARAM_INT);
+$fields = optional_param('_fields', '*', PARAM_RAW);
 
 if ($fields != '*') {
     $fields = explode(',', $fields);
@@ -28,7 +28,7 @@ if ($fields != '*') {
 
 $params = array();
 foreach ($_GET as $k => $v) {
-    if ($k != 'limit' && $k != 'offset' && $k != 'fields') {
+    if (strpos($k, '_') !== 0) {
         $params[$k] = $v;
     }
 }
