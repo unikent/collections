@@ -22,12 +22,12 @@ foreach ($_GET as $k => $v) {
 header("Content-Type: application/json\n");
 
 $files = array();
-foreach ($DB->yield_records('bcad_files') as $record) {
-    if (!isset($files[$record->id])) {
-        $files[$record->id] = array();
+foreach ($DB->yield_records('bcad_files') as $file) {
+    if (!isset($files[$file->recordid])) {
+        $files[$file->recordid] = array();
     }
 
-    $files[$record->id][] = $record->id;
+    $files[$file->recordid][] = $file->id;
 }
 
 
