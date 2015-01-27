@@ -21,6 +21,8 @@ class Catalog extends \Rapid\Data\DBModel
     public static function get_field_list() {
         return array(
             'id',
+            'refno',
+            'altrefno',
             'alsoPublishedIn',
             'alsoPublishedOn',
             'artist',

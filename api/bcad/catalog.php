@@ -13,10 +13,24 @@ require_once(dirname(__FILE__) . '/../../config.php');
 
 $limit = optional_param('limit', 0, PARAM_INT);
 $offset = optional_param('offset', 0, PARAM_INT);
+$fields = optional_param('fields', '*', PARAM_RAW);
+
+if ($fields != '*') {
+    $fields = explode(',', $fields);
+
+    $validfields = \Verdi\Models\Catalog::get_field_list();
+    $fields = array_filter($fields, function($v) use($validfields) {
+        return in_array($v, $validfields);
+    });
+
+    $fields = implode(',', $fields);
+}
 
 $params = array();
 foreach ($_GET as $k => $v) {
-    $params[$k] = $v;
+    if ($k != 'limit' && $k != 'offset' && $k != 'fields') {
+        $params[$k] = $v;
+    }
 }
 
 header("Content-Type: application/json\n");
@@ -35,7 +49,7 @@ echo '[';
 
 // Returns all catalog entries by default.
 $delim = '';
-foreach ($DB->yield_records('calm_catalog', $params, '*', '', $limit, $offset) as $row) {
+foreach ($DB->yield_records('calm_catalog', $params, $fields, '', $limit, $offset) as $row) {
 
     // Attach files.
     if (!empty($files[$row->id])) {
