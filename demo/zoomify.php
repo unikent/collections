@@ -14,11 +14,12 @@ require_once(dirname(__FILE__) . '/../config.php');
 $PAGE->set_url('/demo/zoomify.php');
 $PAGE->set_title("VERDI - Zoomify Demo");
 
+$id = optional_param('id', 0, PARAM_INT);
+
 echo $OUTPUT->header();
 echo $OUTPUT->heading('VERDI - Dynamic Zoomify Demo');
 
-if (isset($_GET['id'])) {
-    $id = (int)$_GET['id'];
+if ($id > 0) {
     echo "<ol class=\"breadcrumb\"><li><a href=\"/demo/zoomify.php\">Zoomify</a></li><li>$id</li></ol>";
 
     echo <<<HTML5

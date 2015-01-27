@@ -14,12 +14,12 @@ require_once(dirname(__FILE__) . '/../config.php');
 $PAGE->set_url('/demo/formats.php');
 $PAGE->set_title("VERDI - Formats Demo");
 
+$id = optional_param('id', 0, PARAM_INT);
+
 echo $OUTPUT->header();
 echo $OUTPUT->heading('VERDI - Dynamic Resize Demo');
 
-if (isset($_GET['id'])) {
-    $id = (int)$_GET['id'];
-
+if ($id > 0) {
     echo "<ol class=\"breadcrumb\"><li><a href=\"/demo/formats.php\">Formats</a></li><li>$id</li></ol>";
     echo "<h3>Thumbnail</h3><img src=\"/index.php?request={$id}/thumb\" alt=\"Thumb Size\"><br /><br />";
     echo "<h3>Standard</h3><img src=\"/index.php?request={$id}/standard\" alt=\"Standard Size\"><br /><br />";
