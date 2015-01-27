@@ -15,7 +15,7 @@ define('INSTALLING', true);
 require_once(dirname(__FILE__) . '/../config.php');
 
 // Always run this.
-\Verdi\Cron\Task\Catalog::run();
+\Verdi\Cron\Task\BCAD\FileMap::run();
 
 // Import CALM accessions every 24 hours.
 if (!isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 86400) {
