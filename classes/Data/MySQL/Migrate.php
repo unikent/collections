@@ -134,7 +134,7 @@ class Migrate
         // Create collections table.
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {calm_collections} (
-                `id`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `id`  int(11) COLLATE utf8_unicode_ci NOT NULL AUTO_INCREMENT,
                 `RecordType`  varchar(255) COLLATE utf8_unicode_ci NULL,
                 `IDENTITY`  varchar(255) COLLATE utf8_unicode_ci NULL,
                 `Level`  varchar(255) COLLATE utf8_unicode_ci NULL,
