@@ -35,6 +35,12 @@ $tabtables = array(
     'people' => 'calm_people'
 );
 
+$tabtableskey = array(
+    'catalog' => 'id',
+    'collections' => 'id',
+    'people' => 'code'
+);
+
 echo '<div class="row"><ul class="nav nav-pills" role="tablist">';
 foreach ($menu as $query => $item) {
     $active = $tab == $query ? ' class="active"' : '';
@@ -148,8 +154,10 @@ if ($tab == 'people') {
 }
 
 if (!empty($recordid) && isset($tabtables[$tab])) {
+    $idkey = $tabtableskey[$tab];
+
     $record = $DB->get_record($tabtables[$tab], array(
-        'code' => $recordid
+        $idkey => $recordid
     ));
 
     echo '<table class="table">';

@@ -45,7 +45,6 @@ spl_autoload_register(function($class) {
 // Register the composer autoloaders.
 require_once($CFG->dirroot . '/vendor/autoload.php');
 
-
 if (CLI_SCRIPT) {
     // Output library.
     $OUTPUT = new \Rapid\Presentation\CLI();
