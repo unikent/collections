@@ -34,6 +34,11 @@ class Migrate
             $this->migration_2014110500();
         }
 
+        if ($CFG->version < 2015012700) {
+            echo "Migrating to version: 2015012700.\n";
+            $this->migration_2015012700();
+        }
+
         echo "Migrated to version: {$CFG->version}.\n";
     }
 
@@ -198,7 +203,7 @@ class Migrate
                 `Modifier`  varchar(255) COLLATE utf8_unicode_ci NULL,
                 `Modified`  varchar(255) COLLATE utf8_unicode_ci NULL,
                 `UserWrapped4`  varchar(255) COLLATE utf8_unicode_ci NULL,
-                `RCN`  varchar(255) COLLATE utf8_unicode_ci NULL,
+                `RCN`  varchar(255) COLLATE utf8_unicode_ci NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
         ");
 
@@ -347,5 +352,25 @@ class Migrate
         ");
 
         set_config('version', 2014110500);
+    }
+
+    /**
+     * Add bcad file mapping table.
+     */
+    public function migration_2015012700() {
+        global $DB;
+
+        $DB->execute("DROP TABLE {file_map};");
+
+        $DB->execute("
+            CREATE TABLE IF NOT EXISTS {bcad_files} (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `recordid` varchar(50) COLLATE utf8_bin NOT NULL,
+                `filename` text COLLATE utf8_bin NOT NULL,
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+        ");
+
+        set_config('version', 2015012700);
     }
 }
