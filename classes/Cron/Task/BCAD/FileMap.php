@@ -46,11 +46,14 @@ class FileMap extends \Verdi\Cron\Task
             ));
 
             if ($record) {
-                echo "Adding '$entry' to index...\n";
-                $DB->insert_record('bcad_files', array(
+                $filerecord = array(
                     'recordid' => $record->id,
                     'filename' => $entry
-                ));
+                );
+                if ($DB->count_records('bcad_files', $filerecord) <= 0) {
+                    echo "Adding '$entry' to index...\n";
+                    $DB->insert_record('bcad_files', $filerecord);
+                }
 
                 $validfiles[$entry] = $record->id;
             }
