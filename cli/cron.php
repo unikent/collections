@@ -10,7 +10,6 @@
  */
 
 define('CLI_SCRIPT', true);
-define('INSTALLING', true);
 
 require_once(dirname(__FILE__) . '/../config.php');
 
