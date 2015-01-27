@@ -1,5 +1,8 @@
-Rapid PHP Prototyping Framework
+VERDI
 =====
 
-Rapid PHP Prototyping Framework is a set of methods to enable rapid prototyping in PHP.
+The VERsatile DIgitization Framework.
 
+# API endpoints
+/api/bcad/catalog/
+/api/bcad/catalog/?id=815156
