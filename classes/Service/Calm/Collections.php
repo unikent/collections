@@ -47,7 +47,7 @@ class Collections extends Importer
             $k = trim((string)$k);
             $v = trim((string)$v);
 
-            if (in_array($k, $validfields)) {
+            if ($k != 'id' && in_array($k, $validfields)) {
                 $result[$k] = $v;
             }
         }
