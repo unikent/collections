@@ -27,7 +27,7 @@ class Imagick extends Processor
      * Resize the image.
      */
     public function resize($targetWidth, $targetHeight) {
-        $image = $this->_image->clone();
+        $image = clone $this->_image;
         $image->resizeImage($targetWidth, $targetHeight, \Imagick::FILTER_POINT, 1, true); // FILTER_LANCZOS
         return $image;
     }
@@ -36,7 +36,7 @@ class Imagick extends Processor
      * Crop the image to a particular tile.
      */
     public function crop_tile($image, $x, $y, $x2, $y2) {
-        $new = $image->clone();
+        $new = clone $image;
         $new->cropImage($x2 - $x, $y2 - $y, $x, $y);
         return $new;
     }
