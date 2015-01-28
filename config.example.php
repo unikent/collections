@@ -14,10 +14,10 @@ $CFG->brand = 'VERDI';
 $CFG->dirroot = dirname(__FILE__);
 $CFG->cssroot = $CFG->dirroot . '/media/css';
 $CFG->jsroot = $CFG->dirroot . '/media/js';
-$CFG->wwwroot = 'http://verdi-dev.kent.ac.uk:8080';
+$CFG->wwwroot = 'http://collections-dev.kent.ac.uk:8080';
 $CFG->tilesize = 256;
-$CFG->cachedir = '/var/www/vhosts/verdi-dev.kent.ac.uk/writable';
-$CFG->imageindir = '/var/www/vhosts/verdi-dev.kent.ac.uk/public/demo/images_in';
+$CFG->cachedir = '/var/www/vhosts/collections-dev.kent.ac.uk/writable';
+$CFG->imageindir = '/var/www/vhosts/collections-dev.kent.ac.uk/public/demo/images_in';
 
 $CFG->developer_mode = true;
 
