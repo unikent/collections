@@ -32,7 +32,7 @@ if ($id > 0) {
 HTML5;
 } else {
     echo '<ul class="nav nav-pills nav-stacked" role="tablist">';
-    $list = $DB->get_records('bcad_files');
+    $list = \SCAPI\Models\File::yield_cartoons();
     foreach ($list as $image) {
         echo '<li><a href="?id=' . $image->id . '">' . $image->filename . '</a></li>';
     }

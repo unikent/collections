@@ -19,7 +19,7 @@ defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 class GD extends Processor
 {
     public function __construct($filename) {
-        $ext = get_file_extension($filename);
+        $ext = \SCAPI\Models\File::get_extension($filename);
         switch ($ext) {
             case 'jpg':
             case 'jpeg':

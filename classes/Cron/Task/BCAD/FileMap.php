@@ -24,11 +24,13 @@ class FileMap extends \SCAPI\Cron\Task
         // Delete any old entries from DB.
         $DB->execute("
             DELETE f.*
-            FROM {bcad_files} f
+            FROM {files} f
             LEFT OUTER JOIN {calm_catalog} c
                 ON c.recordid=f.id
-            WHERE c.id IS NULL
-        ");
+            WHERE c.id IS NULL AND f.type = :type
+        ", array(
+            'type' => \SCAPI\Models\File::TYPE_CARTOONS
+        ));
 
         $validfiles = array();
 
@@ -48,12 +50,13 @@ class FileMap extends \SCAPI\Cron\Task
             if ($record) {
                 $entry = substr($entry, 1);
                 $filerecord = array(
+                    'type' => \SCAPI\Models\File::TYPE_CARTOONS,
                     'recordid' => $record->id,
                     'filename' => $entry
                 );
-                if ($DB->count_records('bcad_files', $filerecord) <= 0) {
+                if ($DB->count_records('files', $filerecord) <= 0) {
                     echo "Adding '$entry' to index...\n";
-                    $DB->insert_record('bcad_files', $filerecord);
+                    $DB->insert_record('files', $filerecord);
                 }
 
                 $validfiles[$entry] = $record->id;
@@ -61,11 +64,11 @@ class FileMap extends \SCAPI\Cron\Task
         }
 
         // Delete any entries from DB with no matching file.
-        $entries = $DB->get_records('bcad_files');
+        $entries = \SCAPI\Models\File::yield_cartoons();
         foreach ($entries as $entry) {
             if (!isset($validfiles[$entry->filename])) {
                 echo "Removing '$entry->filename' from index...\n";
-                $DB->delete_records('bcad_files', $entry);
+                $DB->delete_records('files', $entry);
             }
         }
     }
@@ -84,7 +87,7 @@ class FileMap extends \SCAPI\Cron\Task
 
         $entries = glob($dir . "/*.*");
         foreach ($entries as $entry) {
-            $ext = get_file_extension($entry);
+            $ext = \SCAPI\Models\File::get_extension($entry);
             if (!in_array($ext, $extensions)) {
                 continue;
             }

@@ -419,28 +419,3 @@ function get_config($name) {
 
     return $CFG->$name;
 }
-
-/**
- * Returns the full path to an image based on an ID.
- */
-function get_image_path($id) {
-    global $CFG, $DB;
-
-    $path = $DB->get_field('bcad_files', 'filename', array(
-        'id' => $id
-    ));
-
-    if (!$path) {
-        return null;
-    }
-
-    return $CFG->imageindir . '/' . $path;
-}
-
-/**
- * Get the extension of a file.
- */
-function get_file_extension($filename) {
-    $ext = substr($filename, strrpos($filename, '.') + 1);
-    return strtolower($ext);
-}

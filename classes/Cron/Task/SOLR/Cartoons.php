@@ -40,7 +40,7 @@ class Cartoons extends \SCAPI\Cron\Task
         global $DB;
 
         $images = array();
-        $files = $DB->get_records('bcad_files');
+        $files = \SCAPI\Models\File::yield_cartoons();
         foreach ($files as $file) {
             if (!isset($images[$file->recordid])) {
                 $images[$file->recordid] = array();

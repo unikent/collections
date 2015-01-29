@@ -36,7 +36,7 @@ foreach ($_GET as $k => $v) {
 header("Content-Type: application/json\n");
 
 $files = array();
-foreach ($DB->yield_records('bcad_files') as $file) {
+foreach (\SCAPI\Models\File::yield_cartoons() as $file) {
     if (!isset($files[$file->recordid])) {
         $files[$file->recordid] = array();
     }

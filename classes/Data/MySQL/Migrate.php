@@ -39,6 +39,11 @@ class Migrate
             $this->migration_2015012700();
         }
 
+        if ($CFG->version < 2015012900) {
+            echo "Migrating to version: 2015012900.\n";
+            $this->migration_2015012900();
+        }
+
         echo "Migrated to version: {$CFG->version}.\n";
     }
 
@@ -341,5 +346,17 @@ class Migrate
         ");
 
         set_config('version', 2015012700);
+    }
+
+    /**
+     * Turn bcad_files into generic files table.
+     */
+    public function migration_2015012900() {
+        global $DB;
+
+        $DB->execute('ALTER TABLE {bcad_files} ADD `type` INT(1) NOT NULL AFTER `id`;');
+        $DB->execute('ALTER TABLE {bcad_files} RENAME TO {files};');
+
+        set_config('version', 2015012900);
     }
 }

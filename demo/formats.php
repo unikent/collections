@@ -27,7 +27,7 @@ if ($id > 0) {
     echo "<h3>Full</h3><img src=\"../api/cartoons/image.php?request={$id}/full\" alt=\"Full Size\"><br /><br />";
 } else {
     echo '<ul class="nav nav-pills nav-stacked" role="tablist">';
-    $list = $DB->get_records('bcad_files');
+    $list = \SCAPI\Models\File::yield_cartoons();
     foreach ($list as $image) {
         echo '<li><a href="?id=' . $image->id . '">' . $image->filename . '</a></li>';
     }

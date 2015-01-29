@@ -165,8 +165,9 @@ if (!empty($recordid) && isset($tabtables[$tab])) {
         echo "<tr><th>$k</th><td>$v</td></tr>";
     }
     if ($tab == 'catalog') {
-        $images = $DB->get_records('bcad_files', array(
-            'recordid' => $record->id
+        $images = $DB->get_records('files', array(
+            'recordid' => $record->id,
+            'type' => \SCAPI\Models\File::TYPE_CARTOONS
         ));
         foreach ($images as $image) {
             echo "<tr>

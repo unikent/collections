@@ -18,7 +18,7 @@ class Imagick extends Processor
     public function __construct($filename) {
         $this->_image = new \Imagick($filename);
 
-        if (get_file_extension($filename) == 'gif') {
+        if (\SCAPI\Models\File::get_extension($filename) == 'gif') {
             $this->_image = $this->_image->coalesceImages();
         }
     }
