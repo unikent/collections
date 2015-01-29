@@ -10,7 +10,7 @@ global $CFG;
 define("VERDI_INTERNAL", true);
 
 $CFG = new \stdClass();
-$CFG->brand = 'VERDI';
+$CFG->brand = 'SCAPI';
 $CFG->dirroot = dirname(__FILE__);
 $CFG->cssroot = $CFG->dirroot . '/media/css';
 $CFG->jsroot = $CFG->dirroot . '/media/js';

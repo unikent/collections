@@ -106,11 +106,11 @@ if (!defined('CLI_SCRIPT') || !CLI_SCRIPT) {
     $PAGE->require_js("//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js");
 
     // Set a default page title.
-    $PAGE->set_title('VERDI');
+    $PAGE->set_title($CFG->brand);
 
     // Setup navigation.
     $PAGE->menu(array(
-        'Home' => '/demo/index.php',
+        'Home' => '/index.php',
         'Zoomify' => '/demo/zoomify.php',
         'Formats' => '/demo/formats.php',
         'Calm' => '/demo/calm.php'
