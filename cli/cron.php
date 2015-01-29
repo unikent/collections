@@ -18,7 +18,7 @@ if (!isset($CFG->bcad_filemap_run) || (time() - $CFG->bcad_filemap_run) > 14400)
     set_config('bcad_filemap_run', time());
 
     echo "Running File Map cron...\n";
-    \Verdi\Cron\Task\BCAD\FileMap::run();
+    \SCAPI\Cron\Task\BCAD\FileMap::run();
 }
 
 // Import CALM accessions every 24 hours.
@@ -26,7 +26,7 @@ if (!isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 
     set_config('calm_accessions_run', time());
 
     echo "Running Accessions Cron...\n";
-    \Verdi\Cron\Task\Calm\Accessions::run();
+    \SCAPI\Cron\Task\Calm\Accessions::run();
 }
 
 // Import CALM catalogs every 24 hours.
@@ -34,7 +34,7 @@ if (!isset($CFG->calm_catalogs_run) || (time() - $CFG->calm_catalogs_run) > 8640
     set_config('calm_catalogs_run', time());
 
     echo "Running Catalogs Cron...\n";
-    \Verdi\Cron\Task\Calm\Catalogs::run();
+    \SCAPI\Cron\Task\Calm\Catalogs::run();
 }
 
 // Import CALM collections every 24 hours.
@@ -42,7 +42,7 @@ if (!isset($CFG->calm_collections_run) || (time() - $CFG->calm_collections_run) 
     set_config('calm_collections_run', time());
 
     echo "Running Collections Cron...\n";
-    \Verdi\Cron\Task\Calm\Collections::run();
+    \SCAPI\Cron\Task\Calm\Collections::run();
 }
 
 // Import CALM people every 24 hours.
@@ -50,7 +50,7 @@ if (!isset($CFG->calm_people_run) || (time() - $CFG->calm_people_run) > 86400) {
     set_config('calm_people_run', time());
 
     echo "Running People Cron...\n";
-    \Verdi\Cron\Task\Calm\People::run();
+    \SCAPI\Cron\Task\Calm\People::run();
 }
 
 // Import CALM subjects every 24 hours.
@@ -58,7 +58,7 @@ if (!isset($CFG->calm_subjects_run) || (time() - $CFG->calm_subjects_run) > 8640
     set_config('calm_subjects_run', time());
 
     echo "Running Subjects Cron...\n";
-    \Verdi\Cron\Task\Calm\Subjects::run();
+    \SCAPI\Cron\Task\Calm\Subjects::run();
 }
 
 // SOLR import every 12 hours.
@@ -66,5 +66,5 @@ if (!isset($CFG->solr_cartoons_run) || (time() - $CFG->solr_cartoons_run) > 4320
     set_config('solr_cartoons_run', time());
 
     echo "Running Cartoons SOLR Import Cron...\n";
-    \Verdi\Cron\Task\SOLR\Cartoons::run();
+    \SCAPI\Cron\Task\SOLR\Cartoons::run();
 }

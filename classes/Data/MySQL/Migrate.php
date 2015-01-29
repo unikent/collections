@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Data\MySQL;
+namespace SCAPI\Data\MySQL;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 

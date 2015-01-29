@@ -20,11 +20,11 @@ list($id, $request) = explode('/', $request, 2);
 switch ($request) {
     case "ImageProperties.xml":
         header("Content-type: text/xml; charset=utf-8");
-        $image = new \Verdi\Image\Processor($id);
+        $image = new \SCAPI\Image\Processor($id);
         echo $image->get_xml();
 
         // Spawn a service to pre-process the other images.
-        $preprocessor = new \Verdi\Service\PreProcessor();
+        $preprocessor = new \SCAPI\Service\PreProcessor();
         $preprocessor->run(array(
             "id" => $id,
             'test' => 'test'
@@ -32,7 +32,7 @@ switch ($request) {
     break;
 
     default:
-        $image = new \Verdi\Image\Processor($id);
+        $image = new \SCAPI\Image\Processor($id);
 
         $parts = explode('/', $request);
         switch ($parts[0]) {

@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Service;
+namespace SCAPI\Service;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 

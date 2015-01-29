@@ -12,19 +12,19 @@
 require_once(dirname(__FILE__) . '/../config.php');
 
 $PAGE->set_url('/demo/formats.php');
-$PAGE->set_title("SCAPI - Formats Demo");
+$PAGE->set_title("Dynamic Resize Demo");
 
 $id = optional_param('id', 0, PARAM_INT);
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading('SCAPI - Dynamic Resize Demo');
+echo $OUTPUT->heading();
 
 if ($id > 0) {
     echo "<ol class=\"breadcrumb\"><li><a href=\"/demo/formats.php\">Formats</a></li><li>$id</li></ol>";
-    echo "<h3>Thumbnail</h3><img src=\"/index.php?request={$id}/thumb\" alt=\"Thumb Size\"><br /><br />";
-    echo "<h3>Standard</h3><img src=\"/index.php?request={$id}/standard\" alt=\"Standard Size\"><br /><br />";
-    echo "<h3>Print</h3><img src=\"/index.php?request={$id}/print\" alt=\"Print Size\"><br /><br />";
-    echo "<h3>Full</h3><img src=\"/index.php?request={$id}/full\" alt=\"Full Size\"><br /><br />";
+    echo "<h3>Thumbnail</h3><img src=\"../api/cartoons/image.php?request={$id}/thumb\" alt=\"Thumb Size\"><br /><br />";
+    echo "<h3>Standard</h3><img src=\"../api/cartoons/image.php?request={$id}/standard\" alt=\"Standard Size\"><br /><br />";
+    echo "<h3>Print</h3><img src=\"../api/cartoons/image.php?request={$id}/print\" alt=\"Print Size\"><br /><br />";
+    echo "<h3>Full</h3><img src=\"../api/cartoons/image.php?request={$id}/full\" alt=\"Full Size\"><br /><br />";
 } else {
     echo '<ul class="nav nav-pills nav-stacked" role="tablist">';
     $list = $DB->get_records('bcad_files');

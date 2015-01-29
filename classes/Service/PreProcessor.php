@@ -9,14 +9,14 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Service;
+namespace SCAPI\Service;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
 class PreProcessor extends Service
 {
     protected function perform($data) {
-        $image = new \Verdi\Image\Processor($data['id']);
+        $image = new \SCAPI\Image\Processor($data['id']);
         $image->preprocess();
     }
 }

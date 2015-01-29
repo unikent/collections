@@ -9,11 +9,11 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Cron\Task\BCAD;
+namespace SCAPI\Cron\Task\BCAD;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class FileMap extends \Verdi\Cron\Task
+class FileMap extends \SCAPI\Cron\Task
 {
     public function do_run() {
         global $CFG, $DB;

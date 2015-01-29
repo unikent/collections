@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Service\Calm;
+namespace SCAPI\Service\Calm;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
@@ -23,7 +23,7 @@ class Catalogs extends Importer
     public function __construct() {
         parent::__construct();
 
-        $this->date_parser = new \Verdi\Util\DateParser();
+        $this->date_parser = new \SCAPI\Util\DateParser();
     }
 
     /**

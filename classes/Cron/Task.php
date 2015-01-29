@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Cron;
+namespace SCAPI\Cron;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 

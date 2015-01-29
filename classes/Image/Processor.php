@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Image;
+namespace SCAPI\Image;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
@@ -24,7 +24,7 @@ class Processor
     public function __construct($id) {
         $this->imageid = $id;
         $this->filename = get_image_path($id);
-        $this->processor = new \Verdi\Image\Processor\Imagick($this->filename);
+        $this->processor = new \SCAPI\Image\Processor\Imagick($this->filename);
         $this->set_scale_info();
     }
 

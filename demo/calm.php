@@ -15,7 +15,7 @@ $PAGE->set_url('/demo/calm.php');
 $PAGE->set_title("Calm Data Explorer");
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading("Calm Data Explorer");
+echo $OUTPUT->heading();
 
 $tab = optional_param('tab', '', PARAM_ALPHA);
 $infield = optional_param('field', 'id', PARAM_ALPHAEXT);
@@ -52,12 +52,12 @@ if (empty($tab)) {
     echo '<p>Here, you can browse the CALM data.</p>';
 }
 
-$validfields = \Verdi\Models\Catalog::get_field_list();
+$validfields = \SCAPI\Models\Catalog::get_field_list();
 if ($tab == 'collections') {
-    $validfields = \Verdi\Models\Collection::get_field_list();
+    $validfields = \SCAPI\Models\Collection::get_field_list();
 }
 if ($tab == 'people') {
-    $validfields = \Verdi\Models\People::get_field_list();
+    $validfields = \SCAPI\Models\People::get_field_list();
 }
 
 if (!empty($tab)) {

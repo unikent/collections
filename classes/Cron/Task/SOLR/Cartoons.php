@@ -9,11 +9,11 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Cron\Task\SOLR;
+namespace SCAPI\Cron\Task\SOLR;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class Cartoons extends \Verdi\Cron\Task
+class Cartoons extends \SCAPI\Cron\Task
 {
     public function do_run() {
         global $CFG, $DB;

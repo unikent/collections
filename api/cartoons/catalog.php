@@ -18,7 +18,7 @@ $fields = optional_param('_fields', '*', PARAM_RAW);
 if ($fields != '*') {
     $fields = explode(',', $fields);
 
-    $validfields = \Verdi\Models\Catalog::get_field_list();
+    $validfields = \SCAPI\Models\Catalog::get_field_list();
     $fields = array_filter($fields, function($v) use($validfields) {
         return in_array($v, $validfields);
     });

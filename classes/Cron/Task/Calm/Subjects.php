@@ -9,14 +9,14 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Cron\Task\Calm;
+namespace SCAPI\Cron\Task\Calm;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class Subjects extends \Verdi\Cron\Task
+class Subjects extends \SCAPI\Cron\Task
 {
     public function do_run() {
-        $obj = new \Verdi\Service\Calm\Subjects();
+        $obj = new \SCAPI\Service\Calm\Subjects();
         $obj->import();
     }
 }

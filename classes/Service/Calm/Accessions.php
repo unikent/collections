@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Service\Calm;
+namespace SCAPI\Service\Calm;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
@@ -46,7 +46,7 @@ class Accessions extends Importer
             return false;
         }
 
-        $validfields = \Verdi\Models\Accession::get_field_list();
+        $validfields = \SCAPI\Models\Accession::get_field_list();
 
         $result = array(
             'id' => $code

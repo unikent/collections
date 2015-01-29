@@ -35,7 +35,7 @@ spl_autoload_register(function($class) {
 
     $parts = explode('\\', $class);
     $first = array_shift($parts);
-    if ($first !== "Verdi") {
+    if ($first !== "SCAPI") {
         return;
     }
 

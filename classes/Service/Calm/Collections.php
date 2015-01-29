@@ -9,7 +9,7 @@
  * @copyright University of Kent
  */
 
-namespace Verdi\Service\Calm;
+namespace SCAPI\Service\Calm;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
@@ -40,7 +40,7 @@ class Collections extends Importer
      * Processes a hit, returns an array of data for the object.
      */
     protected function get_record($xml) {
-        $validfields = \Verdi\Models\Collection::get_field_list();
+        $validfields = \SCAPI\Models\Collection::get_field_list();
 
         $result = array();
         foreach ($xml->Summary->children() as $k => $v) {
