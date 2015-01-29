@@ -101,8 +101,8 @@ class Cartoons extends \Verdi\Cron\Task
             $doc->collection = 'cartoons';
 
             if (isset($images[$row->id])) {
-                $doc->file_count = count($images[$row->id]);
-                $doc->files = implode(',', $images[$row->id]);
+                $doc->file_count_i = count($images[$row->id]);
+                $doc->files_t = implode(',', $images[$row->id]);
             }
 
             foreach ((array)$row as $k => $v) {
