@@ -20,22 +20,49 @@ class Cartoons extends \Verdi\Cron\Task
 
         $client = new \Solarium\Client($CFG->solr);
 
+        $this->run_deletions($client);
+
         $count = $DB->count_records('calm_catalog');
         $batchsize = 10000;
         for ($i = 0; $i < $count; $i += $batchsize) {
-            $this->run_batch($client, $i, $batchsize);
+            $this->run_update_batch($client, $i, $batchsize);
         }
 
-        // Optimize after a big import.
+        $this->run_optimize($client);
+    }
+
+    /**
+     * Do deletions.
+     */
+    private function run_deletions($client) {
+        global $DB;
+
+        // Get a list of valid IDS.
+        $ids = $DB->get_fieldset('calm_catalog', 'id');
+
+        // Get a list of IDs in SOLR.
+        $query = $client->createSelect();
+        $query->setQuery('*:*');
+        $query->setFields(array('id'));
+        $solrids = $client->select($query);
+
+        // Work out what needs to be deleted.
         $update = $client->createUpdate();
-        $update->addOptimize(true, false, 5);
+        foreach ($solrids as $document) {
+            if (!in_array($document->id, $ids)) {
+                $update->addDeleteById($document->id);
+            }
+        }
+
+        // Send the updates to SOLR.
+        $update->addCommit();
         $client->update($update);
     }
 
     /**
      * Batch up.
      */
-    private function run_batch($client, $start, $count) {
+    private function run_update_batch($client, $start, $count) {
         global $DB;
 
         static $suffixes = array(
@@ -68,5 +95,15 @@ class Cartoons extends \Verdi\Cron\Task
         $update->addCommit();
 
         return $client->update($update);
+    }
+
+    /**
+     * Optimize the SOLR indexes.
+     */
+    private function run_optimize($client) {
+        // Optimize after a big import.
+        $update = $client->createUpdate();
+        $update->addOptimize(true, false, 5);
+        $client->update($update);
     }
 }
