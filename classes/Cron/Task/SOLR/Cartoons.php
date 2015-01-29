@@ -21,10 +21,15 @@ class Cartoons extends \Verdi\Cron\Task
         $client = new \Solarium\Client($CFG->solr);
 
         $count = $DB->count_records('calm_catalog');
-        $batchsize = 100;
+        $batchsize = 10000;
         for ($i = 0; $i < $count; $i += $batchsize) {
             $this->run_batch($client, $i, $batchsize);
         }
+
+        // Optimize after a big import.
+        $update = $client->createUpdate();
+        $update->addOptimize(true, false, 5);
+        $client->update($update);
     }
 
     /**

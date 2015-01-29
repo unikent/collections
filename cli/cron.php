@@ -12,6 +12,7 @@
 define('CLI_SCRIPT', true);
 
 require_once(dirname(__FILE__) . '/../config.php');
+    \Verdi\Cron\Task\SOLR\Cartoons::run();die;
 
 // Run file mappings every 4 hours.
 if (!isset($CFG->bcad_filemap_run) || (time() - $CFG->bcad_filemap_run) > 14400) {
