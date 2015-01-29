@@ -9,49 +9,74 @@
  * @copyright University of Kent
  */
 
-namespace SCAPI\Image\Processor;
+namespace SCAPI\Image;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
-/**
- * Defines a type of image processor.
- */
-abstract class Processor
+class Imagick
 {
     /** Base Image reference */
     protected $_image;
 
-    public abstract function __construct($filename);
+    public function __construct($filename) {
+        $this->_image = new \Imagick($filename);
+
+        if (\SCAPI\Models\File::get_extension($filename) == 'gif') {
+            $this->_image = $this->_image->coalesceImages();
+        }
+    }
 
     /**
      * Resize the image.
      */
-    public abstract function resize($targetWidth, $targetHeight);
+    public function resize($targetWidth, $targetHeight) {
+        $image = clone $this->_image;
+        $image->resizeImage($targetWidth, $targetHeight, \Imagick::FILTER_POINT, 1, true); // FILTER_LANCZOS
+        return $image;
+    }
 
     /**
      * Crop the image to a particular tile.
      */
-    public abstract function crop_tile($image, $x, $y, $x2, $y2);
+    public function crop_tile($image, $x, $y, $x2, $y2) {
+        $new = clone $image;
+        $new->cropImage($x2 - $x, $y2 - $y, $x, $y);
+        return $new;
+    }
 
     /**
-     * Save the current image.
+     * Set quality of image.
      */
-    public abstract function save($image, $filename, $quality = 100);
+    private function set_quality($image, $quality) {
+        if ($quality < 100) {
+            $image->setCompression(\Imagick::COMPRESSION_JPEG); 
+            $image->setCompressionQuality(100);
+        }
+    }
+
+    /**
+     * Save a given image.
+     */
+    public function save($image, $filename, $quality = 100) {
+        $this->set_quality($image, $quality);
+        $image->writeImage($filename);
+    }
 
     /**
      * Print to a browser.
      */
-    public abstract function output($image, $quality = 100);
+    public function output($image, $quality = 100) {
+        $this->set_quality($image, $quality);
+        echo $image;
+    }
 
-    /**
-     * Get the width of an image.
-     */
-    public abstract function get_width();
+    public function get_width() {
+        return (float)$this->_image->getImageWidth();
+    }
 
-    /**
-     * Get the height of an image.
-     */
-    public abstract function get_height();
+    public function get_height() {
+        return (float)$this->_image->getImageHeight();
+    }
 
     /**
      * Is this a landscape image?

@@ -24,7 +24,7 @@ class Processor
     public function __construct($id) {
         $this->imageid = $id;
         $this->filename = \SCAPI\Models\File::get_path($id);
-        $this->processor = new \SCAPI\Image\Processor\Imagick($this->filename);
+        $this->processor = new \SCAPI\Image\Imagick($this->filename);
         $this->set_scale_info();
     }
 
