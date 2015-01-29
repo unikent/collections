@@ -16,10 +16,10 @@ $CFG->cssroot = $CFG->dirroot . '/media/css';
 $CFG->jsroot = $CFG->dirroot . '/media/js';
 $CFG->wwwroot = 'http://collections-dev.kent.ac.uk:8080';
 $CFG->tilesize = 256;
-$CFG->cachedir = '/var/www/vhosts/collections-dev.kent.ac.uk/writable/cache';
 
 // File paths.
 $CFG->datadir = '/var/www/vhosts/collections-dev.kent.ac.uk/writable/data';
+$CFG->cachedir = $CFG->datadir . '/cache';
 $CFG->imagein = array(
     'cartoons' => '/var/www/vhosts/collections-dev.kent.ac.uk/public/demo/images_in/cartoons',
     'collections' => '/var/www/vhosts/collections-dev.kent.ac.uk/public/demo/images_in/collections'
