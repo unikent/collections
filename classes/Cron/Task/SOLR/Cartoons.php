@@ -87,7 +87,6 @@ class Cartoons extends \Verdi\Cron\Task
         global $DB;
 
         static $suffixes = array(
-            'id' => '',
             'dayOfYear' => '_i',
             'endDate' => '_i',
             'isSingleDate' => '_i',
@@ -98,17 +97,20 @@ class Cartoons extends \Verdi\Cron\Task
 
         foreach ($DB->yield_records('calm_catalog', array(), '*', '', $count, $start) as $row) {
             $doc = $update->createDocument();
+            $doc->id = $row->id;
             $doc->collection = 'cartoons';
 
             if (isset($images[$row->id])) {
                 $doc->file_count = count($images[$row->id]);
-                foreach ($images[$row->id] as $k => $v) {
-                    $k = "file_" . $k;
-                    $doc->$k = $v;
-                }
+                $doc->files = implode(',', $images[$row->id]);
             }
 
             foreach ((array)$row as $k => $v) {
+                if ($k == 'id') {
+                    continue;
+                }
+
+                // Append type suffix.
                 if (isset($suffixes[$k])) {
                     $k = $k . $suffixes[$k];
                 } else {
