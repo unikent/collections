@@ -1,4 +1,4 @@
-VERDI
+SCAPI
 =====
 
 The VERsatile DIgitization Framework.

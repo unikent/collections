@@ -2,7 +2,7 @@
 /**
  * Catalog API.
  *
- * @package VERDI
+ * @package SCAPI
  * @subpackage api\bcad
  * @version 2.0
  * @author Skylar Kelty <S.Kelty@kent.ac.uk>

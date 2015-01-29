@@ -2,14 +2,14 @@
 /**
  * Core Library.
  *
- * @package VERDI
+ * @package SCAPI
  * @subpackage lib
  * @version 2.0
  * @author Skylar Kelty <S.Kelty@kent.ac.uk>
  * @copyright University of Kent
  */
 
-defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
+defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
 if (!defined('CLI_SCRIPT')) {
     define('CLI_SCRIPT', false);

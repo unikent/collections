@@ -2,7 +2,7 @@
 /**
  * Core Library.
  *
- * @package VERDI
+ * @package SCAPI
  * @subpackage lib
  * @version 2.0
  * @author Skylar Kelty <S.Kelty@kent.ac.uk>
@@ -11,7 +11,7 @@
 
 namespace Verdi\Models;
 
-defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
+defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
 class Collection extends \Rapid\Data\DBModel
 {

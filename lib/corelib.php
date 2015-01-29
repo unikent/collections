@@ -2,14 +2,14 @@
 /**
  * Core Library.
  *
- * @package VERDI
+ * @package SCAPI
  * @subpackage lib
  * @version 2.0
  * @author Skylar Kelty <S.Kelty@kent.ac.uk>
  * @copyright University of Kent
  */
 
-defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
+defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
 define('PARAM_ALPHA',    'alpha');
 define('PARAM_ALPHAEXT', 'alphaext');

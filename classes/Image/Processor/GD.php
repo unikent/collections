@@ -2,7 +2,7 @@
 /**
  * Core Library.
  *
- * @package VERDI
+ * @package SCAPI
  * @subpackage lib
  * @version 2.0
  * @author Skylar Kelty <S.Kelty@kent.ac.uk>
@@ -11,10 +11,10 @@
 
 namespace Verdi\Image\Processor;
 
-defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
+defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
 /**
- * Note: GD doesnt support all of the required formats for VERDI (tiff).
+ * Note: GD doesnt support all of the required formats for SCAPI (tiff).
  */
 class GD extends Processor
 {

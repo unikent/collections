@@ -2,7 +2,7 @@
 /**
  * Index Page.
  *
- * @package VERDI
+ * @package SCAPI
  * @subpackage Demo
  * @version 2.0
  * @author Skylar Kelty <S.Kelty@kent.ac.uk>

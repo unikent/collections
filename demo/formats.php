@@ -2,7 +2,7 @@
 /**
  * Index Page.
  *
- * @package VERDI
+ * @package SCAPI
  * @subpackage Demo
  * @version 2.0
  * @author Skylar Kelty <S.Kelty@kent.ac.uk>
@@ -12,12 +12,12 @@
 require_once(dirname(__FILE__) . '/../config.php');
 
 $PAGE->set_url('/demo/formats.php');
-$PAGE->set_title("VERDI - Formats Demo");
+$PAGE->set_title("SCAPI - Formats Demo");
 
 $id = optional_param('id', 0, PARAM_INT);
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading('VERDI - Dynamic Resize Demo');
+echo $OUTPUT->heading('SCAPI - Dynamic Resize Demo');
 
 if ($id > 0) {
     echo "<ol class=\"breadcrumb\"><li><a href=\"/demo/formats.php\">Formats</a></li><li>$id</li></ol>";

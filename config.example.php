@@ -7,7 +7,7 @@
 
 global $CFG;
 
-define("VERDI_INTERNAL", true);
+define("SCAPI_INTERNAL", true);
 
 $CFG = new \stdClass();
 $CFG->brand = 'SCAPI';

@@ -2,7 +2,7 @@
 /**
  * Index Page.
  *
- * @package VERDI
+ * @package SCAPI
  * @subpackage Demo
  * @version 2.0
  * @author Skylar Kelty <S.Kelty@kent.ac.uk>
@@ -12,12 +12,12 @@
 require_once(dirname(__FILE__) . '/../config.php');
 
 $PAGE->set_url('/demo/zoomify.php');
-$PAGE->set_title("VERDI - Zoomify Demo");
+$PAGE->set_title("SCAPI - Zoomify Demo");
 
 $id = optional_param('id', 0, PARAM_INT);
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading('VERDI - Dynamic Zoomify Demo');
+echo $OUTPUT->heading('SCAPI - Dynamic Zoomify Demo');
 
 if ($id > 0) {
     echo "<ol class=\"breadcrumb\"><li><a href=\"/demo/zoomify.php\">Zoomify</a></li><li>$id</li></ol>";

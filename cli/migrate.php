@@ -1,8 +1,8 @@
 <?php
 /**
- * VERDI CLI scripts.
+ * SCAPI CLI scripts.
  *
- * @package VERDI
+ * @package SCAPI
  * @subpackage lib
  * @version 2.0
  * @author Skylar Kelty <S.Kelty@kent.ac.uk>

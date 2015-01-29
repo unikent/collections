@@ -2,7 +2,7 @@
 /**
  * Image Processing Library.
  *
- * @package VERDI
+ * @package SCAPI
  * @subpackage lib
  * @version 2.0
  * @author Skylar Kelty <S.Kelty@kent.ac.uk>
@@ -11,7 +11,7 @@
 
 namespace Verdi\Cron\Task\Calm;
 
-defined("VERDI_INTERNAL") || die("This page cannot be accessed directly.");
+defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
 class Accessions extends \Verdi\Cron\Task
 {
