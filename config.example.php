@@ -28,10 +28,10 @@ $CFG->database = array(
     'adapter' => 'mysql',
     'host' => 'localhost',
     'port' => '3306',
-    'database' => 'verdi',
+    'database' => 'collections_dev',
     'username' => 'root',
     'password' => '',
-    'prefix' => 'v_'
+    'prefix' => 'c_'
 );
 
 $CFG->cache = array(
@@ -39,6 +39,16 @@ $CFG->cache = array(
         array('localhost', '11211')
     ),
     'prefix' => 'verdi_'
+);
+
+$CFG->solr = array(
+    'endpoint' => array(
+        'localhost' => array(
+            'host' => '127.0.0.1',
+            'port' => 8080,
+            'path' => '/solr/cartoons/'
+        )
+    )
 );
 
 require_once($CFG->dirroot . '/lib/setup.php');
