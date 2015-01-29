@@ -77,6 +77,8 @@ class Cartoons extends \Verdi\Cron\Task
 
         foreach ($DB->yield_records('calm_catalog', array(), '*', '', $count, $start) as $row) {
             $doc = $update->createDocument();
+            $doc->collection = 'cartoons';
+
             foreach ((array)$row as $k => $v) {
                 if (isset($suffixes[$k])) {
                     $k = $k . $suffixes[$k];
