@@ -5,10 +5,10 @@
  * @author Skylar Kelty <skylarkelty@gmail.com>
  */
 
-require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/../config.php');
 
 $PAGE->set_url('/');
-$PAGE->set_title("Collections Image Request");
+$PAGE->set_title("Image Request");
 
 // We require a valid request.
 $request = required_param('request', PARAM_RAW_TRIMMED);
