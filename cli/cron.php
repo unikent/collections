@@ -60,3 +60,11 @@ if (!isset($CFG->calm_subjects_run) || (time() - $CFG->calm_subjects_run) > 8640
     echo "Running Subjects Cron...\n";
     \Verdi\Cron\Task\Calm\Subjects::run();
 }
+
+// SOLR import every 12 hours.
+if (!isset($CFG->solr_cartoons_run) || (time() - $CFG->solr_cartoons_run) > 43200) {
+    set_config('solr_cartoons_run', time());
+
+    echo "Running Cartoons SOLR Import Cron...\n";
+    \Verdi\Cron\Task\SOLR\Cartoons::run();
+}
