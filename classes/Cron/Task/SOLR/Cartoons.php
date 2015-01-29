@@ -22,13 +22,34 @@ class Cartoons extends \Verdi\Cron\Task
 
         $this->run_deletions($client);
 
+        $images = $this->build_image_list();
+
         $count = $DB->count_records('calm_catalog');
         $batchsize = 10000;
         for ($i = 0; $i < $count; $i += $batchsize) {
-            $this->run_update_batch($client, $i, $batchsize);
+            $this->run_update_batch($client, $i, $batchsize, $images);
         }
 
         $this->run_optimize($client);
+    }
+
+    /**
+     * Build a list of known images.
+     */
+    private function build_image_list() {
+        global $DB;
+
+        $images = array();
+        $files = $DB->get_records('bcad_files');
+        foreach ($files as $file) {
+            if (!isset($images[$file->recordid])) {
+                $images[$file->recordid] = array();
+            }
+
+            $images[$file->recordid][] = $file->id;
+        }
+
+        return $images;
     }
 
     /**
@@ -62,7 +83,7 @@ class Cartoons extends \Verdi\Cron\Task
     /**
      * Batch up.
      */
-    private function run_update_batch($client, $start, $count) {
+    private function run_update_batch($client, $start, $count, $images) {
         global $DB;
 
         static $suffixes = array(
@@ -78,6 +99,14 @@ class Cartoons extends \Verdi\Cron\Task
         foreach ($DB->yield_records('calm_catalog', array(), '*', '', $count, $start) as $row) {
             $doc = $update->createDocument();
             $doc->collection = 'cartoons';
+
+            if (isset($images[$row->id])) {
+                $doc->file_count = count($images[$row->id]);
+                foreach ($images[$row->id] as $k => $v) {
+                    $k = "file_" . $k;
+                    $doc->$k = $v;
+                }
+            }
 
             foreach ((array)$row as $k => $v) {
                 if (isset($suffixes[$k])) {
