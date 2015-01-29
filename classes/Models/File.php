@@ -51,7 +51,42 @@ class File extends \Rapid\Data\DBModel
             return null;
         }
 
-        return $CFG->imageindir . '/' . $path;
+        return $CFG->datadir . '/files/' . $path;
+    }
+
+    /**
+     * Returns a filename.
+     */
+    public static function get_filename($path, $removeextension = false) {
+        $filename = substr($path, strrpos($path, '/') + 1);
+
+        if ($removeextension) {
+            do {
+                $filename = substr($filename, 0, strrpos($filename, '.'));
+            } while (strrpos($filename, '.') !== false);
+        }
+
+        return $filename;
+    }
+
+    /**
+     * Import a file.
+     */
+    public static function import_file($path) {
+        global $CFG;
+
+        $hash = md5($path);
+        $section = substr($hash, 0, 2);
+        $block = substr($hash, 2, 4);
+
+        $filename = static::get_filename($path);
+        $newpath = "{$CFG->datadir}/{$section}/{$block}";
+        mkdir($newpath, 0755, true);
+
+        $newfilename = "{$newpath}/{$filename}";
+        rename($path, $newfilename);
+
+        return $newfilename;
     }
 
     /**

@@ -27,6 +27,21 @@ if (isset($CFG->_init_called)) {
 
 $CFG->_init_called = microtime(true);
 
+// Create the data dir if it doesnt exist.
+if (!file_exists($CFG->datadir)) {
+    if (mkdir($CFG->datadir, 0755, true)) {
+        chown($CFG->datadir, 'w3collections');
+        chgrp($CFG->datadir, 'pkg');
+    } else {
+        die("Cannot create data directory");
+    }
+}
+
+// Check the data dir.
+if (!is_writable($CFG->datadir)) {
+    die("Datadir is not writable.");
+}
+
 require_once($CFG->dirroot . '/lib/corelib.php');
 
 // Register the autoloader now.

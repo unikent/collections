@@ -9,17 +9,20 @@
  * @copyright University of Kent
  */
 
-namespace SCAPI\Cron\Task\BCAD;
+namespace SCAPI\Cron\Task\Files;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class FileMap extends \SCAPI\Cron\Task
+class Cartoons extends \SCAPI\Cron\Task
 {
+    /**
+     * Run.
+     */
     public function do_run() {
         global $CFG, $DB;
 
         // Grab a list of files.
-        $list = $this->find_files($CFG->imageindir);
+        $list = $this->find_files($CFG->imagein['cartoons']);
         
         // Delete any old entries from DB.
         $DB->execute("
@@ -37,18 +40,13 @@ class FileMap extends \SCAPI\Cron\Task
         // Add new ones.
         foreach ($list as $entry) {
             // Find related record.
-            $recordid = substr($entry, strrpos($entry, '/') + 1);
-            do {
-                $recordid = substr($recordid, 0, strrpos($recordid, '.'));
-            } while (strrpos($recordid, '.') !== false);
-
-            // Find record.
             $record = $DB->get_record('calm_catalog', array(
-                'refno' => $recordid
+                'refno' => \SCAPI\Models\File::get_filename($entry, true)
             ));
 
             if ($record) {
-                $entry = substr($entry, 1);
+                $entry = \SCAPI\Models\File::import_file($entry);
+
                 $filerecord = array(
                     'type' => \SCAPI\Models\File::TYPE_CARTOONS,
                     'recordid' => $record->id,
@@ -73,6 +71,9 @@ class FileMap extends \SCAPI\Cron\Task
         }
     }
 
+    /**
+     * Find all files within a directory.
+     */
     private function find_files($dir) {
         global $CFG;
 
@@ -92,7 +93,7 @@ class FileMap extends \SCAPI\Cron\Task
                 continue;
             }
 
-            $files[] = substr($entry, strlen($CFG->imageindir));
+            $files[] = $entry;
         }
 
         return $files;

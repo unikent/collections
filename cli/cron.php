@@ -14,13 +14,13 @@ define('CLI_SCRIPT', true);
 require_once(dirname(__FILE__) . '/../config.php');
 
 // Run file mappings every 4 hours.
-if (!isset($CFG->bcad_filemap_run) || (time() - $CFG->bcad_filemap_run) > 14400) {
-    set_config('bcad_filemap_run', time());
+//if (!isset($CFG->cartoons_filemap_run) || (time() - $CFG->cartoons_filemap_run) > 14400) {
+    set_config('cartoons_filemap_run', time());
 
     echo "Running File Map cron...\n";
-    \SCAPI\Cron\Task\BCAD\FileMap::run();
-}
-
+    \SCAPI\Cron\Task\Files\Cartoons::run();
+//}
+die;
 // Import CALM accessions every 24 hours.
 if (!isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 86400) {
     set_config('calm_accessions_run', time());
