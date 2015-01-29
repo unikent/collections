@@ -35,7 +35,7 @@ class FileMap extends \Verdi\Cron\Task
         // Add new ones.
         foreach ($list as $entry) {
             // Find related record.
-            $recordid = substr($entry, strrpos($entry, '/'));
+            $recordid = substr($entry, strrpos($entry, '/') + 1);
             do {
                 $recordid = substr($recordid, 0, strrpos($recordid, '.'));
             } while (strrpos($recordid, '.') !== false);
@@ -46,6 +46,7 @@ class FileMap extends \Verdi\Cron\Task
             ));
 
             if ($record) {
+                $entry = substr($entry, 1);
                 $filerecord = array(
                     'recordid' => $record->id,
                     'filename' => $entry
@@ -88,7 +89,7 @@ class FileMap extends \Verdi\Cron\Task
                 continue;
             }
 
-            $files[] = substr($entry, strlen($CFG->imageindir) + 1);
+            $files[] = substr($entry, strlen($CFG->imageindir));
         }
 
         return $files;
