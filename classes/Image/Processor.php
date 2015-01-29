@@ -24,7 +24,12 @@ class Processor
     public function __construct($id) {
         $this->imageid = $id;
         $this->filename = \SCAPI\Models\File::get_path($id);
-        $this->processor = new \SCAPI\Image\Imagick($this->filename);
+        $this->processor = new \Imagick($this->filename);
+
+        if (\SCAPI\Models\File::get_extension($this->filename) == 'gif') {
+            $this->processor = $this->processor->coalesceImages();
+        }
+
         $this->set_scale_info();
     }
 
@@ -32,8 +37,8 @@ class Processor
      * Sets the scale info for the image.
      */
     private function set_scale_info() {
-        $width = $this->processor->get_width();
-        $height = $this->processor->get_height();
+        $width = $this->get_width();
+        $height = $this->get_height();
 
         $this->scaleorig = array($width, $height);
         $this->scaleinfo[] = array($width, $height);
@@ -82,7 +87,9 @@ class Processor
      * Resize the image.
      */
     private function resize($targetWidth, $targetHeight) {
-        return $this->processor->resize($targetWidth, $targetHeight);
+        $image = clone $this->processor;
+        $image->resizeImage($targetWidth, $targetHeight, \Imagick::FILTER_POINT, 1, true); // FILTER_LANCZOS
+        return $image;
     }
 
     /**
@@ -118,7 +125,9 @@ class Processor
         $endx = min($width, $x + $tilesize);
         $endy = min($height, $y + $tilesize);
 
-        return $this->processor->crop_tile($image, $x, $y, $endx, $endy);
+        $new = clone $this->processor;
+        $new->cropImage($endx - $x, $endy - $y, $x, $y);
+        return $new;
     }
 
     /**
@@ -134,7 +143,7 @@ class Processor
                     $filename = $CFG->cachedir . "/{$this->imageid}-{$zoom}-{$i}-{$j}.jpg";
                     if (!file_exists($filename)) {
                         $image = $this->crop_tile($zoom, $i, $j);
-                        $this->processor->save($image, $filename);
+                        $this->save($image, $filename);
                     }
                 }
             }
@@ -166,7 +175,7 @@ class Processor
             $image = $this->crop_tile($zoom, $x, $y);
         }
 
-        $this->processor->save($image, $cache);
+        $this->save($image, $cache);
         header('X-Sendfile: ' . $cache);
     }
 
@@ -188,14 +197,14 @@ class Processor
         $width = $landscape_width;
         $height = $landscape_height;
 
-        if ($this->processor->is_portrait()) {
+        if ($this->is_portrait()) {
             $width = $portrait_width;
             $height = $portrait_height;
         }
 
-        $image = $this->processor->constrained_resize($width, $height);
+        $image = $this->constrained_resize($width, $height);
 
-        $this->processor->save($image, $cache, $quality);
+        $this->save($image, $cache, $quality);
         header('X-Sendfile: ' . $cache);
     }
 
@@ -210,5 +219,85 @@ class Processor
         list($x_tiles, $y_tiles) = $this->get_num_tiles($maxdepth - 1);
         $numtiles = $y_tiles * $x_tiles;
         return '<IMAGE_PROPERTIES WIDTH="' . $width . '" HEIGHT="' . $height . '" NUMTILES="' . $numtiles . '" NUMIMAGES="1" VERSION="1.8" TILESIZE="' . $CFG->tilesize . '" />';
+    }
+
+    public function get_width() {
+        return (float)$this->processor->getImageWidth();
+    }
+
+    public function get_height() {
+        return (float)$this->processor->getImageHeight();
+    }
+
+    /**
+     * Constrained resize.
+     */
+    public function constrained_resize($targetWidth, $targetHeight) {
+        $width = $this->get_width();
+        $height = $this->get_height();
+
+        // Calculate ratio.
+        $ratio = $height / $width;
+        if ($this->is_portrait()) {
+            $ratio = $width / $height;
+        }
+
+        // Constrain.
+        $targetWidth = min($targetWidth, $width);
+        $targetHeight = min($targetHeight, $height);
+
+        if ($targetWidth == 0) {
+            $targetWidth = $targetHeight * $ratio;
+        }
+
+        if ($targetHeight == 0) {
+            $targetHeight = $targetWidth * $ratio;
+        }
+
+        if ($targetWidth == $width && $targetHeight == $height) {
+            return $this->processor;
+        }
+
+        return $this->resize($targetWidth, $targetHeight);
+    }
+
+    /**
+     * Is this a landscape image?
+     */
+    public function is_landscape() {
+        return $this->get_width() >= $this->get_height();
+    }
+
+    /**
+     * Is this a portrait image?
+     */
+    public function is_portrait() {
+        return !$this->is_landscape();
+    }
+
+    /**
+     * Set quality of image.
+     */
+    private function set_quality($image, $quality) {
+        if ($quality < 100) {
+            $image->setCompression(\Imagick::COMPRESSION_JPEG); 
+            $image->setCompressionQuality(100);
+        }
+    }
+
+    /**
+     * Save a given image.
+     */
+    public function save($image, $filename, $quality = 100) {
+        $this->set_quality($image, $quality);
+        $image->writeImage($filename);
+    }
+
+    /**
+     * Print to a browser.
+     */
+    public function output($image, $quality = 100) {
+        $this->set_quality($image, $quality);
+        echo $image;
     }
 }
