@@ -77,16 +77,18 @@ class File extends \Rapid\Data\DBModel
 
         $hash = md5($path);
         $section = substr($hash, 0, 2);
-        $block = substr($hash, 2, 4);
+        $block = substr($hash, 2, 2);
 
         $filename = static::get_filename($path);
         $newpath = "{$CFG->datadir}/{$section}/{$block}";
-        mkdir($newpath, 0755, true);
+        if (!file_exists($newpath)) {
+            mkdir($newpath, 0755, true);
+        }
 
         $newfilename = "{$newpath}/{$filename}";
-        rename($path, $newfilename);
+        copy($path, $newfilename);
 
-        return $newfilename;
+        return "{$section}/{$block}/" . $filename;
     }
 
     /**
