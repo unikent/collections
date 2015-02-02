@@ -13,10 +13,10 @@ namespace SCAPI\Service;
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
-class PreProcessor extends Service
+class ZoomifyGen extends Service
 {
     protected function perform($data) {
-        $image = new \SCAPI\Image\Processor($data['id']);
+        $image = new \SCAPI\Image\Zoomify($data['id']);
         $image->preprocess();
     }
 }
