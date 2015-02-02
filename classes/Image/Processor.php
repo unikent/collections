@@ -64,7 +64,7 @@ class Processor
     /**
      * Get the tilesize of the image.
      */
-    private function get_tile_size() {
+    protected function get_tile_size() {
         global $CFG;
         return (float)$CFG->tilesize;
     }
@@ -72,14 +72,14 @@ class Processor
     /**
      * Get the maximum depth of the image.
      */
-    private function get_max_depth() {
+    protected function get_max_depth() {
         return count($this->scaleinfo);
     }
 
     /**
      * How many tiles should we split this into?
      */
-    private function get_num_tiles($zoom = 0) {
+    protected function get_num_tiles($zoom = 0) {
         list($width, $height) = $this->scaleinfo[$zoom];
         $tilesize = $this->get_tile_size();
 
@@ -92,7 +92,7 @@ class Processor
     /**
      * Resize the image.
      */
-    private function resize($targetWidth, $targetHeight) {
+    protected function resize($targetWidth, $targetHeight) {
         $image = clone $this->processor;
         $image->resizeImage($targetWidth, $targetHeight, \Imagick::FILTER_POINT, 1, true); // FILTER_LANCZOS
         return $image;
@@ -101,7 +101,7 @@ class Processor
     /**
      * Get a thumbnail image.
      */
-    private function get_thumbnail() {
+    protected function get_thumbnail() {
         list($width, $height) = $this->scaleorig;
         $tilesize = $this->get_tile_size();
 
@@ -120,7 +120,7 @@ class Processor
     /**
      * Crop the image to a particular tile.
      */
-    private function crop_tile($zoom, $x, $y) {
+    protected function crop_tile($zoom, $x, $y) {
         list($width, $height) = $this->scaleinfo[$zoom];
         $image = $this->resize($width, $height);
         $tilesize = $this->get_tile_size();

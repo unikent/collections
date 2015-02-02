@@ -101,6 +101,7 @@ if (!defined('CLI_SCRIPT') || !CLI_SCRIPT) {
     $PAGE->menu(array(
         'Home' => '/index.php',
         'Zoomify' => '/demo/zoomify.php',
+        'OpenLayers' => '/demo/openlayers.php',
         'Formats' => '/demo/formats.php',
         'Calm' => '/demo/calm.php'
     ));
