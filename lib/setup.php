@@ -42,6 +42,21 @@ if (!is_writable($CFG->datadir)) {
     die("Datadir is not writable.");
 }
 
+// Create the cache dir if it doesnt exist.
+if (!file_exists($CFG->cachedir)) {
+    if (mkdir($CFG->cachedir, 0755, true)) {
+        chown($CFG->cachedir, 'w3collections');
+        chgrp($CFG->cachedir, 'pkg');
+    } else {
+        die("Cannot create cache directory");
+    }
+}
+
+// Check the cache dir.
+if (!is_writable($CFG->cachedir)) {
+    die("Cachedir is not writable.");
+}
+
 require_once($CFG->dirroot . '/lib/corelib.php');
 
 // Register the autoloader now.

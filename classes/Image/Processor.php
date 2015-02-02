@@ -22,6 +22,8 @@ class Processor
     private $scaleinfo;
 
     public function __construct($id) {
+        global $CFG;
+
         $this->imageid = $id;
         $this->filename = \SCAPI\Models\File::get_path($id);
         $this->processor = new \Imagick($this->filename);
@@ -31,6 +33,10 @@ class Processor
         }
 
         $this->set_scale_info();
+
+        if (!file_exists("{$CFG->cachedir}/tiles/{$this->imageid}")) {
+            mkdir("{$CFG->cachedir}/tiles/{$this->imageid}", 0755, true);
+        }
     }
 
     /**
@@ -125,9 +131,8 @@ class Processor
         $endx = min($width, $x + $tilesize);
         $endy = min($height, $y + $tilesize);
 
-        $new = clone $this->processor;
-        $new->cropImage($endx - $x, $endy - $y, $x, $y);
-        return $new;
+        $image->cropImage($endx - $x, $endy - $y, $x, $y);
+        return $image;
     }
 
     /**
@@ -140,7 +145,7 @@ class Processor
             list($x, $y) = $this->get_num_tiles($zoom);
             for ($i = 0; $i < $x; $i++) {
                 for ($j = 0; $j < $y; $j++) {
-                    $filename = $CFG->cachedir . "/{$this->imageid}-{$zoom}-{$i}-{$j}.jpg";
+                    $filename = $CFG->cachedir . "/tiles/{$this->imageid}/{$zoom}-{$i}-{$j}.jpg";
                     if (!file_exists($filename)) {
                         $image = $this->crop_tile($zoom, $i, $j);
                         $this->save($image, $filename);
@@ -159,7 +164,7 @@ class Processor
         header("Content-type: image/jpeg");
 
         // Does this file already exist in cache?
-        $cache = $CFG->cachedir . "/{$this->imageid}-{$tile}.jpg";
+        $cache = $CFG->cachedir . "/tiles/{$this->imageid}/{$tile}.jpg";
         if (file_exists($cache)) {
             header('X-Sendfile: ' . $cache);
             die;
@@ -188,7 +193,7 @@ class Processor
         header("Content-type: image/jpeg");
 
         // Does this file already exist in cache?
-        $cache = $CFG->cachedir . "/{$this->imageid}-{$landscape_width}-{$landscape_height}-{$portrait_width}-{$portrait_height}-{$quality}.jpg";
+        $cache = $CFG->cachedir . "/tiles/{$this->imageid}/{$landscape_width}-{$landscape_height}-{$portrait_width}-{$portrait_height}-{$quality}.jpg";
         if (file_exists($cache)) {
             header('X-Sendfile: ' . $cache);
             die;
