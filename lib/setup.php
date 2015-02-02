@@ -11,22 +11,6 @@
 
 defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
-if (!defined('CLI_SCRIPT')) {
-    define('CLI_SCRIPT', false);
-}
-
-if (CLI_SCRIPT) {
-    if (isset($_SERVER['REMOTE_ADDR']) || php_sapi_name() != 'cli') {
-        die("Must be run from CLI.");
-    }
-}
-
-if (isset($CFG->_init_called)) {
-    die("Setup script has already been called.");
-}
-
-$CFG->_init_called = microtime(true);
-
 // Create the data dir if it doesnt exist.
 if (!file_exists($CFG->datadir)) {
     if (mkdir($CFG->datadir, 0755, true)) {
@@ -75,24 +59,8 @@ spl_autoload_register(function($class) {
 // Register the composer autoloaders.
 require_once($CFG->dirroot . '/vendor/autoload.php');
 
-if (CLI_SCRIPT) {
-    // Output library.
-    $OUTPUT = new \Rapid\Presentation\CLI();
-}
-
-// DB connection.
-$DB = new \Rapid\Data\PDO(
-    $CFG->database['adapter'],
-    $CFG->database['host'],
-    $CFG->database['port'],
-    $CFG->database['database'],
-    $CFG->database['username'],
-    $CFG->database['password'],
-    $CFG->database['prefix']
-);
-
-// Cache connection.
-$CACHE = new \Rapid\Data\Memcached($CFG->cache['servers'], $CFG->cache['prefix']);
+// Init Rapid core.
+\Rapid\Core::init();
 
 // Load config.
 $dbconfig = $CACHE->get('dbconfig');
@@ -120,15 +88,6 @@ if ($dbconfig) {
 }
 
 if (!defined('CLI_SCRIPT') || !CLI_SCRIPT) {
-    // Start a session.
-    //$SESSION = new \Rapid\Auth\Session();
-
-    // Setup a guest user by default.
-    //$USER = new \Rapid\Auth\User();
-
-    // Output library.
-    $OUTPUT = new \Rapid\Presentation\Output();
-
     // Page library.
     $PAGE = new \Rapid\Presentation\Page();
     $PAGE->require_css("//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css");
@@ -145,11 +104,4 @@ if (!defined('CLI_SCRIPT') || !CLI_SCRIPT) {
         'Formats' => '/demo/formats.php',
         'Calm' => '/demo/calm.php'
     ));
-
-    // Developer mode?
-    if (isset($CFG->developer_mode) && $CFG->developer_mode) {
-        @error_reporting(E_ALL);
-        set_error_handler(array('Rapid\\Core', 'error_handler'), E_ALL);
-        set_exception_handler(array('Rapid\\Core', 'handle_exception'));
-    }
 }
