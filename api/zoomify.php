@@ -31,11 +31,10 @@ switch ($request) {
         echo $data;
 
         // Spawn a service to pre-process the other images.
-        //$preprocessor = new \SCAPI\Service\ZoomifyGen();
-        //$preprocessor->run(array(
-        //    "id" => $id,
-        //    'test' => 'test'
-        //));
+        $preprocessor = new \SCAPI\Service\ZoomifyGen();
+        $preprocessor->run(array(
+            "id" => $id
+        ));
     break;
 
     default:                   

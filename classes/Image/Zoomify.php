@@ -121,11 +121,9 @@ class Zoomify extends Processor
             list($width, $height) = $scaleinfo[$zoom];
             $zoomimage = $this->resize($width, $height);
 
-            echo $zoom . "\n";
             list($x, $y) = $this->get_num_tiles($zoom);
             for ($i = 0; $i < $x; $i++) {
                 for ($j = 0; $j < $y; $j++) {
-                    echo "   $i / $j\n";
                     $filename = $CFG->cachedir . "/tiles/{$imageid}/{$zoom}-{$i}-{$j}.jpg";
                     if (!file_exists($filename)) {
                         $image = $this->crop_tile($zoomimage, $zoom, $i, $j);
