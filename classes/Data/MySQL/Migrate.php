@@ -22,7 +22,11 @@ class Migrate
     public function run() {
         global $CFG;
 
-        echo "Current version: {$CFG->version}.\n";
+        if(isset($CFG->version)) {
+            echo "Current version: {$CFG->version}.\n";
+        } else {
+            echo "No version installed.\n";
+        }
 
         if (!isset($CFG->version) || $CFG->version < 2014110400) {
             echo "Migrating to version: 2014110400.\n";
@@ -119,7 +123,7 @@ class Migrate
         // Create collections table.
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {calm_collections} (
-                `id`  int(11) COLLATE utf8_unicode_ci NOT NULL AUTO_INCREMENT,
+                `id`  int(11) COLLATE utf8_unicode_ci NOT NULL,
                 `RecordType`  varchar(255) COLLATE utf8_unicode_ci NULL,
                 `IDENTITY`  varchar(255) COLLATE utf8_unicode_ci NULL,
                 `Level`  varchar(255) COLLATE utf8_unicode_ci NULL,
@@ -195,8 +199,7 @@ class Migrate
         // Indexes.
         $DB->execute("
             ALTER TABLE {calm_collections}
-                ADD PRIMARY KEY (`id`),
-                ADD KEY `code` (`code`);
+                ADD PRIMARY KEY (`id`);
         ");
 
         // Auto increment.
@@ -224,7 +227,7 @@ class Migrate
         // Auto increment.
         $DB->execute("
             ALTER TABLE {calm_people}
-                MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                MODIFY `code` int(11) NOT NULL AUTO_INCREMENT;
         ");
 
         // Create subjects table.
