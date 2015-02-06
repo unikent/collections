@@ -44,6 +44,15 @@ class Processor
     }
 
     /**
+     * Clean up.
+     */
+    public function clear() {
+        if (isset($this->processor)) {
+            $this->processor->clear();
+        }
+    }
+
+    /**
      * Get the image ID.
      */
     protected function get_image_id() {

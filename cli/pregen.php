@@ -17,3 +17,4 @@ $id = $argv[1];
 
 $image = new \SCAPI\Image\Zoomify($id);
 $image->preprocess();
+$image->clear();
