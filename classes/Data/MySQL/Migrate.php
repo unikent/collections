@@ -224,12 +224,6 @@ class Migrate
                 ADD PRIMARY KEY (`code`);
         ");
 
-        // Auto increment.
-        $DB->execute("
-            ALTER TABLE {calm_people}
-                MODIFY `code` int(11) NOT NULL AUTO_INCREMENT;
-        ");
-
         // Create subjects table.
         $DB->execute("
             CREATE TABLE IF NOT EXISTS {calm_subjects} (
