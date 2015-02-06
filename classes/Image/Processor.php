@@ -22,11 +22,25 @@ class Processor
     public function __construct($id) {
         $this->imageid = $id;
         $this->filename = \SCAPI\Models\File::get_path($id);
-        $this->processor = new \Imagick($this->filename);
+    }
 
-        if (\SCAPI\Models\File::get_extension($this->filename) == 'gif') {
-            $this->processor = $this->processor->coalesceImages();
+    /**
+     * Get the processor.
+     */
+    protected function get_processor($clone = false) {
+        if (!isset($this->processor)) {
+            $this->processor = new \Imagick($this->filename);
+
+            if (\SCAPI\Models\File::get_extension($this->filename) == 'gif') {
+                $this->processor = $this->processor->coalesceImages();
+            }
         }
+
+        if ($clone) {
+            return clone $this->processor;
+        }
+
+        return $this->processor;
     }
 
     /**
@@ -48,7 +62,7 @@ class Processor
      * Resize the image.
      */
     protected function resize($targetWidth, $targetHeight) {
-        $image = clone $this->processor;
+        $image = $this->get_processor(true);
         $image->resizeImage($targetWidth, $targetHeight, \Imagick::FILTER_POINT, 1, true); // FILTER_LANCZOS
         return $image;
     }
@@ -108,14 +122,16 @@ class Processor
      * Width.
      */
     public function get_width() {
-        return (float)$this->processor->getImageWidth();
+        $processor = $this->get_processor();
+        return (float)$processor->getImageWidth();
     }
 
     /**
      * Height.
      */
     public function get_height() {
-        return (float)$this->processor->getImageHeight();
+        $processor = $this->get_processor();
+        return (float)$processor->getImageHeight();
     }
 
     /**
@@ -144,7 +160,7 @@ class Processor
         }
 
         if ($targetWidth == $width && $targetHeight == $height) {
-            return $this->processor;
+            return $this->get_processor();
         }
 
         return $this->resize($targetWidth, $targetHeight);

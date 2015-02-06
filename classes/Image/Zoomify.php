@@ -23,17 +23,20 @@ class Zoomify extends Processor
 
         parent::__construct($id);
 
-        $this->set_scale_info();
-
         $imageid = $this->get_image_id();
-
         ensure_path_exists("{$CFG->cachedir}/tiles/{$imageid}");
     }
 
     /**
-     * Sets the scale info for the image.
+     * Returns scale info.
      */
-    private function set_scale_info() {
+    private function get_scale_info() {
+        if (isset($this->scaleinfo)) {
+            return $this->scaleinfo;
+        }
+
+        $this->scaleinfo = array();
+
         $width = $this->get_width();
         $height = $this->get_height();
 
@@ -50,20 +53,24 @@ class Zoomify extends Processor
         }
 
         $this->scaleinfo = array_reverse($this->scaleinfo);
+
+        return $this->scaleinfo;
     }
 
     /**
      * Get the maximum depth of the image.
      */
     protected function get_max_depth() {
-        return count($this->scaleinfo);
+        $scaleinfo = $this->get_scale_info();
+        return count($scaleinfo);
     }
 
     /**
      * How many tiles should we split this into?
      */
     protected function get_num_tiles($zoom = 0) {
-        list($width, $height) = $this->scaleinfo[$zoom];
+        $scaleinfo = $this->get_scale_info();
+        list($width, $height) = $scaleinfo[$zoom];
         $tilesize = $this->get_tile_size();
 
         $y_tiles = ceil($height / $tilesize);
@@ -76,7 +83,8 @@ class Zoomify extends Processor
      * Crop the image to a particular tile.
      */
     protected function crop_tile($image, $zoom, $x, $y) {
-        list($width, $height) = $this->scaleinfo[$zoom];
+        $scaleinfo = $this->get_scale_info();
+        list($width, $height) = $scaleinfo[$zoom];
         $tilesize = $this->get_tile_size();
 
         $x = $x * $tilesize;
@@ -94,7 +102,8 @@ class Zoomify extends Processor
      * Crop the image to a particular tile with no cache.
      */
     protected function full_crop_tile($zoom, $x, $y) {
-        list($width, $height) = $this->scaleinfo[$zoom];
+        $scaleinfo = $this->get_scale_info();
+        list($width, $height) = $scaleinfo[$zoom];
         $zoomimage = $this->resize($width, $height);
 
         return $this->crop_tile($zoomimage, $zoom, $x, $y);
@@ -107,8 +116,9 @@ class Zoomify extends Processor
         global $CFG;
 
         $imageid = $this->get_image_id();
-        foreach ($this->scaleinfo as $zoom => $size) {
-            list($width, $height) = $this->scaleinfo[$zoom];
+        $scaleinfo = $this->get_scale_info();
+        foreach ($scaleinfo as $zoom => $size) {
+            list($width, $height) = $scaleinfo[$zoom];
             $zoomimage = $this->resize($width, $height);
 
             echo $zoom . "\n";
@@ -134,6 +144,9 @@ class Zoomify extends Processor
      */
     public function get_xml() {
         global $CFG;
+
+        // Generate scale info.
+        $this->get_scale_info();
 
         list($width, $height) = $this->scaleorig;
         $maxdepth = $this->get_max_depth();
