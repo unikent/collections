@@ -26,9 +26,8 @@ class Zoomify extends Processor
         $this->set_scale_info();
 
         $imageid = $this->get_image_id();
-        if (!file_exists("{$CFG->cachedir}/tiles/{$imageid}")) {
-            mkdir("{$CFG->cachedir}/tiles/{$imageid}", 0755, true);
-        }
+
+        ensure_path_exists("{$CFG->cachedir}/tiles/{$imageid}");
     }
 
     /**
@@ -76,9 +75,8 @@ class Zoomify extends Processor
     /**
      * Crop the image to a particular tile.
      */
-    protected function crop_tile($zoom, $x, $y) {
+    protected function crop_tile($image, $zoom, $x, $y) {
         list($width, $height) = $this->scaleinfo[$zoom];
-        $image = $this->resize($width, $height);
         $tilesize = $this->get_tile_size();
 
         $x = $x * $tilesize;
@@ -87,8 +85,19 @@ class Zoomify extends Processor
         $endx = min($width, $x + $tilesize);
         $endy = min($height, $y + $tilesize);
 
-        $image->cropImage($endx - $x, $endy - $y, $x, $y);
-        return $image;
+        $cropped = clone $image;
+        $cropped->cropImage($endx - $x, $endy - $y, $x, $y);
+        return $cropped;
+    }
+
+    /**
+     * Crop the image to a particular tile with no cache.
+     */
+    protected function full_crop_tile($zoom, $x, $y) {
+        list($width, $height) = $this->scaleinfo[$zoom];
+        $zoomimage = $this->resize($width, $height);
+
+        return $this->crop_tile($zoomimage, $zoom, $x, $y);
     }
 
     /**
@@ -99,16 +108,24 @@ class Zoomify extends Processor
 
         $imageid = $this->get_image_id();
         foreach ($this->scaleinfo as $zoom => $size) {
+            list($width, $height) = $this->scaleinfo[$zoom];
+            $zoomimage = $this->resize($width, $height);
+
+            echo $zoom . "\n";
             list($x, $y) = $this->get_num_tiles($zoom);
             for ($i = 0; $i < $x; $i++) {
                 for ($j = 0; $j < $y; $j++) {
+                    echo "   $i / $j\n";
                     $filename = $CFG->cachedir . "/tiles/{$imageid}/{$zoom}-{$i}-{$j}.jpg";
                     if (!file_exists($filename)) {
-                        $image = $this->crop_tile($zoom, $i, $j);
+                        $image = $this->crop_tile($zoomimage, $zoom, $i, $j);
                         $this->save($image, $filename);
+                        $image->clear();
                     }
                 }
             }
+
+            $zoomimage->clear();
         }
     }
 
@@ -147,8 +164,10 @@ class Zoomify extends Processor
         // Special case for the thumbnail.
         if ($zoom == 0) {
             $image = $this->get_thumbnail();
+            $this->save($image, $cache);
         } else {
-            $image = $this->crop_tile($zoom, $x, $y);
+            //$image = $this->full_crop_tile($zoom, $x, $y);
+            //$this->save($image, $cache);
         }
 
         $this->save($image, $cache);
