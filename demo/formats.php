@@ -21,10 +21,10 @@ echo $OUTPUT->heading();
 
 if ($id > 0) {
     echo "<ol class=\"breadcrumb\"><li><a href=\"/demo/formats.php\">Formats</a></li><li>$id</li></ol>";
-    echo "<h3>Thumbnail</h3><img src=\"../api/image.php?id={$id}&size=thumb\" alt=\"Thumb Size\"><br /><br />";
-    echo "<h3>Standard</h3><img src=\"../api/image.php?id={$id}&size=standard\" alt=\"Standard Size\"><br /><br />";
-    echo "<h3>Print</h3><img src=\"../api/image.php?id={$id}&size=print\" alt=\"Print Size\"><br /><br />";
-    echo "<h3>Full</h3><img src=\"../api/image.php?id={$id}&size=full\" alt=\"Full Size\"><br /><br />";
+    echo "<h3>Thumbnail</h3><img src=\"../api/image.php?id={$id}&format=thumb\" alt=\"Thumb Size\"><br /><br />";
+    echo "<h3>Standard</h3><img src=\"../api/image.php?id={$id}&format=standard\" alt=\"Standard Size\"><br /><br />";
+    echo "<h3>Print</h3><img src=\"../api/image.php?id={$id}&format=print\" alt=\"Print Size\"><br /><br />";
+    echo "<h3>Full</h3><img src=\"../api/image.php?id={$id}&format=full\" alt=\"Full Size\"><br /><br />";
 } else {
     echo '<ul class="nav nav-pills nav-stacked" role="tablist">';
     $list = $DB->yield_records('files');

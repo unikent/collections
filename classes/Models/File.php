@@ -16,7 +16,7 @@ defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 class File extends \Rapid\Data\DBModel
 {
     const TYPE_CARTOONS = 1;
-    const TYPE_COLLECTIONS = 1;
+    const TYPE_COLLECTIONS = 2;
 
     /**
      * Constructor.
