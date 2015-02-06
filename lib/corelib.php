@@ -419,3 +419,12 @@ function get_config($name) {
 
     return $CFG->$name;
 }
+
+/**
+ * Ensure a path exists.
+ */
+function ensure_path_exists($path) {
+    if (!file_exists($path)) {
+        mkdir($path, 0755, true);
+    }
+}

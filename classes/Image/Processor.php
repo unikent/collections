@@ -82,6 +82,8 @@ class Processor
         header("Content-type: image/jpeg");
 
         // Does this file already exist in cache?
+        $dir = "{$CFG->cachedir}/tiles/{$this->imageid}";
+        ensure_path_exists($dir);
         $cache = $CFG->cachedir . "/tiles/{$this->imageid}/{$landscape_width}-{$landscape_height}-{$portrait_width}-{$portrait_height}-{$quality}.jpg";
         if (file_exists($cache)) {
             header('X-Sendfile: ' . $cache);

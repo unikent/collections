@@ -81,9 +81,7 @@ class File extends \Rapid\Data\DBModel
 
         $filename = static::get_filename($path);
         $newpath = "{$CFG->datadir}/files/{$section}/{$block}";
-        if (!file_exists($newpath)) {
-            mkdir($newpath, 0755, true);
-        }
+        ensure_path_exists($newpath);
 
         $newfilename = "{$newpath}/{$filename}";
         copy($path, $newfilename);
