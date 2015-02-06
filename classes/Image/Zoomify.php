@@ -177,10 +177,8 @@ class Zoomify extends Processor
         // Special case for the thumbnail.
         if ($zoom == 0) {
             $image = $this->get_thumbnail();
-            $this->save($image, $cache);
         } else {
-            //$image = $this->full_crop_tile($zoom, $x, $y);
-            //$this->save($image, $cache);
+            $image = $this->full_crop_tile($zoom, $x, $y);
         }
 
         $this->save($image, $cache);
