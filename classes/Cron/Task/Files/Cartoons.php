@@ -29,7 +29,7 @@ class Cartoons extends \SCAPI\Cron\Task
             DELETE f.*
             FROM {files} f
             LEFT OUTER JOIN {calm_catalog} c
-                ON c.recordid=f.id
+                ON c.id=f.recordid
             WHERE c.id IS NULL AND f.type = :type
         ", array(
             'type' => \SCAPI\Models\File::TYPE_CARTOONS
