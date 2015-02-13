@@ -97,26 +97,16 @@ abstract class Importer extends \SCAPI\Service\Service
         list($start, $end) = $data;
 
         for ($i = $start; $i < $end; $i++) {
-            $filename = "{$cachedir}/{$i}.xml";
 
-            $xml = '';
-            if (!file_exists($filename) || !$CFG->developer_mode) {
-                $search = $this->get_search_on_hit($i);
-                $result = $this->_soap->SummaryHeader($search);
+            $search = $this->get_search_on_hit($i);
+            $result = $this->_soap->SummaryHeader($search);
 
-                $doc = preg_replace('/(<\?xml[^?]+?)utf-16/i', '$1utf-8', $result->SummaryHeaderResult);
+            $xml = preg_replace('/(<\?xml[^?]+?)utf-16/i', '$1utf-8', $result->SummaryHeaderResult);
 
-                // Store the xml file in a backup folder.
-                file_put_contents($filename, $doc);
+            // Load the XML.
+            $xml = simplexml_load_string($xml);
 
-                // Load the XML.
-                $xml = simplexml_load_string($doc);
-            } else {
-                // Load the XML from cache.
-                $xml = simplexml_load_string(file_get_contents($filename));
-            }
-
-
+            // Grab the record.
             $record = $this->get_record($xml);
             if ($record) {
                 $this->process($record);

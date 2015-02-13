@@ -27,6 +27,8 @@ if (!isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 
 
     echo "Running Accessions Cron...\n";
     \SCAPI\Cron\Task\Calm\Accessions::run();
+
+    sleep(10000);
 }
 
 // Import CALM catalogs every 24 hours.
@@ -35,6 +37,8 @@ if (!isset($CFG->calm_catalogs_run) || (time() - $CFG->calm_catalogs_run) > 8640
 
     echo "Running Catalogs Cron...\n";
     \SCAPI\Cron\Task\Calm\Catalogs::run();
+
+    sleep(10000);
 }
 
 // Import CALM collections every 24 hours.
@@ -43,6 +47,8 @@ if (!isset($CFG->calm_collections_run) || (time() - $CFG->calm_collections_run) 
 
     echo "Running Collections Cron...\n";
     \SCAPI\Cron\Task\Calm\Collections::run();
+
+    sleep(10000);
 }
 
 // Import CALM people every 24 hours.
@@ -51,6 +57,8 @@ if (!isset($CFG->calm_people_run) || (time() - $CFG->calm_people_run) > 86400) {
 
     echo "Running People Cron...\n";
     \SCAPI\Cron\Task\Calm\People::run();
+
+    sleep(10000);
 }
 
 // Import CALM subjects every 24 hours.
@@ -59,6 +67,8 @@ if (!isset($CFG->calm_subjects_run) || (time() - $CFG->calm_subjects_run) > 8640
 
     echo "Running Subjects Cron...\n";
     \SCAPI\Cron\Task\Calm\Subjects::run();
+
+    sleep(10000);
 }
 
 // SOLR import every 12 hours.
@@ -67,4 +77,6 @@ if (!isset($CFG->solr_cartoons_run) || (time() - $CFG->solr_cartoons_run) > 4320
 
     echo "Running Cartoons SOLR Import Cron...\n";
     \SCAPI\Cron\Task\SOLR\Cartoons::run();
+
+    sleep(10000);
 }
