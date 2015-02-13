@@ -13,11 +13,6 @@ define('CLI_SCRIPT', true);
 
 require_once(dirname(__FILE__) . '/../config.php');
 
-echo "Running File Map cron...\n";
-\SCAPI\Cron\Task\Files\Cartoons::run();
-
-die();
-
 // Run file mappings every 4 hours.
 if (!isset($CFG->cartoons_filemap_run) || (time() - $CFG->cartoons_filemap_run) > 14400) {
     set_config('cartoons_filemap_run', time());
