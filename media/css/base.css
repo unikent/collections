@@ -18,3 +18,8 @@ body {
     overflow-y: auto;
     height: 82px;
 }
+
+.imagebox {
+    background-color: white;
+    border: 1px solid black;
+}

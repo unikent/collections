@@ -14,12 +14,14 @@ $id = required_param('id', PARAM_INT);
 $request = required_param('request', PARAM_RAW_TRIMMED);
 
 $image = new \SCAPI\Image\OpenLayers($id);
-
 switch ($request) {
     case 'js':
         header("Content-Type: application/javascript");
 
-        echo $image->get_js();
+        echo $image->get_js($id);
         die;
     break;
+    default:
+        $image->output_tile($request);
+        break;
 }
