@@ -17,6 +17,7 @@ abstract class Importer extends \SCAPI\Service\Service
 {
     /** SOAP Ref */
     private $_soap;
+
     /**
      * Constructor.
      */
@@ -103,11 +104,13 @@ abstract class Importer extends \SCAPI\Service\Service
                 $search = $this->get_search_on_hit($i);
                 $result = $this->_soap->SummaryHeader($search);
 
+                $doc = preg_replace('/(<\?xml[^?]+?)utf-16/i', '$1utf-8', $result->SummaryHeaderResult);
+
                 // Store the xml file in a backup folder.
-                file_put_contents($filename, $result->SummaryHeaderResult);
+                file_put_contents($filename, $doc);
 
                 // Load the XML.
-                $xml = simplexml_load_string($result->SummaryHeaderResult);
+                $xml = simplexml_load_string($doc);
             } else {
                 // Load the XML from cache.
                 $xml = simplexml_load_string(file_get_contents($filename));
