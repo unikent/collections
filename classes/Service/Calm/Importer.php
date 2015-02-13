@@ -96,7 +96,7 @@ abstract class Importer extends \SCAPI\Service\Service
 
         list($start, $end) = $data;
 
-        for ($i = $start; $i <= $end; $i++) {
+        for ($i = $start; $i < $end; $i++) {
             $filename = "{$cachedir}/{$i}.xml";
 
             $xml = '';
