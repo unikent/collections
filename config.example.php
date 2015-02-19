@@ -37,14 +37,14 @@ $CFG->database = array(
     'database' => 'collections_dev',
     'username' => 'root',
     'password' => '',
-    'prefix' => 'scapi_'
+    'prefix' => 'c_'
 );
 
 $CFG->cache = array(
     'servers' => array(
         array('localhost', '11211')
     ),
-    'prefix' => 'scapi_'
+    'prefix' => 'verdi_'
 );
 
 $CFG->solr = array(
