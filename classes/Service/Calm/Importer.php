@@ -15,16 +15,19 @@ defined("SCAPI_INTERNAL") || die("This page cannot be accessed directly.");
 
 abstract class Importer extends \SCAPI\Service\Service
 {
-    /** SOAP Ref */
-    private $_soap;
-
     /**
      * Constructor.
      */
     public function __construct() {
+    }
+
+    /**
+     * Get a SOAP connection.
+     */
+    public function get_soap() {
         global $CFG;
 
-        $this->_soap = new \SoapClient($CFG->calm_wsdl, array(
+        return new \SoapClient($CFG->calm_wsdl, array(
             'trace' => true,
             'exceptions' => true,
             'connection_timeout' => 600
@@ -34,9 +37,9 @@ abstract class Importer extends \SCAPI\Service\Service
     /**
      * Returns all records of this type.
      */
-    protected function get_count() {
+    protected function get_count($soap) {
         $search = $this->get_search();
-        $result = $this->_soap->Search($search);
+        $result = $soap->Search($search);
         return $result->SearchResult;
     }
 
@@ -64,7 +67,8 @@ abstract class Importer extends \SCAPI\Service\Service
     public function import() {
         global $CFG;
 
-        $count = $this->get_count();
+        $soap = $this->get_soap();
+        $count = $this->get_count($soap);
         echo "Found $count records.\n";
 
         $perthread = floor($count / $CFG->calm_threads);
@@ -86,7 +90,7 @@ abstract class Importer extends \SCAPI\Service\Service
     /**
      * Returns all records of this type.
      */
-    protected function perform($data) {
+    protected final function perform($data) {
         global $CFG;
 
         $cachedir = $CFG->cachedir . "/" . get_class($this);
@@ -96,10 +100,24 @@ abstract class Importer extends \SCAPI\Service\Service
 
         list($start, $end) = $data;
 
+        $soap = $this->get_soap();
+        $this->get_count($soap);
         for ($i = $start; $i < $end; $i++) {
 
             $search = $this->get_search_on_hit($i);
-            $result = $this->_soap->SummaryHeader($search);
+            $result = '';
+            try {
+                $result = $soap->SummaryHeader($search);
+            } catch (\Exception $e) {
+                echo $e->getMessage() . "\n";
+                $soap = $this->get_soap();
+                $this->get_count($soap);
+                continue;
+            }
+
+            if (empty($result) || empty($result->SummaryHeaderResult)) {
+                continue;
+            }
 
             $xml = preg_replace('/(<\?xml[^?]+?)utf-16/i', '$1utf-8', $result->SummaryHeaderResult);
 
@@ -107,9 +125,11 @@ abstract class Importer extends \SCAPI\Service\Service
             $xml = simplexml_load_string($xml);
 
             // Grab the record.
-            $record = $this->get_record($xml);
-            if ($record) {
-                $this->process($record);
+            if ($xml) {
+                $record = $this->get_record($xml);
+                if ($record) {
+                    $this->process($record);
+                }
             }
         }
     }

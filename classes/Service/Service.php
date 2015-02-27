@@ -18,7 +18,7 @@ abstract class Service
     /**
      * Do the UNIX double-fork dance.
      */
-    public function run($data) {
+    private final function fork() {
         // Fork once.
         if (pcntl_fork()) {
             // Return the parent.
@@ -52,6 +52,17 @@ abstract class Service
 
         global $DB;
         $DB->reset();
+    }
+
+    /**
+     * Run the service.
+     */
+    public final function run($data) {
+        global $CFG;
+
+        if (!$CFG->developer_mode) {
+            $this->fork();
+        }
 
         $this->perform($data);
     }

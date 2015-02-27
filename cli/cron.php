@@ -14,7 +14,7 @@ define('CLI_SCRIPT', true);
 require_once(dirname(__FILE__) . '/../config.php');
 
 // Run file mappings every 4 hours.
-if (!isset($CFG->cartoons_filemap_run) || (time() - $CFG->cartoons_filemap_run) > 14400) {
+if ($CFG->developer_mode || !isset($CFG->cartoons_filemap_run) || (time() - $CFG->cartoons_filemap_run) > 14400) {
     set_config('cartoons_filemap_run', time());
 
     echo "Running File Map cron...\n";
@@ -22,7 +22,7 @@ if (!isset($CFG->cartoons_filemap_run) || (time() - $CFG->cartoons_filemap_run) 
 }
 
 // Import CALM accessions every 24 hours.
-if (!isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 86400) {
+if ($CFG->developer_mode || !isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 86400) {
     set_config('calm_accessions_run', time());
 
     echo "Running Accessions Cron...\n";
@@ -32,7 +32,7 @@ if (!isset($CFG->calm_accessions_run) || (time() - $CFG->calm_accessions_run) > 
 }
 
 // Import CALM catalogs every 24 hours.
-if (!isset($CFG->calm_catalogs_run) || (time() - $CFG->calm_catalogs_run) > 86400) {
+if ($CFG->developer_mode || !isset($CFG->calm_catalogs_run) || (time() - $CFG->calm_catalogs_run) > 86400) {
     set_config('calm_catalogs_run', time());
 
     echo "Running Catalogs Cron...\n";
@@ -42,7 +42,7 @@ if (!isset($CFG->calm_catalogs_run) || (time() - $CFG->calm_catalogs_run) > 8640
 }
 
 // Import CALM collections every 24 hours.
-if (!isset($CFG->calm_collections_run) || (time() - $CFG->calm_collections_run) > 86400) {
+if ($CFG->developer_mode || !isset($CFG->calm_collections_run) || (time() - $CFG->calm_collections_run) > 86400) {
     set_config('calm_collections_run', time());
 
     echo "Running Collections Cron...\n";
@@ -52,7 +52,7 @@ if (!isset($CFG->calm_collections_run) || (time() - $CFG->calm_collections_run) 
 }
 
 // Import CALM people every 24 hours.
-if (!isset($CFG->calm_people_run) || (time() - $CFG->calm_people_run) > 86400) {
+if ($CFG->developer_mode || !isset($CFG->calm_people_run) || (time() - $CFG->calm_people_run) > 86400) {
     set_config('calm_people_run', time());
 
     echo "Running People Cron...\n";
@@ -62,7 +62,7 @@ if (!isset($CFG->calm_people_run) || (time() - $CFG->calm_people_run) > 86400) {
 }
 
 // Import CALM subjects every 24 hours.
-if (!isset($CFG->calm_subjects_run) || (time() - $CFG->calm_subjects_run) > 86400) {
+if ($CFG->developer_mode || !isset($CFG->calm_subjects_run) || (time() - $CFG->calm_subjects_run) > 86400) {
     set_config('calm_subjects_run', time());
 
     echo "Running Subjects Cron...\n";
@@ -72,7 +72,7 @@ if (!isset($CFG->calm_subjects_run) || (time() - $CFG->calm_subjects_run) > 8640
 }
 
 // SOLR import every 12 hours.
-if (!isset($CFG->solr_cartoons_run) || (time() - $CFG->solr_cartoons_run) > 43200) {
+if ($CFG->developer_mode || !isset($CFG->solr_cartoons_run) || (time() - $CFG->solr_cartoons_run) > 43200) {
     set_config('solr_cartoons_run', time());
 
     echo "Running Cartoons SOLR Import Cron...\n";

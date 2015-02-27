@@ -28,6 +28,8 @@ $CFG->imagein = array(
 $CFG->developer_mode = true;
 
 $CFG->calm_wsdl = 'http://vera.kent.ac.uk/XMLWrapper/ContentService.asmx?wsdl';
+//$CFG->calm_wsdl = 'http://broons.kent.ac.uk/XMLWrapper/ContentService.asmx?wsdl';
+
 $CFG->calm_threads = 20;
 
 $CFG->database = array(
