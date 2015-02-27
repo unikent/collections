@@ -14,7 +14,7 @@ $CFG->brand = 'SCAPI';
 $CFG->dirroot = dirname(__FILE__);
 $CFG->cssroot = $CFG->dirroot . '/media/css';
 $CFG->jsroot = $CFG->dirroot . '/media/js';
-$CFG->wwwroot = 'http://collections-dev.kent.ac.uk:8080';
+$CFG->wwwroot = 'http://collections-dev.kent.ac.uk';
 $CFG->tilesize = 256;
 
 // File paths.
@@ -34,7 +34,7 @@ $CFG->database = array(
     'adapter' => 'mysql',
     'host' => 'localhost',
     'port' => '3306',
-    'database' => 'collections_dev',
+    'database' => 'connect_development',
     'username' => 'root',
     'password' => '',
     'prefix' => 'scapi_'
