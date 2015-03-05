@@ -14,7 +14,7 @@ $CFG->brand = 'SCAPI';
 $CFG->dirroot = dirname(__FILE__);
 $CFG->cssroot = $CFG->dirroot . '/media/css';
 $CFG->jsroot = $CFG->dirroot . '/media/js';
-$CFG->wwwroot = 'http://collections-dev.kent.ac.uk';
+$CFG->wwwroot = 'http://collections-dev.kent.ac.uk/scapi';
 $CFG->tilesize = 256;
 
 // File paths.
